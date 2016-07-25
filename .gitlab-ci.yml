@@ -1,0 +1,15 @@
+image: ruby:2.2
+
+before_script:
+  - apt-get update
+  - apt-get install -y libqt5webkit5-dev qt5-qmake qt5-default
+  - apt-get install -y xvfb # TODO, try `headless` gem
+  - bundle install
+
+gitlab-ce-test:
+  services:
+    - gitlab/gitlab-ce:latest
+  variables:
+    GITLAB_HOST: http://gitlab__gitlab-ce
+  script:
+    - xvfb-run -a bundle exec rspec --tag only:ce
