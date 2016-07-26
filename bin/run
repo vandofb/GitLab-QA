@@ -1,0 +1,10 @@
+#!/bin/bash
+
+apt-get update
+apt-get install -y libqt5webkit5-dev qt5-qmake qt5-default
+apt-get install -y xvfb # TODO, try `headless` gem
+
+bundle install
+
+xfvb-run bundle exec rspec $@
+

@@ -1,15 +1,12 @@
-image: ruby:2.2
-
-before_script:
-  - apt-get update
-  - apt-get install -y libqt5webkit5-dev qt5-qmake qt5-default
-  - apt-get install -y xvfb # TODO, try `headless` gem
-  - bundle install
+image: docker:1.11
+services:
+ - docker:1.11-dind
 
 gitlab-ce-test:
-  services:
-    - gitlab/gitlab-ce:latest
   variables:
-    GITLAB_HOST: http://gitlab__gitlab-ce
+    HOSTNAME: gitlab-qa.test
+    GITLAB_URL: http://$HOSTNAME
   script:
-    - xvfb-run -a bundle exec rspec --tag only:ce
+    - docker network create --internal test
+    - docker run -d --name gitlab-qa --net test --hostname $HOSTNAME gitlab/gitlab-ce:latest
+    - docker run -t --net test -e GITLAB_URL:$GITLAB_URL -v $(pwd):/tests ruby:2.2 /tests/bin/run
