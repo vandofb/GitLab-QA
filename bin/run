@@ -1,8 +1,5 @@
 #!/bin/bash
 
-apt-get update
-apt-get install -y libqt5webkit5-dev qt5-qmake qt5-default build-essential xvfb
-
 cd $(realpath "$(dirname ${BASH_SOURCE[0]})/..")
 
 echo "GITLAB_URL: ${GITLAB_URL}"
@@ -26,5 +23,4 @@ if [[ -z "$gitlab_available" ]]; then
     exit 1
 fi
 
-bundle install
 xvfb-run bundle exec rspec $@
