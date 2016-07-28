@@ -10,4 +10,4 @@ gitlab-ce-test:
   script:
     - docker network create test
     - docker run -d --name gitlab-qa --net test --hostname $HOSTNAME gitlab/gitlab-ce:latest
-    - docker run -t --net test -e "GITLAB_URL=$GITLAB_URL" -v $(pwd):/tests ruby:2.2 /tests/bin/run
+    - docker run -t --net test -e "GITLAB_URL=$GITLAB_URL" -v $(pwd):/tests -w /tests ruby:2.2 bin/run

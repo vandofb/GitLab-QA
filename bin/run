@@ -1,26 +1,12 @@
 #!/bin/bash
 
-cd $(realpath "$(dirname ${BASH_SOURCE[0]})/..")
 
-echo "GITLAB_URL: ${GITLAB_URL}"
+# Install dependencies
+#
+source "bin/prepare"
 
-echo -n "Waiting for GitLab to be accessible "
-gitlab_available=
-for i in {1..60}; do
-    echo -n "."
-
-    curl $GITLAB_URL >/dev/null 2>&1
-    if [[ "$?" -eq 0 ]]; then
-        gitlab_available=1
-        break
-    fi
-    sleep 1
-done
-echo
-
-if [[ -z "$gitlab_available" ]]; then
-    echo -e "\n\033[31;1m  GitLab HTTP service is not available!  \033[0m\n"
-    exit 1
-fi
+# Wait for GitLab service to become available
+#
+source "bin/wait"
 
 xvfb-run bundle exec rspec $@
