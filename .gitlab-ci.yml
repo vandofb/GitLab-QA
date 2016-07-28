@@ -2,6 +2,9 @@ image: docker:1.11
 services:
  - docker:1.11-dind
 
+variables:
+  CUSTOM_TEST_IMAGE: registry.gitlab.com/gitlab-org/gitlab-qa:latest
+
 rubocop:
   image: ruby:2.2
   script:
@@ -16,6 +19,15 @@ gitlab-ce-test:
     GITLAB_URL: http://$HOSTNAME
     MOUNT_VOLUMES_TO_SERVICES: "true"
   script:
+    - docker pull $CUSTOM_TEST_IMAGE
     - docker network create test
     - docker run -d --name gitlab-qa --net test --hostname $HOSTNAME gitlab/gitlab-ce:latest
-    - docker run -t --net test -e "GITLAB_URL=$GITLAB_URL" -v $(pwd):/tests -w /tests ruby:2.2 bin/run
+    - docker run -t --net test -e "GITLAB_URL=$GITLAB_URL" -v $(pwd):/tests $CUSTOM_TEST_IMAGE ./bin/run
+  when: manual
+
+build-docker-image:
+  script:
+    - docker build -t $CUSTOM_TEST_IMAGE .
+    - docker login --username gitlab-ci-token --password $CI_BUILD_TOKEN registry.gitlab.com
+    - docker push $CUSTOM_TEST_IMAGE
+    - docker logout registry.gitlab.com
