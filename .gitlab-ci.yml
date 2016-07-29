@@ -7,14 +7,19 @@ stages:
   - test
 
 variables:
-  CUSTOM_TEST_IMAGE: registry.gitlab.com/gitlab-org/gitlab-qa:$CI_BUILD_REF
+  CUSTOM_TEST_IMAGE_NAME: registry.gitlab.com/gitlab-org/gitlab-qa
+  CUSTOM_TEST_IMAGE: $CUSTOM_TEST_IMAGE_NAME:$CI_BUILD_REF
 
 build-image:
   stage: build
   script:
     - docker build -t $CUSTOM_TEST_IMAGE .
+    - docker tag $CUSTOM_TEST_IMAGE $CUSTOM_TEST_IMAGE_NAME:latest
+    - docker images
+    - test -n "$CI_BUILD_TOKEN" || exit 0
     - docker login --username gitlab-ci-token --password $CI_BUILD_TOKEN registry.gitlab.com
     - docker push $CUSTOM_TEST_IMAGE
+    - docker push $CUSTOM_TEST_IMAGE_NAME:latest
     - docker logout registry.gitlab.com
 
 rubocop:
