@@ -4,3 +4,5 @@ ADD ./ /tests
 WORKDIR /tests
 
 RUN chmod +x ./bin/*; ./bin/prepare
+
+ENTRYPOINT ["/tests/bin/run"]

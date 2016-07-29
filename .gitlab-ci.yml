@@ -42,4 +42,4 @@ gitlab-ce-test:
     - docker network create test
     - docker run -d --net test --name gitlab-qa --hostname $HOSTNAME gitlab/gitlab-ce:latest
     - docker pull $QA_TEST_IMAGE
-    - docker run -t --net test -e "GITLAB_URL=$GITLAB_URL" -v $(pwd):/tests $QA_TEST_IMAGE ./bin/run
+    - docker run -t --net test -e "GITLAB_URL=$GITLAB_URL" -v $(pwd):/tests $QA_TEST_IMAGE
