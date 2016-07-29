@@ -19,10 +19,10 @@ end
 
 
 Capybara.configure do |config|
-  config.app_host = ENV['GITLAB_HOST']
+  config.app_host = ENV['GITLAB_URL']
   config.default_driver = :webkit
 end
 
 Capybara::Webkit.configure do |config|
-  config.allow_url(ENV['GITLAB_HOST'])
+  config.allow_url(ENV['GITLAB_URL'])
 end
