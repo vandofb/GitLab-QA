@@ -1,15 +1,30 @@
 #!/bin/bash
 
 echo "GITLAB_URL: ${GITLAB_URL}"
-echo "Waiting for GitLab to become available..."
+echo -n "Waiting for GitLab to become available"
 
-wget --retry-connrefused --tries 5 -O - $GITLAB_URL &>/dev/null
-curl --silent --head --fail -o /dev/null --retry 10 \
-     --retry-delay 1 --max-time 2 --retry-max-time 20 $GITLAB_URL
+i=0
+available=0
+while [[ $i -lt 30 ]]; do
+    echo -n "."
 
-if [ "$?" -eq 0 ]; then
-  echo 'GitLab is available'
+    curl --silent --head --fail --output /dev/null \
+         --retry 10 --retry-delay 1 \
+         --max-time 2 --retry-max-time 30 \
+         $GITLAB_URL
+
+    if [ "$?" -eq 0 ]; then
+        available=1
+        break
+    fi
+
+    i=`expr $i + 1`
+    sleep 1
+done
+
+if [ "$available" -eq 1 ]; then
+  echo -e "\n\033[32;1mGitLab service is available!\033[0m"
 else
-  echo -e "\033[31;1mGitLab service is not available!\033[0m"
+  echo -e "\n\033[31;1mGitLab service is not available!\033[0m"
   exit 1
 fi

@@ -37,7 +37,7 @@ gitlab-ce-test:
     GITLAB_URL: http://$HOSTNAME
     MOUNT_VOLUMES_TO_SERVICES: "true"
   script:
-    - docker pull $CUSTOM_TEST_IMAGE
     - docker network create test
     - docker run -d --name gitlab-qa --net test --hostname $HOSTNAME gitlab/gitlab-ce:latest
+    - docker pull $CUSTOM_TEST_IMAGE
     - docker run -t --net test -e "GITLAB_URL=$GITLAB_URL" -v $(pwd):/tests $CUSTOM_TEST_IMAGE ./bin/run
