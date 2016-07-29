@@ -7,20 +7,22 @@ stages:
   - test
 
 variables:
-  CUSTOM_TEST_IMAGE_NAME: registry.gitlab.com/gitlab-org/gitlab-qa
-  CUSTOM_TEST_IMAGE: $CUSTOM_TEST_IMAGE_NAME:$CI_BUILD_REF
+  QA_TEST_IMAGE_NAME: registry.gitlab.com/gitlab-org/gitlab-qa
+  QA_TEST_IMAGE: $QA_TEST_IMAGE_NAME:$CI_BUILD_REF
+  QA_TEST_IMAGE_LATEST: $QA_TEST_IMAGE_NAME:latest
 
 build-image:
   stage: build
   script:
-    - docker build -t $CUSTOM_TEST_IMAGE .
-    - docker tag $CUSTOM_TEST_IMAGE $CUSTOM_TEST_IMAGE_NAME:latest
-    - docker images
+    - docker build -t $QA_TEST_IMAGE .
+    - docker tag $QA_TEST_IMAGE $QA_TEST_IMAGE_LATEST
     - test -n "$CI_BUILD_TOKEN" || exit 0
     - docker login --username gitlab-ci-token --password $CI_BUILD_TOKEN registry.gitlab.com
-    - docker push $CUSTOM_TEST_IMAGE
-    - docker push $CUSTOM_TEST_IMAGE_NAME:latest
+    - docker push $QA_TEST_IMAGE
+    - docker push $QA_TEST_IMAGE_LATEST
     - docker logout registry.gitlab.com
+  except:
+    - triggers
 
 rubocop:
   image: ruby:2.2
@@ -38,6 +40,6 @@ gitlab-ce-test:
     MOUNT_VOLUMES_TO_SERVICES: "true"
   script:
     - docker network create test
-    - docker run -d --name gitlab-qa --net test --hostname $HOSTNAME gitlab/gitlab-ce:latest
-    - docker pull $CUSTOM_TEST_IMAGE
-    - docker run -t --net test -e "GITLAB_URL=$GITLAB_URL" -v $(pwd):/tests $CUSTOM_TEST_IMAGE ./bin/run
+    - docker run -d --net test --name gitlab-qa --hostname $HOSTNAME gitlab/gitlab-ce:latest
+    - docker pull $QA_TEST_IMAGE
+    - docker run -t --net test -e "GITLAB_URL=$GITLAB_URL" -v $(pwd):/tests $QA_TEST_IMAGE ./bin/run
