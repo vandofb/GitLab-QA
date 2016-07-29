@@ -2,8 +2,20 @@ image: docker:1.11
 services:
  - docker:1.11-dind
 
+stages:
+  - build
+  - test
+
 variables:
-  CUSTOM_TEST_IMAGE: registry.gitlab.com/gitlab-org/gitlab-qa:latest
+  CUSTOM_TEST_IMAGE: registry.gitlab.com/gitlab-org/gitlab-qa:$CI_BUILD_REF
+
+build-image:
+  stage: build
+  script:
+    - docker build -t $CUSTOM_TEST_IMAGE .
+    - docker login --username gitlab-ci-token --password $CI_BUILD_TOKEN registry.gitlab.com
+    - docker push $CUSTOM_TEST_IMAGE
+    - docker logout registry.gitlab.com
 
 rubocop:
   image: ruby:2.2
@@ -14,6 +26,7 @@ rubocop:
     - triggers
 
 gitlab-ce-test:
+  stage: test
   variables:
     HOSTNAME: gitlab-qa.test
     GITLAB_URL: http://$HOSTNAME
@@ -23,11 +36,3 @@ gitlab-ce-test:
     - docker network create test
     - docker run -d --name gitlab-qa --net test --hostname $HOSTNAME gitlab/gitlab-ce:latest
     - docker run -t --net test -e "GITLAB_URL=$GITLAB_URL" -v $(pwd):/tests $CUSTOM_TEST_IMAGE ./bin/run
-  when: manual
-
-build-docker-image:
-  script:
-    - docker build -t $CUSTOM_TEST_IMAGE .
-    - docker login --username gitlab-ci-token --password $CI_BUILD_TOKEN registry.gitlab.com
-    - docker push $CUSTOM_TEST_IMAGE
-    - docker logout registry.gitlab.com
