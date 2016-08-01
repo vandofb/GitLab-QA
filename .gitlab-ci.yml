@@ -3,6 +3,7 @@ services:
  - docker:1.11-dind
 
 stages:
+  - pre_build
   - build
   - test
 
@@ -12,7 +13,7 @@ variables:
   QA_TEST_IMAGE_LATEST: $QA_TEST_IMAGE_NAME:latest
 
 rubocop:
-  stage: build
+  stage: pre_build
   image: ruby:2.2
   script:
     - gem install rubocop
