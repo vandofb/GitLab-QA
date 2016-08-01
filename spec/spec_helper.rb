@@ -22,7 +22,6 @@ RSpec.configure do |config|
   end
 end
 
-
 Capybara.configure do |config|
   config.app_host = ENV['GITLAB_URL']
   config.default_driver = :webkit

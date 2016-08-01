@@ -2,6 +2,14 @@ image: docker:1.11
 services:
  - docker:1.11-dind
 
+rubocop:
+  image: ruby:2.2
+  script:
+    - gem install rubocop
+    - rubocop
+  except:
+    - triggers
+
 gitlab-ce-test:
   variables:
     HOSTNAME: gitlab-qa.test
