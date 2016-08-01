@@ -11,6 +11,15 @@ variables:
   QA_TEST_IMAGE: $QA_TEST_IMAGE_NAME:$CI_BUILD_REF
   QA_TEST_IMAGE_LATEST: $QA_TEST_IMAGE_NAME:latest
 
+rubocop:
+  stage: build
+  image: ruby:2.2
+  script:
+    - gem install rubocop
+    - rubocop
+  except:
+    - triggers
+
 build-image:
   stage: build
   script:
@@ -21,14 +30,6 @@ build-image:
     - docker push $QA_TEST_IMAGE
     - docker push $QA_TEST_IMAGE_LATEST
     - docker logout registry.gitlab.com
-  except:
-    - triggers
-
-rubocop:
-  image: ruby:2.2
-  script:
-    - gem install rubocop
-    - rubocop
   except:
     - triggers
 
@@ -43,3 +44,4 @@ gitlab-ce-test:
     - docker run -d --net test --name gitlab-qa --hostname $HOSTNAME gitlab/gitlab-ce:latest
     - docker pull $QA_TEST_IMAGE
     - docker run -t --net test -e "GITLAB_URL=$GITLAB_URL" -v $(pwd):/tests $QA_TEST_IMAGE
+
