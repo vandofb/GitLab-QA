@@ -1,5 +1,6 @@
 require 'capybara/rspec'
 require 'capybara-webkit'
+require 'capybara-screenshot/rspec'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -21,6 +22,9 @@ end
 Capybara.configure do |config|
   config.app_host = ENV['GITLAB_URL']
   config.default_driver = :webkit
+
+  # https://github.com/mattheworiordan/capybara-screenshot/issues/164
+  config.save_path = 'tmp'
 end
 
 Capybara::Webkit.configure do |config|
