@@ -42,4 +42,5 @@ if GitLabChecker.new(ENV['GITLAB_URL']).check(3) == true
   puts '    [  OK  ]'
 else
   puts '    [FAILED]'
+  abort "GitLab Service at #{ENV['GITLAB_URL']} is unavailable"
 end
