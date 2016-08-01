@@ -7,5 +7,3 @@ apt-get install -y --force-yes \
 apt-get clean
 
 bundle install
-
-rm /tmp/*
