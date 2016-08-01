@@ -1,6 +1,10 @@
+$LOAD_PATH << './'
+
 require 'capybara/rspec'
 require 'capybara-webkit'
 require 'capybara-screenshot/rspec'
+
+require 'steps/page'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -29,4 +33,5 @@ end
 
 Capybara::Webkit.configure do |config|
   config.allow_url(ENV['GITLAB_URL'])
+  config.block_unknown_urls
 end
