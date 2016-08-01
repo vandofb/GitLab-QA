@@ -3,6 +3,7 @@
 echo "GITLAB_URL: ${GITLAB_URL}"
 echo "Waiting for GitLab to become available ..."
 
+wget --retry-connrefused --tries 5 -O - $GITLAB_URL &>/dev/null
 curl --silent --head --fail -o /dev/null --retry 10 \
      --retry-delay 1 --max-time 2 --retry-max-time 20 $GITLAB_URL
 

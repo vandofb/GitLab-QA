@@ -2,7 +2,7 @@
 
 apt-get update
 apt-get install -y \
-  libqt5webkit5-dev qt5-qmake \
-  qt5-default build-essential xvfb
+  libqt5webkit5-dev qt5-qmake qt5-default \
+  build-essential xvfb wget
 
 bundle install
