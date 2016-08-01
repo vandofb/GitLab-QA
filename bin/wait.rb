@@ -1,4 +1,3 @@
-require 'colorize'
 require 'net/http'
 require 'uri'
 
@@ -36,11 +35,11 @@ class GitLabChecker
   end
 end
 
-puts "GITLAB_URL: #{ENV['GITLAB_URL']}".cyan
-print 'Waiting for GitLab to become available'.bold
+puts "GITLAB_URL: #{ENV['GITLAB_URL']}"
+print 'Waiting for GitLab to become available'
 
-if GitLabChecker.new(ENV['GITLAB_URL']).check(60) == true
-  puts ' OK'.green.bold
+if GitLabChecker.new(ENV['GITLAB_URL']).check(3) == true
+  puts '    [  OK  ]'
 else
-  puts ' FAILED'.red.bold
+  puts '    [FAILED]'
 end
