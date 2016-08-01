@@ -4,6 +4,7 @@ module Page
 
       def choose_test_namespace
         namespace = Page::Groups::TestNamespace.name
+
         find('#s2id_project_namespace_id').click
         find('.select2-result-label', text: namespace).click
       end
