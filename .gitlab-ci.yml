@@ -2,20 +2,45 @@ image: docker:1.11
 services:
  - docker:1.11-dind
 
+stages:
+  - test
+  - build
+  - run
+
+variables:
+  TEST_IMAGE_NAME: registry.gitlab.com/gitlab-org/gitlab-qa
+  TEST_IMAGE: $TEST_IMAGE_NAME:$CI_BUILD_REF
+  TEST_IMAGE_LATEST: $TEST_IMAGE_NAME:latest
+
 rubocop:
-  image: ruby:2.2
+  stage: test
+  image: ruby:2.3
   script:
     - gem install rubocop
     - rubocop
   except:
     - triggers
 
+build-image:
+  stage: build
+  script:
+    - docker build -t $TEST_IMAGE .
+    - docker tag $TEST_IMAGE $TEST_IMAGE_LATEST
+    - test -n "$CI_BUILD_TOKEN" || exit 0
+    - docker login --username gitlab-ci-token --password $CI_BUILD_TOKEN registry.gitlab.com
+    - docker push $TEST_IMAGE
+    - docker push $TEST_IMAGE_LATEST
+    - docker logout registry.gitlab.com
+  except:
+    - triggers
+
 gitlab-ce-test:
+  stage: run
   variables:
     HOSTNAME: gitlab-qa.test
     GITLAB_URL: http://$HOSTNAME
-    MOUNT_VOLUMES_TO_SERVICES: "true"
   script:
     - docker network create test
-    - docker run -d --name gitlab-qa --net test --hostname $HOSTNAME gitlab/gitlab-ce:latest
-    - docker run -t --net test -e "GITLAB_URL=$GITLAB_URL" -v $(pwd):/tests -w /tests ruby:2.2 bin/run
+    - docker run -d --net test --name gitlab-qa --hostname $HOSTNAME gitlab/gitlab-ce:latest
+    - docker run -t --net test -e "GITLAB_URL=$GITLAB_URL" $TEST_IMAGE rspec --tag ce
+

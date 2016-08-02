@@ -1,15 +1,42 @@
-#!/bin/bash
+#!/usr/bin/env ruby
 
-echo "GITLAB_URL: ${GITLAB_URL}"
-echo "Waiting for GitLab to become available ..."
+require 'net/http'
+require 'uri'
 
-wget --retry-connrefused --tries 5 -O - $GITLAB_URL &>/dev/null
-curl --silent --head --fail -o /dev/null --retry 10 \
-     --retry-delay 1 --max-time 2 --retry-max-time 20 $GITLAB_URL
+class ServiceCheck
+  def initialize(url)
+    @uri = URI(url)
+  end
 
-if [ "$?" -eq 0 ]; then
-  echo 'GitLab is available'
+  def check(retries)
+    retries.times do
+      return true if service_available?
+
+      print '.'
+      sleep 1
+    end
+
+    false
+  end
+
+  private
+
+  def service_available?
+    response = Net::HTTP.start(@uri.host, @uri.port) do |http|
+      http.head2(@uri.request_uri)
+    end
+
+    response.code.to_i < 500
+  rescue Errno::ECONNREFUSED
+    false
+  end
+end
+
+puts "GITLAB_URL: #{ENV['GITLAB_URL']}"
+print 'Waiting for GitLab to become available '
+
+if ServiceCheck.new(ENV['GITLAB_URL']).check(30)
+  puts ' -> GitLab is available.'
 else
-  echo -e "\033[31;1mGitLab service is not available!\033[0m"
-  exit 1
-fi
+  abort ' -> GitLab unavailable!'
+end

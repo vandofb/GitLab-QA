@@ -1,12 +1,12 @@
 #!/bin/bash
 
-
-# Install dependencies
-#
-source "bin/prepare"
+# Exit immediately when commands below fail
+set -e
 
 # Wait for GitLab service to become available
 #
-source "bin/wait"
+ruby bin/wait
 
-xvfb-run bundle exec rspec $@
+# Run command
+#
+xvfb-run bundle exec $@
