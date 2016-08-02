@@ -11,6 +11,6 @@ source bin/prepare
 #
 ruby bin/wait
 
-# Run tests
+# Run command
 #
-xvfb-run bundle exec rspec $@
+xvfb-run bundle exec $@
