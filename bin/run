@@ -1,13 +1,15 @@
 #!/bin/bash
 
+# Exit immediately when commands below fail
+set -e
+
 # Install dependencies
 #
 source bin/prepare
 
 # Wait for GitLab service to become available
 #
-ruby bin/wait.rb
-
+ruby bin/wait
 
 # Run tests
 #
