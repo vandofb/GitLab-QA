@@ -1,7 +1,6 @@
 module Page
   module Project
     class New < Page::Base
-
       def choose_test_namespace
         namespace = Page::Groups::TestNamespace.name
 

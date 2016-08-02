@@ -4,11 +4,11 @@ module Page
       extend self
 
       def time
-        @date ||= Time.now
+        @time ||= Time.now
       end
 
       def name
-        "qa_test_" + time.strftime("%d_%m_%Y_%H-%M-%S")
+        'qa_test_' + time.strftime('%d_%m_%Y_%H-%M-%S')
       end
     end
 
@@ -19,7 +19,7 @@ module Page
 
       fill_in 'group_path', with: TestNamespace.name
       fill_in 'group_description',
-        with: "QA test run at #{TestNamespace.time}"
+              with: "QA test run at #{TestNamespace.time}"
       choose 'Private'
 
       click_button 'Create group'
