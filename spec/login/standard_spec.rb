@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 feature 'standard root login', ce: true, ee: true do
   scenario 'user logs in using credentials' do
     Page::Main::Entry.on { sign_in_using_credentials }
