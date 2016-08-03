@@ -2,7 +2,7 @@ module Page
   module Project
     class New < Page::Base
       def choose_test_namespace
-        namespace = Page::Groups::TestNamespace.name
+        namespace = Page::Main::Groups::TestNamespace.name
 
         find('#s2id_project_namespace_id').click
         find('.select2-result-label', text: namespace).click

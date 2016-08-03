@@ -2,11 +2,11 @@ require 'spec_helper'
 
 feature 'create a new project', ce: true, ee: true, staging: true do
   scenario 'user creates a new project', js: true do
-    Page::Main.on { sign_in_using_credentials }
-    Page::Menu.on { go_to_groups }
-    Page::Groups.on { prepare_test_namespace }
-    Page::Menu.on { go_to_projects }
-    Page::Projects.on { click_new_project }
+    Page::Main::Entry.on { sign_in_using_credentials }
+    Page::Main::Menu.on { go_to_groups }
+    Page::Main::Groups.on { prepare_test_namespace }
+    Page::Main::Menu.on { go_to_projects }
+    Page::Main::Projects.on { go_to_new_project }
 
     Page::Project::New.on do
       choose_test_namespace
