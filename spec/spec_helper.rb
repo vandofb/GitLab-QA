@@ -20,6 +20,10 @@ RSpec.configure do |config|
     # `true` in RSpec 4.
     mocks.verify_partial_doubles = true
   end
+
+  # Run specs in random order to surface order dependencies.
+  config.order = :random
+  Kernel.srand config.seed
 end
 
 Capybara.configure do |config|
