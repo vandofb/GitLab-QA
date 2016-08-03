@@ -37,10 +37,17 @@ build-image:
 gitlab-ce-test:
   stage: run
   variables:
-    HOSTNAME: gitlab-qa.test
-    GITLAB_URL: http://$HOSTNAME
+    HOSTNAME: gitlab-qa-ce.test
   script:
     - docker network create test
-    - docker run -d --net test --name gitlab-qa --hostname $HOSTNAME gitlab/gitlab-ce:latest
-    - docker run -t --net test -e "GITLAB_URL=$GITLAB_URL" $TEST_IMAGE rspec --tag ce
+    - docker run -d --net test --name gitlab-qa-ce --hostname $HOSTNAME gitlab/gitlab-ce:latest
+    - docker run -t --net test -e "GITLAB_URL=http://$HOSTNAME" $TEST_IMAGE rspec --tag ce
 
+gitlab-ee-test:
+  stage: run
+  variables:
+    HOSTNAME: gitlab-qa-ee.test
+  script:
+    - docker network create test
+    - docker run -d --net test --name gitlab-qa-ee --hostname $HOSTNAME gitlab/gitlab-ee:latest
+    - docker run -t --net test -e "GITLAB_URL=http://$HOSTNAME" $TEST_IMAGE rspec --tag ee
