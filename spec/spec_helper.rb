@@ -25,6 +25,8 @@ end
 Capybara.configure do |config|
   config.app_host = ENV['GITLAB_URL']
   config.default_driver = :webkit
+  config.javascript_driver = :webkit
+  config.default_max_wait_time = 4
 
   # https://github.com/mattheworiordan/capybara-screenshot/issues/164
   config.save_path = 'tmp'

@@ -1,10 +1,8 @@
 require 'spec_helper'
 
-feature 'standard login' do
-  scenario 'user logs in using credentials', ce: true do
-    Page::Main.on do
-      sign_in_using_credentials
-    end
+feature 'standard root login', ce: true, ee: true do
+  scenario 'user logs in using credentials' do
+    Page::Main::Entry.on { sign_in_using_credentials }
 
     expect(page).to have_content('Signed in successfully.')
   end
