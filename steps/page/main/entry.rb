@@ -12,7 +12,7 @@ module Page
           click_button 'Change your password'
         end
 
-        fill_in 'Username or Email', with: 'root'
+        fill_in 'Username or Email', with: 'root', wait: 5
         fill_in 'Password', with: 'test1234'
         click_button 'Sign in'
       end
