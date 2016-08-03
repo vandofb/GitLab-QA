@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 feature 'create a new project', ce: true, ee: true, staging: true do
   scenario 'user creates a new project', js: true do
     Page::Main::Entry.on { sign_in_using_credentials }
