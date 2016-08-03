@@ -6,7 +6,7 @@ module Page
       end
 
       def sign_in_using_credentials
-        if page.has_content?('Change your password')
+        if page.has_content?('Change your password', wait: 5)
           fill_in 'New password', with: 'test1234'
           fill_in 'Confirm new password', with: 'test1234'
           click_button 'Change your password'
