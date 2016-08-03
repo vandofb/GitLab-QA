@@ -20,6 +20,8 @@ rubocop:
     - rubocop
   except:
     - triggers
+  tags:
+    - docker
 
 build-image:
   stage: build
@@ -33,6 +35,8 @@ build-image:
     - docker logout registry.gitlab.com
   except:
     - triggers
+  tags:
+    - docker
 
 gitlab-ce-test:
   stage: run
@@ -42,6 +46,8 @@ gitlab-ce-test:
     - docker network create test
     - docker run -d --net test --name gitlab-qa-ce --hostname $HOSTNAME gitlab/gitlab-ce:latest
     - docker run -t --net test -e "GITLAB_URL=http://$HOSTNAME" $TEST_IMAGE rspec --tag ce
+  tags:
+    - volumes-support
 
 gitlab-ee-test:
   stage: run
@@ -51,3 +57,5 @@ gitlab-ee-test:
     - docker network create test
     - docker run -d --net test --name gitlab-qa-ee --hostname $HOSTNAME gitlab/gitlab-ee:latest
     - docker run -t --net test -e "GITLAB_URL=http://$HOSTNAME" $TEST_IMAGE rspec --tag ee
+  tags:
+    - volumes-support
