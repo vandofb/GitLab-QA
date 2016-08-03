@@ -48,6 +48,10 @@ gitlab-ce-test:
     - docker run -t --net test -e "GITLAB_URL=http://$HOSTNAME" $TEST_IMAGE rspec --tag ce
   tags:
     - volumes-support
+  artifacts:
+    when: on_failure
+    paths:
+      - tmp
 
 gitlab-ee-test:
   stage: run
@@ -59,3 +63,7 @@ gitlab-ee-test:
     - docker run -t --net test -e "GITLAB_URL=http://$HOSTNAME" $TEST_IMAGE rspec --tag ee
   tags:
     - volumes-support
+  artifacts:
+    when: on_failure
+    paths:
+      - tmp
