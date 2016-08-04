@@ -11,5 +11,13 @@ feature 'push code to repository', ce: true, ee: true, staging: true do
       choose_repository_clone_http
       repository_clone_uri
     end
+
+    Git::Repository.act(repository: uri) do
+      with_username(Run::User.name)
+      with_password(Run::User.password)
+      with_location(@repository)
+
+      clone_over_https
+    end
   end
 end

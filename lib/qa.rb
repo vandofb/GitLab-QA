@@ -3,6 +3,14 @@ module Run
   autoload :Namespace, 'lib/run/namespace'
 end
 
+module Scenario
+  autoload :Template, 'lib/scenario/template'
+
+  module Project
+    autoload :Create, 'lib/scenario/project/create'
+  end
+end
+
 module Page
   autoload :Base, 'lib/steps/page/base'
 
@@ -19,10 +27,6 @@ module Page
   end
 end
 
-module Scenario
-  autoload :Template, 'lib/scenario/template'
-
-  module Project
-    autoload :Create, 'lib/scenario/project/create'
-  end
+module Git
+  autoload :Repository, 'lib/steps/git/repository'
 end
