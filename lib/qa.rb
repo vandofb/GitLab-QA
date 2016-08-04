@@ -1,9 +1,6 @@
 module Page
   autoload :Base, 'lib/steps/page/base'
 
-  ##
-  # Top-level pages
-  #
   module Main
     autoload :Entry, 'lib/steps/page/main/entry'
     autoload :Menu, 'lib/steps/page/main/menu'
@@ -11,10 +8,15 @@ module Page
     autoload :Projects, 'lib/steps/page/main/projects'
   end
 
-  ##
-  # Projet-specific pages
-  #
   module Project
     autoload :New, 'lib/steps/page/project/new'
+  end
+end
+
+module Scenario
+  autoload :Template, 'lib/scenario/template'
+
+  module Project
+    autoload :Create, 'lib/scenario/project/create'
   end
 end
