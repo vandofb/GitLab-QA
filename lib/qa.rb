@@ -1,4 +1,5 @@
 module Run
+  autoload :User, 'lib/run/user'
   autoload :Namespace, 'lib/run/namespace'
 end
 
