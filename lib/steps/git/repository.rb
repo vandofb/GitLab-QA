@@ -16,25 +16,37 @@ module Git
       end
     end
 
+    def with_location(uri)
+      @location = uri
+      @uri = URI(uri)
+    end
+
     def with_username(name)
       @username = name
+      @uri.user = name
     end
 
     def with_password(pass)
       @password = pass
+      @uri.password = pass
     end
 
-    def with_location(uri)
-      @location = uri
+    def clone
+      `git clone #{@uri.to_s} ./`
     end
 
-    def clone_over_https
-      uri = URI(@location)
-      uri.user = @username
-      uri.password = @password
+    def add_file(name, contents)
+      File.write(name, contents)
 
-      puts uri.to_s
-      `git clone #{uri.to_s}`
+      `git add #{name}`
+    end
+
+    def commit(message)
+      `git commit -m #{message}`
+    end
+
+    def push
+      `git push #{@uri.to_s}`
     end
   end
 end

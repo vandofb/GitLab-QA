@@ -13,11 +13,14 @@ feature 'push code to repository', ce: true, ee: true, staging: true do
     end
 
     Git::Repository.act(repository: uri) do
+      with_location(@repository)
       with_username(Run::User.name)
       with_password(Run::User.password)
-      with_location(@repository)
 
-      clone_over_https
+      clone
+      add_file('README.md', '# This is test project')
+      commit('Add README.md')
+      push
     end
   end
 end
