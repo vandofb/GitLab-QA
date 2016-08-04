@@ -17,10 +17,18 @@ feature 'push code to repository', ce: true, ee: true, staging: true do
       with_username(Run::User.name)
       with_password(Run::User.password)
 
-      clone
+      clone_repository
       add_file('README.md', '# This is test project')
       commit('Add README.md')
-      push
+      push_changes
     end
+
+    Page::Project::Show.act do
+      sleep 10
+      refresh
+    end
+
+    expect(page).to have_content('README.md')
+    expect(page).to have_content('This is test project')
   end
 end

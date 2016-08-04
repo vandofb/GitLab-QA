@@ -31,7 +31,7 @@ module Git
       @uri.password = pass
     end
 
-    def clone
+    def clone_repository
       `git clone #{@uri.to_s} ./`
     end
 
@@ -42,11 +42,11 @@ module Git
     end
 
     def commit(message)
-      `git commit -m #{message}`
+      `git commit -m "#{message}"`
     end
 
-    def push
-      `git push #{@uri.to_s}`
+    def push_changes
+      `git push --all #{@uri.to_s}`
     end
   end
 end

@@ -11,5 +11,9 @@ module Page
         return page.instance_eval(&block)
       end
     end
+
+    def refresh
+      visit current_path
+    end
   end
 end
