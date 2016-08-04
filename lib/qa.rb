@@ -15,6 +15,7 @@ module Page
 
   module Project
     autoload :New, 'lib/steps/page/project/new'
+    autoload :Show, 'lib/steps/page/project/show'
   end
 end
 

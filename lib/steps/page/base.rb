@@ -8,7 +8,7 @@ module Page
           page.instance_variable_set("@#{variable}", value)
         end
 
-        page.instance_eval(&block)
+        return page.instance_eval(&block)
       end
     end
   end
