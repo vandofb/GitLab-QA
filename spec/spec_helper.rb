@@ -3,9 +3,7 @@ $LOAD_PATH << './'
 require 'capybara/rspec'
 require 'capybara-webkit'
 require 'capybara-screenshot/rspec'
-
-require 'lib/steps/page'
-require 'lib/scenario'
+require 'lib/qa'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
