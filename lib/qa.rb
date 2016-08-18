@@ -1,3 +1,7 @@
+module Run
+  autoload :Namespace, 'lib/run/namespace'
+end
+
 module Page
   autoload :Base, 'lib/steps/page/base'
 
