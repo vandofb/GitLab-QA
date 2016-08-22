@@ -42,6 +42,7 @@ gitlab-ce-test:
   stage: run
   variables:
     HOSTNAME: gitlab-qa-ce.test
+    MOUNT_VOLUMES_TO_SERVICES: 'true'
   script:
     - docker network create test
     - docker run -d --net test --name gitlab-qa-ce --hostname $HOSTNAME gitlab/gitlab-ce:latest
@@ -57,6 +58,7 @@ gitlab-ee-test:
   stage: run
   variables:
     HOSTNAME: gitlab-qa-ee.test
+    MOUNT_VOLUMES_TO_SERVICES: 'true'
   script:
     - docker network create test
     - docker run -d --net test --name gitlab-qa-ee --hostname $HOSTNAME gitlab/gitlab-ee:latest
