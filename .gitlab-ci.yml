@@ -59,7 +59,7 @@ gitlab-ee-test:
     HOSTNAME: gitlab-qa-ee.test
   script:
     - docker network create test
-    - docker run -d --net test --name gitlab-qa-ee --hostname $HOSTNAME gitlab/gitlab-ee:nightly
+    - docker run -d --net test --name gitlab-qa-ee --hostname $HOSTNAME gitlab/gitlab-ee:latest
     - docker run -t --net test -e "GITLAB_URL=http://$HOSTNAME" -v $(pwd)/tmp:/tests/tmp $TEST_IMAGE rspec --tag ee
   tags:
     - volumes-support
