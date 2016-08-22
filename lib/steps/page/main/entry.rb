@@ -3,6 +3,9 @@ module Page
     class Entry < Page::Base
       def initialize
         visit('/')
+
+        # This resolves cold boot problems with login page
+        find('#tanuki-logo', wait: 60)
       end
 
       def sign_in_using_credentials
