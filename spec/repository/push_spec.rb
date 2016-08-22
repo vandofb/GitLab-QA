@@ -24,7 +24,7 @@ feature 'push code to repository', ce: true, ee: true, staging: true do
     end
 
     Page::Project::Show.act do
-      sleep 10
+      sleep 20
       refresh
     end
 
