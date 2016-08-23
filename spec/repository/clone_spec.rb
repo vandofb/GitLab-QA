@@ -42,6 +42,17 @@ feature 'clone code from the repository', ce: true, staging: true do
       end
     end
 
-    scenario 'user performs a shallow clone'
+    scenario 'user performs a shallow clone' do
+      Git::Repository.act(repository: repository) do
+        with_location(@repository)
+        with_username(Run::User.name)
+        with_password(Run::User.password)
+
+        clone_repository_shallow
+
+        expect(commits.size).to eq 1
+        expect(commits.first).to include 'Add Readme'
+      end
+    end
   end
 end

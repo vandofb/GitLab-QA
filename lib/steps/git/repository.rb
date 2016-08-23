@@ -33,8 +33,12 @@ module Git
       @uri.password = pass
     end
 
-    def clone_repository
-      `git clone #{@uri.to_s} ./`
+    def clone_repository(opts = '')
+      `git clone #{opts} #{@uri.to_s} ./`
+    end
+
+    def clone_repository_shallow
+      clone_repository('--depth 1')
     end
 
     def configure_identity(name, email)
