@@ -18,13 +18,14 @@ feature 'push code to repository', ce: true, ee: true, staging: true do
       with_password(Run::User.password)
 
       clone_repository
+      configure_identity('GitLab QA', 'root@gitlab.com')
       add_file('README.md', '# This is test project')
       commit('Add README.md')
       push_changes
     end
 
     Page::Project::Show.act do
-      sleep 20
+      sleep 5
       refresh
     end
 

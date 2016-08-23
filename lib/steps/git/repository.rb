@@ -35,6 +35,11 @@ module Git
       `git clone #{@uri.to_s} ./`
     end
 
+    def configure_identity(name, email)
+      `git config user.name #{name}`
+      `git config user.email #{email}`
+    end
+
     def add_file(name, contents)
       File.write(name, contents)
 
@@ -45,8 +50,8 @@ module Git
       `git commit -m "#{message}"`
     end
 
-    def push_changes
-      `git push --all #{@uri.to_s}`
+    def push_changes(branch = 'master')
+      `git push #{@uri.to_s} #{branch}`
     end
   end
 end
