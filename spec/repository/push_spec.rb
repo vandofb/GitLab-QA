@@ -3,9 +3,9 @@ feature 'push code to repository', ce: true, staging: true do
     scenario 'user pushes code to repository for the first time' do
       Page::Main::Entry.act { sign_in_using_credentials }
 
-      Scenario::Project::Create.perform do |scenario|
-        scenario.project_name = 'project_with_code'
-        scenario.project_description = 'project with repository'
+      Scenario::Project::Create.perform do
+        with_project_name 'project_with_code'
+        with_project_description 'project with repository'
       end
 
       uri = Page::Project::Show.act do
