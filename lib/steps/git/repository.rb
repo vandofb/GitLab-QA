@@ -2,6 +2,8 @@ require 'uri'
 
 module Git
   class Repository
+    include RSpec::Matchers
+
     def self.act(**variables, &block)
       new.tap do |repository|
         variables.each do |variable, value|
@@ -31,13 +33,22 @@ module Git
       @uri.password = pass
     end
 
-    def clone_repository
-      `git clone #{@uri.to_s} ./`
+    def clone_repository(opts = '')
+      `git clone #{opts} #{@uri.to_s} ./`
+    end
+
+    def clone_repository_shallow
+      clone_repository('--depth 1')
     end
 
     def configure_identity(name, email)
       `git config user.name #{name}`
       `git config user.email #{email}`
+    end
+
+    def commit_file(name, contents, message)
+      add_file(name, contents)
+      commit(message)
     end
 
     def add_file(name, contents)
@@ -52,6 +63,10 @@ module Git
 
     def push_changes(branch = 'master')
       `git push #{@uri.to_s} #{branch}`
+    end
+
+    def commits
+      `git log --oneline`.split("\n")
     end
   end
 end

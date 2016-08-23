@@ -1,7 +1,9 @@
+require 'securerandom'
+
 module Scenario
   module Project
     class Create < Scenario::Template
-      attr_accessor :project_name, :project_description
+      attr_reader :project_name, :project_description
 
       def perform
         Page::Main::Menu.act { go_to_groups }
@@ -15,6 +17,18 @@ module Scenario
           add_description(@scenario.project_description)
           create_new_project
         end
+      end
+
+      def with_random_project_name
+        @project_name = "test-project-#{SecureRandom.hex(8)}"
+      end
+
+      def with_project_name(name)
+        @project_name = name
+      end
+
+      def with_project_description(description)
+        @project_description = description
       end
     end
   end

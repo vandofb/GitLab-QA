@@ -2,8 +2,8 @@ module Scenario
   class Template
     def self.perform(&block)
       new.tap do |scenario|
-        block.call(scenario)
-        scenario.perform
+        scenario.instance_eval(&block)
+        return scenario.perform
       end
     end
 
