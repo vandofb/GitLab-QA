@@ -1,3 +1,5 @@
+require 'securerandom'
+
 module Scenario
   module Project
     class Create < Scenario::Template
@@ -15,6 +17,10 @@ module Scenario
           add_description(@scenario.project_description)
           create_new_project
         end
+      end
+
+      def with_random_project_name
+        @project_name = "test-project-#{SecureRandom.hex(8)}"
       end
 
       def with_project_name(name)

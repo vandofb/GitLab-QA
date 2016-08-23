@@ -2,6 +2,8 @@ require 'uri'
 
 module Git
   class Repository
+    include RSpec::Matchers
+
     def self.act(**variables, &block)
       new.tap do |repository|
         variables.each do |variable, value|
@@ -40,6 +42,11 @@ module Git
       `git config user.email #{email}`
     end
 
+    def commit_file(name, contents, message)
+      add_file(name, contents)
+      commit(message)
+    end
+
     def add_file(name, contents)
       File.write(name, contents)
 
@@ -52,6 +59,10 @@ module Git
 
     def push_changes(branch = 'master')
       `git push #{@uri.to_s} #{branch}`
+    end
+
+    def commits
+      `git log --oneline`.split("\n")
     end
   end
 end
