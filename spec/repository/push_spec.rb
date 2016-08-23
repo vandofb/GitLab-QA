@@ -1,4 +1,4 @@
-feature 'push code to repository', ce: true, ee: true, staging: true do
+feature 'push code to repository', ce: true, staging: true do
   scenario 'user pushes to the repository over http with regular account' do
     Page::Main::Entry.act { sign_in_using_credentials }
 
