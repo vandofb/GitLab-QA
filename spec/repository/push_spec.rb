@@ -15,8 +15,7 @@ feature 'push code to repository', ce: true, staging: true do
 
       Git::Repository.act(repository: uri) do
         with_location(@repository)
-        with_username(Run::User.name)
-        with_password(Run::User.password)
+        with_default_credentials
 
         clone_repository
         configure_identity('GitLab QA', 'root@gitlab.com')
