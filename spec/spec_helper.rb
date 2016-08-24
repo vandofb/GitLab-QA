@@ -24,6 +24,10 @@ RSpec.configure do |config|
   config.order = :random
   Kernel.srand config.seed
 
+  config.before(:all) do
+    page.current_window.resize_to(1200, 1200)
+  end
+
   config.before(:suite) do
     # Add valid license when running tests for enterprise edition
     if config.filter_manager.inclusions[:ee]
