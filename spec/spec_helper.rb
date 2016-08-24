@@ -23,6 +23,13 @@ RSpec.configure do |config|
   # Run specs in random order to surface order dependencies.
   config.order = :random
   Kernel.srand config.seed
+
+  config.before(:suite) do
+    # Add valid license when running tests for enterprise edition
+    if config.filter_manager.inclusions[:ee]
+      Scenario::Instance::License::Add.perform
+    end
+  end
 end
 
 Capybara.configure do |config|

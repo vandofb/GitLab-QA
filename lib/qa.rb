@@ -9,6 +9,12 @@ module Scenario
   module Project
     autoload :Create, 'lib/scenario/project/create'
   end
+
+  module Instance
+    module License
+      autoload :Add, 'lib/scenario/instance/license/add'
+    end
+  end
 end
 
 module Page
@@ -24,6 +30,11 @@ module Page
   module Project
     autoload :New, 'lib/steps/page/project/new'
     autoload :Show, 'lib/steps/page/project/show'
+  end
+
+  module Admin
+    autoload :Menu, 'lib/steps/page/admin/menu'
+    autoload :License, 'lib/steps/page/admin/license'
   end
 end
 
