@@ -33,6 +33,11 @@ module Git
       @uri.password = pass
     end
 
+    def with_default_credentials
+      with_username(Run::User.name)
+      with_password(Run::User.password)
+    end
+
     def clone_repository(opts = '')
       `git clone #{opts} #{@uri.to_s} ./`
     end

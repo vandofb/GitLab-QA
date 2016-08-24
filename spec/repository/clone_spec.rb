@@ -1,14 +1,5 @@
 feature 'clone code from the repository', ce: true, staging: true do
   context 'with regular account over http' do
-    before do
-      Page::Main::Entry.act { sign_in_using_credentials }
-
-      Scenario::Project::Create.perform do
-        with_random_project_name
-        with_project_description 'project for git clone tests'
-      end
-    end
-
     given(:repository) do
       Page::Project::Show.act do
         choose_repository_clone_http
@@ -16,11 +7,17 @@ feature 'clone code from the repository', ce: true, staging: true do
       end
     end
 
-    background do
+    before do
+      Page::Main::Entry.act { sign_in_using_credentials }
+
+      Scenario::Project::Create.perform do
+        with_random_project_name
+        with_project_description 'project for git clone tests'
+      end
+
       Git::Repository.act(repository: repository) do
         with_location(@repository)
-        with_username(Run::User.name)
-        with_password(Run::User.password)
+        with_default_credentials
 
         clone_repository
         configure_identity('GitLab QA', 'root@gitlab.com')
@@ -33,8 +30,7 @@ feature 'clone code from the repository', ce: true, staging: true do
     scenario 'user performs a deep clone' do
       Git::Repository.act(repository: repository) do
         with_location(@repository)
-        with_username(Run::User.name)
-        with_password(Run::User.password)
+        with_default_credentials
 
         clone_repository
 
@@ -45,8 +41,7 @@ feature 'clone code from the repository', ce: true, staging: true do
     scenario 'user performs a shallow clone' do
       Git::Repository.act(repository: repository) do
         with_location(@repository)
-        with_username(Run::User.name)
-        with_password(Run::User.password)
+        with_default_credentials
 
         clone_repository_shallow
 
