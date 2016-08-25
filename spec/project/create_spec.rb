@@ -1,5 +1,5 @@
-feature 'create a new project', ce: true, ee: true, staging: true do
-  scenario 'user creates a new project', js: true do
+feature 'create a new project', :ce, :ee, :staging do
+  scenario 'user creates a new project' do
     Page::Main::Entry.act { sign_in_using_credentials }
 
     Scenario::Project::Create.perform do
