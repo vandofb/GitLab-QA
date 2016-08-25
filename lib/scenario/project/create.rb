@@ -19,8 +19,8 @@ module Scenario
         end
       end
 
-      def with_random_project_name
-        @project_name = "test-project-#{SecureRandom.hex(8)}"
+      def with_random_project_name(prefix = 'test-project')
+        with_project_name("#{prefix}-#{SecureRandom.hex(8)}")
       end
 
       def with_project_name(name)
