@@ -1,4 +1,4 @@
-feature 'clone code from the repository', ce: true, staging: true do
+feature 'clone code from the repository', :ce, :ee, :staging do
   context 'with regular account over http' do
     given(:repository) do
       Page::Project::Show.act do

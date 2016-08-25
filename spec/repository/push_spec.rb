@@ -1,6 +1,6 @@
-feature 'push code to repository', ce: true, staging: true do
+feature 'push code to repository', :ce, :ee, :staging do
   context 'with regular account over http' do
-    scenario 'user pushes code to repository for the first time' do
+    scenario 'user pushes code to the repository' do
       Page::Main::Entry.act { sign_in_using_credentials }
 
       Scenario::Project::Create.perform do

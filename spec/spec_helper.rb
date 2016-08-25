@@ -23,6 +23,22 @@ RSpec.configure do |config|
   # Run specs in random order to surface order dependencies.
   config.order = :random
   Kernel.srand config.seed
+
+  config.before(:all) do
+    page.current_window.resize_to(1200, 1800)
+  end
+
+  config.before(:suite) do
+    begin
+      # Add valid license when running tests for enterprise edition
+      if config.filter_manager.inclusions[:ee]
+        Scenario::Instance::License::Add.perform
+      end
+    rescue
+      Capybara::Screenshot.screenshot_and_save_page
+      raise
+    end
+  end
 end
 
 Capybara.configure do |config|
