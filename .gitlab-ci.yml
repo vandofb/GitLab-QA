@@ -11,6 +11,7 @@ variables:
   TEST_IMAGE_NAME: registry.gitlab.com/gitlab-org/gitlab-qa
   TEST_IMAGE: $TEST_IMAGE_NAME:$CI_BUILD_REF
   TEST_IMAGE_LATEST: $TEST_IMAGE_NAME:latest
+  DOCKER_DRIVER: overlay
 
 rubocop:
   stage: test
