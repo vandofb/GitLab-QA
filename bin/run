@@ -9,4 +9,4 @@ ruby bin/wait
 
 # Run command
 #
-xvfb-run bundle exec $@
+xvfb-run bundle exec bin/qa $@

@@ -1,43 +1,57 @@
-module Run
-  autoload :User, 'lib/run/user'
-  autoload :Namespace, 'lib/run/namespace'
-end
+$LOAD_PATH << './'
 
-module Scenario
-  autoload :Template, 'lib/scenario/template'
-
-  module Project
-    autoload :Create, 'lib/scenario/project/create'
+module QA
+  module Run
+    autoload :User, 'lib/qa/run/user'
+    autoload :Namespace, 'lib/qa/run/namespace'
   end
 
-  module Instance
-    module License
-      autoload :Add, 'lib/scenario/instance/license/add'
+  module Scenario
+    autoload :Template, 'lib/qa/scenario/template'
+
+    module Test
+      autoload :CE, 'lib/qa/scenario/test/ce'
+    end
+
+    module Project
+      autoload :Create, 'lib/qa/scenario/project/create'
+    end
+
+    module Instance
+      module License
+        autoload :Add, 'lib/qa/scenario/instance/license/add'
+      end
     end
   end
-end
 
-module Page
-  autoload :Base, 'lib/steps/page/base'
-
-  module Main
-    autoload :Entry, 'lib/steps/page/main/entry'
-    autoload :Menu, 'lib/steps/page/main/menu'
-    autoload :Groups, 'lib/steps/page/main/groups'
-    autoload :Projects, 'lib/steps/page/main/projects'
+  module RSpec
+    autoload :Base, 'lib/qa/steps/rspec/base'
+    autoload :Config, 'lib/qa/steps/rspec/config'
+    autoload :Run, 'lib/qa/steps/rspec/run'
   end
 
-  module Project
-    autoload :New, 'lib/steps/page/project/new'
-    autoload :Show, 'lib/steps/page/project/show'
+  module Page
+    autoload :Base, 'lib/qa/steps/page/base'
+
+    module Main
+      autoload :Entry, 'lib/qa/steps/page/main/entry'
+      autoload :Menu, 'lib/qa/steps/page/main/menu'
+      autoload :Groups, 'lib/qa/steps/page/main/groups'
+      autoload :Projects, 'lib/qa/steps/page/main/projects'
+    end
+
+    module Project
+      autoload :New, 'lib/qa/steps/page/project/new'
+      autoload :Show, 'lib/qa/steps/page/project/show'
+    end
+
+    module Admin
+      autoload :Menu, 'lib/qa/steps/page/admin/menu'
+      autoload :License, 'lib/qa/steps/page/admin/license'
+    end
   end
 
-  module Admin
-    autoload :Menu, 'lib/steps/page/admin/menu'
-    autoload :License, 'lib/steps/page/admin/license'
+  module Git
+    autoload :Repository, 'lib/qa/steps/git/repository'
   end
-end
-
-module Git
-  autoload :Repository, 'lib/steps/git/repository'
 end

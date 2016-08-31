@@ -47,7 +47,7 @@ gitlab-ce-test:
   script:
     - docker network create test
     - docker run -d --net test --name gitlab-qa-ce --hostname $HOSTNAME gitlab/gitlab-ce:nightly
-    - docker run -t --net test -e GITLAB_URL -v $(pwd)/tmp:/tests/tmp $TEST_IMAGE rspec --tag ce
+    - docker run -t --net test -e GITLAB_URL -v $(pwd)/tmp:/tests/tmp $TEST_IMAGE CE
   tags:
     - volumes-support
   artifacts:
@@ -64,7 +64,7 @@ gitlab-ee-test:
   script:
     - docker network create test
     - docker run -d --net test --name gitlab-qa-ee --hostname $HOSTNAME gitlab/gitlab-ee:latest
-    - docker run -t --net test -e GITLAB_URL -e EE_LICENSE -v $(pwd)/tmp:/tests/tmp $TEST_IMAGE rspec --tag ee
+    - docker run -t --net test -e GITLAB_URL -e EE_LICENSE -v $(pwd)/tmp:/tests/tmp $TEST_IMAGE EE
   tags:
     - volumes-support
   artifacts:
