@@ -1,6 +1,6 @@
-image: docker:1.11
+image: docker:1.12
 services:
- - docker:1.11-dind
+ - docker:1.12-dind
 
 stages:
   - test
