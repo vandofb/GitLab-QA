@@ -8,13 +8,13 @@ feature 'push code to repository', :ce, :ee, :staging do
         with_project_description 'project with repository'
       end
 
-      uri = Page::Project::Show.act do
+      location = Page::Project::Show.act do
         choose_repository_clone_http
         repository_clone_uri
       end
 
-      Git::Repository.act(repository: uri) do
-        with_location(@repository)
+      Git::Repository.act(location) do |repository|
+        with_location(repository)
         with_default_credentials
 
         clone_repository

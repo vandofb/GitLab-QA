@@ -15,8 +15,8 @@ feature 'clone code from the repository', :ce, :ee, :staging do
         with_project_description 'project for git clone tests'
       end
 
-      Git::Repository.act(repository: repository) do
-        with_location(@repository)
+      Git::Repository.act(repository) do |repository|
+        with_location(repository)
         with_default_credentials
 
         clone_repository
@@ -28,8 +28,8 @@ feature 'clone code from the repository', :ce, :ee, :staging do
     end
 
     scenario 'user performs a deep clone' do
-      Git::Repository.act(repository: repository) do
-        with_location(@repository)
+      Git::Repository.act(repository) do |repository|
+        with_location(repository)
         with_default_credentials
 
         clone_repository
@@ -39,8 +39,8 @@ feature 'clone code from the repository', :ce, :ee, :staging do
     end
 
     scenario 'user performs a shallow clone' do
-      Git::Repository.act(repository: repository) do
-        with_location(@repository)
+      Git::Repository.act(repository) do |repository|
+        with_location(repository)
         with_default_credentials
 
         clone_repository_shallow
