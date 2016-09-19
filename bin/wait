@@ -35,7 +35,7 @@ end
 puts "GITLAB_URL: #{ENV['GITLAB_URL']}"
 print 'Waiting for GitLab to become available '
 
-if ServiceCheck.new(ENV['GITLAB_URL']).check(30)
+if ServiceCheck.new(ENV['GITLAB_URL']).check(120)
   puts ' -> GitLab is available.'
 else
   abort ' -> GitLab unavailable!'
