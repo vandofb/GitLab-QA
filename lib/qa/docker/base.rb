@@ -3,6 +3,8 @@ require 'open3'
 module QA
   module Docker
     class Base
+      class CommandError < StandardError; end
+
       def self.act(*args, &block)
         new.tap do |page|
           return page.instance_exec(*args, &block)
@@ -12,13 +14,13 @@ module QA
       private
 
       def exec(cmd)
-        Open3.popen2(cmd) do |_in, out, wait|
+        Open3.popen2e(cmd) do |_in, out, wait|
           out.each do |line|
             yield line if block_given?
           end
 
           if wait.value.exitstatus.nonzero?
-            raise "Docker command `#{cmd}` failed!"
+            raise CommandError, "Docker command `#{cmd}` failed!"
           end
         end
       end

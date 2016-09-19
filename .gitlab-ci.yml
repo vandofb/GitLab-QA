@@ -39,7 +39,7 @@ build:image:
   tags:
     - docker
 
-instance:ce:
+test:instance:ce:
   stage: run
   variables:
     HOSTNAME: gitlab-qa-ce.test
@@ -48,7 +48,7 @@ instance:ce:
   script:
     - docker network create test
     - docker run -d --net test --name gitlab-qa-ce --hostname $HOSTNAME gitlab/gitlab-ce:nightly
-    - docker run -t --net test -e GITLAB_URL -v $(pwd)/tmp:/tests/tmp $TEST_IMAGE Instance::CE
+    - docker run -t --net test -e GITLAB_URL -v $(pwd)/tmp:/tests/tmp $TEST_IMAGE Test::Instance::CE
   tags:
     - docker
   artifacts:
@@ -56,7 +56,7 @@ instance:ce:
     paths:
       - tmp/*.png
 
-instance:ee:
+test:instance:ee:
   stage: run
   variables:
     HOSTNAME: gitlab-qa-ee.test
@@ -65,7 +65,7 @@ instance:ee:
   script:
     - docker network create test
     - docker run -d --net test --name gitlab-qa-ee --hostname $HOSTNAME gitlab/gitlab-ee:nightly
-    - docker run -t --net test -e GITLAB_URL -e EE_LICENSE -v $(pwd)/tmp:/tests/tmp $TEST_IMAGE Instance::EE
+    - docker run -t --net test -e GITLAB_URL -e EE_LICENSE -v $(pwd)/tmp:/tests/tmp $TEST_IMAGE Test::Instance::EE
   tags:
     - docker
   artifacts:

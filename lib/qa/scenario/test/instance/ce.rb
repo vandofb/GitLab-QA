@@ -5,7 +5,7 @@ module QA
         class CE < Scenario::Template
           def perform
             Docker::Network.act do
-              create('testa') unless exists?('testa')
+              create('test') unless exists?('test')
             end
 
             Spec::Config.act { configure }
