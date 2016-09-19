@@ -5,7 +5,6 @@ services:
 stages:
   - test
   - build
-  - omnibus
   - run
 
 variables:
@@ -39,16 +38,6 @@ build-image:
     - triggers
   tags:
     - docker
-
-test-omnibus-ce:
-  stage: omnibus
-  script:
-    - docker run --rm -t gitlab/gitlab-ce:nightly
-
-test-omnibus-ee:
-  stage: omnibus
-  script:
-    - docker run --rm -t gitlab/gitlab-ee:nightly
 
 gitlab-ce-test:
   stage: run
