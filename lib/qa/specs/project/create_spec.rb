@@ -8,8 +8,10 @@ module QA
         with_project_description 'create awesome project test'
       end
 
-      expect(page)
-        .to have_content(/Project 'awesome-project-\h+' was successfully created/)
+      expect(page).to have_content(
+        /Project 'awesome-project-\h+' was successfully created/
+      )
+
       expect(page).to have_content('create awesome project test')
       expect(page).to have_content('The repository for this project is empty')
     end
