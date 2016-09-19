@@ -10,17 +10,18 @@ module QA
     autoload :Template, 'lib/qa/scenario/template'
 
     module Test
-      autoload :CE, 'lib/qa/scenario/test/ce'
+      module Instance
+        autoload :CE, 'lib/qa/scenario/test/instance/ce'
+        autoload :EE, 'lib/qa/scenario/test/instance/ee'
+      end
     end
 
     module Project
       autoload :Create, 'lib/qa/scenario/project/create'
     end
 
-    module Instance
-      module License
-        autoload :Add, 'lib/qa/scenario/instance/license/add'
-      end
+    module License
+      autoload :Add, 'lib/qa/scenario/license/add'
     end
   end
 
