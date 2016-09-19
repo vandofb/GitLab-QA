@@ -4,6 +4,8 @@ require 'net/http'
 require 'uri'
 
 class ServiceCheck
+  attr_reader :response
+
   def initialize(url)
     @uri = URI(url + '/users/sign_in')
   end
@@ -22,11 +24,11 @@ class ServiceCheck
   private
 
   def service_available?
-    response = Net::HTTP.start(@uri.host, @uri.port) do |http|
+    @response = Net::HTTP.start(@uri.host, @uri.port) do |http|
       http.head2(@uri.request_uri)
     end
 
-    response.code.to_i < 500
+    @response.code.to_i < 500
   rescue Errno::ECONNREFUSED
     false
   end
@@ -35,8 +37,10 @@ end
 puts "GITLAB_URL: #{ENV['GITLAB_URL']}"
 print 'Waiting for GitLab to become available '
 
-if ServiceCheck.new(ENV['GITLAB_URL']).check(180)
-  puts ' -> GitLab is available.'
-else
-  abort ' -> GitLab unavailable!'
+ServiceCheck.new(ENV['GITLAB_URL']).tap do |service|
+  if service.check(180)
+    puts " -> GitLab is available (#{service.response.code})."
+  else
+    abort ' -> GitLab unavailable!'
+  end
 end
