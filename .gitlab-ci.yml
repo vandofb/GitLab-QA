@@ -3,7 +3,7 @@ services:
  - docker:1.12-dind
 
 stages:
-  - test
+  - check
   - build
   - run
 
@@ -13,8 +13,8 @@ variables:
   TEST_IMAGE_LATEST: $TEST_IMAGE_NAME:latest
   DOCKER_DRIVER: overlay
 
-rubocop:
-  stage: test
+check:rubocop:
+  stage: check
   image: ruby:2.3
   script:
     - gem install rubocop
