@@ -23,7 +23,7 @@ rubocop:
   tags:
     - docker
 
-build-image:
+build:image:
   stage: build
   script:
     - docker build -t $TEST_IMAGE .
@@ -38,7 +38,7 @@ build-image:
   tags:
     - docker
 
-gitlab-ce-test:
+instance:ce:
   stage: run
   variables:
     HOSTNAME: gitlab-qa-ce.test
@@ -47,15 +47,15 @@ gitlab-ce-test:
   script:
     - docker network create test
     - docker run -d --net test --name gitlab-qa-ce --hostname $HOSTNAME gitlab/gitlab-ce:nightly
-    - docker run -t --net test -e GITLAB_URL -v $(pwd)/tmp:/tests/tmp $TEST_IMAGE CE
+    - docker run -t --net test -e GITLAB_URL -v $(pwd)/tmp:/tests/tmp $TEST_IMAGE Instance::CE
   tags:
-    - volumes-support
+    - docker
   artifacts:
     when: on_failure
     paths:
       - tmp/*.png
 
-gitlab-ee-test:
+instance:ee:
   stage: run
   variables:
     HOSTNAME: gitlab-qa-ee.test
@@ -64,9 +64,9 @@ gitlab-ee-test:
   script:
     - docker network create test
     - docker run -d --net test --name gitlab-qa-ee --hostname $HOSTNAME gitlab/gitlab-ee:latest
-    - docker run -t --net test -e GITLAB_URL -e EE_LICENSE -v $(pwd)/tmp:/tests/tmp $TEST_IMAGE EE
+    - docker run -t --net test -e GITLAB_URL -e EE_LICENSE -v $(pwd)/tmp:/tests/tmp $TEST_IMAGE Instance::EE
   tags:
-    - volumes-support
+    - docker
   artifacts:
     when: on_failure
     paths:
