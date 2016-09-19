@@ -1,10 +1,10 @@
 require 'rspec/core'
 
 module QA
-  module RSpec
-    class Run < RSpec::Base
+  module Spec
+    class Run < Spec::Base
       def run_suite(tag)
-        args = ['--tag', tag.to_s, 'lib/qa/specs']
+        args = ['--tag', tag.to_s, 'lib/qa/spec/rspec']
 
         status = ::RSpec::Core::Runner.run(args, $stderr, $stdout)
 

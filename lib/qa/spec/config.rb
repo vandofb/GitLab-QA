@@ -7,8 +7,8 @@ require 'capybara-screenshot/rspec'
 # rubocop:disable Metrics/LineLength
 
 module QA
-  module RSpec
-    class Config < RSpec::Base
+  module Spec
+    class Config < Spec::Base
       def configure
         configure_rspec
         configure_capybara

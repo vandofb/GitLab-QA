@@ -31,8 +31,8 @@ module QA
       end
 
       def with_default_credentials
-        with_username(Run::User.name)
-        with_password(Run::User.password)
+        with_username(Test::User.name)
+        with_password(Test::User.password)
       end
 
       def clone_repository(opts = '')

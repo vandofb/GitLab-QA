@@ -1,5 +1,5 @@
 module QA
-  module RSpec
+  module Spec
     class Base
       def self.act(*args, &block)
         new.tap do |page|

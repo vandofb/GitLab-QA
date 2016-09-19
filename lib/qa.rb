@@ -1,9 +1,9 @@
 $LOAD_PATH << './'
 
 module QA
-  module Run
-    autoload :User, 'lib/qa/run/user'
-    autoload :Namespace, 'lib/qa/run/namespace'
+  module Test
+    autoload :User, 'lib/qa/test/user'
+    autoload :Namespace, 'lib/qa/test/namespace'
   end
 
   module Scenario
@@ -25,34 +25,40 @@ module QA
     end
   end
 
-  module RSpec
-    autoload :Base, 'lib/qa/steps/rspec/base'
-    autoload :Config, 'lib/qa/steps/rspec/config'
-    autoload :Run, 'lib/qa/steps/rspec/run'
+  module Spec
+    autoload :Base, 'lib/qa/spec/base'
+    autoload :Config, 'lib/qa/spec/config'
+    autoload :Run, 'lib/qa/spec/run'
   end
 
   module Page
-    autoload :Base, 'lib/qa/steps/page/base'
+    autoload :Base, 'lib/qa/page/base'
 
     module Main
-      autoload :Entry, 'lib/qa/steps/page/main/entry'
-      autoload :Menu, 'lib/qa/steps/page/main/menu'
-      autoload :Groups, 'lib/qa/steps/page/main/groups'
-      autoload :Projects, 'lib/qa/steps/page/main/projects'
+      autoload :Entry, 'lib/qa/page/main/entry'
+      autoload :Menu, 'lib/qa/page/main/menu'
+      autoload :Groups, 'lib/qa/page/main/groups'
+      autoload :Projects, 'lib/qa/page/main/projects'
     end
 
     module Project
-      autoload :New, 'lib/qa/steps/page/project/new'
-      autoload :Show, 'lib/qa/steps/page/project/show'
+      autoload :New, 'lib/qa/page/project/new'
+      autoload :Show, 'lib/qa/page/project/show'
     end
 
     module Admin
-      autoload :Menu, 'lib/qa/steps/page/admin/menu'
-      autoload :License, 'lib/qa/steps/page/admin/license'
+      autoload :Menu, 'lib/qa/page/admin/menu'
+      autoload :License, 'lib/qa/page/admin/license'
     end
   end
 
   module Git
-    autoload :Repository, 'lib/qa/steps/git/repository'
+    autoload :Repository, 'lib/qa/git/repository'
+  end
+
+  module Docker
+    autoload :Base, 'lib/qa/docker/base'
+    autoload :Network, 'lib/qa/docker/network'
+    autoload :Gitlab, 'lib/qa/docker/gitlab'
   end
 end

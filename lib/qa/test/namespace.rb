@@ -1,5 +1,5 @@
 module QA
-  module Run
+  module Test
     module Namespace
       extend self
 
