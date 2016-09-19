@@ -64,7 +64,7 @@ gitlab-ee-test:
     MOUNT_VOLUMES_TO_SERVICES: 'true'
   script:
     - docker network create test
-    - docker run -d --net test --name gitlab-qa-ee --hostname $HOSTNAME gitlab/gitlab-ee:latest
+    - docker run -d --net test --name gitlab-qa-ee --hostname $HOSTNAME gitlab/gitlab-ee:nightly
     - docker run -t --net test -e GITLAB_URL -e EE_LICENSE -v $(pwd)/tmp:/tests/tmp $TEST_IMAGE rspec --tag ee
   tags:
     - docker
