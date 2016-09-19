@@ -16,8 +16,8 @@ module QA
           with_project_description 'project for git clone tests'
         end
 
-        Git::Repository.act(repository: repository) do
-          with_location(@repository)
+        Git::Repository.act(repository) do |repository|
+          with_location(repository)
           with_default_credentials
 
           clone_repository
@@ -29,8 +29,8 @@ module QA
       end
 
       scenario 'user performs a deep clone' do
-        Git::Repository.act(repository: repository) do
-          with_location(@repository)
+        Git::Repository.act(repository) do |repository|
+          with_location(repository)
           with_default_credentials
 
           clone_repository
@@ -40,8 +40,8 @@ module QA
       end
 
       scenario 'user performs a shallow clone' do
-        Git::Repository.act(repository: repository) do
-          with_location(@repository)
+        Git::Repository.act(repository) do |repository|
+          with_location(repository)
           with_default_credentials
 
           clone_repository_shallow

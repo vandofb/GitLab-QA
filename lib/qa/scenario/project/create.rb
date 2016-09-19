@@ -12,16 +12,16 @@ module QA
           Page::Main::Menu.act { go_to_projects }
           Page::Main::Projects.act { go_to_new_project }
 
-          Page::Project::New.act(scenario: self) do
+          Page::Project::New.act(self) do |scenario|
             choose_test_namespace
-            choose_name(@scenario.project_name)
-            add_description(@scenario.project_description)
+            choose_name(scenario.project_name)
+            add_description(scenario.project_description)
             create_new_project
           end
         end
 
-        def with_random_project_name
-          @project_name = "test-project-#{SecureRandom.hex(8)}"
+        def with_random_project_name(prefix = 'test-project')
+          with_project_name("#{prefix}-#{SecureRandom.hex(8)}")
         end
 
         def with_project_name(name)

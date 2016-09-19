@@ -3,13 +3,9 @@ module QA
     class Base
       include Capybara::DSL
 
-      def self.act(**variables, &block)
+      def self.act(*variables, &block)
         new.tap do |page|
-          variables.each do |variable, value|
-            page.instance_variable_set("@#{variable}", value)
-          end
-
-          return page.instance_eval(&block)
+          return page.instance_exec(*variables, &block)
         end
       end
 

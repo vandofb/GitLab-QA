@@ -6,7 +6,7 @@ module QA
           visit('/')
 
           # This resolves cold boot problems with login page
-          find('#tanuki-logo', wait: 120)
+          find('.application', wait: 120)
         end
 
         def sign_in_using_credentials
