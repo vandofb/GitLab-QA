@@ -4,15 +4,11 @@ module Git
   class Repository
     include RSpec::Matchers
 
-    def self.act(**variables, &block)
+    def self.act(*variables, &block)
       new.tap do |repository|
-        variables.each do |variable, value|
-          repository.instance_variable_set("@#{variable}", value)
-        end
-
         Dir.mktmpdir do |dir|
           Dir.chdir(dir) do
-            repository.instance_eval(&block)
+            repository.instance_exec(*variables, &block)
           end
         end
       end

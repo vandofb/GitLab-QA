@@ -3,3 +3,6 @@ Style/Documentation:
 
 Style/ModuleFunction:
   Enabled: false
+
+Style/SignalException:
+  Enabled: false
