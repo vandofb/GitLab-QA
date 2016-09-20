@@ -16,6 +16,7 @@ module QA
       def exec(cmd)
         Open3.popen2e(cmd) do |_in, out, wait|
           out.each do |line|
+            puts line
             yield line if block_given?
           end
 

@@ -1,4 +1,3 @@
-image: docker:1.12
 services:
  - docker:1.12-dind
 
@@ -11,7 +10,7 @@ variables:
   TEST_IMAGE_NAME: registry.gitlab.com/gitlab-org/gitlab-qa
   TEST_IMAGE: $TEST_IMAGE_NAME:$CI_BUILD_REF
   TEST_IMAGE_LATEST: $TEST_IMAGE_NAME:latest
-  DOCKER_DRIVER: overlay
+  DOCKER_HOST: tcp://docker:2375
 
 check:rubocop:
   stage: check
@@ -25,6 +24,7 @@ check:rubocop:
     - docker
 
 build:image:
+  image: docker:1.12
   stage: build
   script:
     - docker build -t $TEST_IMAGE .
@@ -41,14 +41,13 @@ build:image:
 
 test:instance:ce:
   stage: run
-  variables:
-    HOSTNAME: gitlab-qa-ce.test
-    GITLAB_URL: http://$HOSTNAME
-    MOUNT_VOLUMES_TO_SERVICES: 'true'
+  image: $TEST_IMAGE
   script:
-    - docker network create test
-    - docker run -d --net test --name gitlab-qa-ce --hostname $HOSTNAME gitlab/gitlab-ce:nightly
-    - docker run -t --net test -e GITLAB_URL -v $(pwd)/tmp:/tests/tmp $TEST_IMAGE Test::Instance::CE
+    - gem list
+    - ruby -e 'require "capybara/rspec"'
+    - ruby -e 'require "rspec/core"'
+    - bash -c 'ruby -e "require \"rspec/core\""'
+    - bin/run Test::Instance::CE
   tags:
     - docker
   artifacts:
@@ -57,11 +56,11 @@ test:instance:ce:
       - tmp/*.png
 
 test:instance:ee:
+  image: docker:1.12
   stage: run
   variables:
     HOSTNAME: gitlab-qa-ee.test
     GITLAB_URL: http://$HOSTNAME
-    MOUNT_VOLUMES_TO_SERVICES: 'true'
   script:
     - docker network create test
     - docker run -d --net test --name gitlab-qa-ee --hostname $HOSTNAME gitlab/gitlab-ee:nightly
