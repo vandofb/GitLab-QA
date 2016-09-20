@@ -8,6 +8,8 @@ RUN apt-get update && apt-get install -y --force-yes \
       libqt5webkit5-dev qt5-qmake qt5-default build-essential xvfb git \
     && apt-get clean
 
+ENV BUNDLE_PATH /usr/lib/bundle
+
 COPY ./Gemfile* ./
 RUN bundle install
 

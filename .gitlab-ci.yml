@@ -10,6 +10,7 @@ variables:
   TEST_IMAGE_NAME: registry.gitlab.com/gitlab-org/gitlab-qa
   TEST_IMAGE: $TEST_IMAGE_NAME:$CI_BUILD_REF
   TEST_IMAGE_LATEST: $TEST_IMAGE_NAME:latest
+  DOCKER_DRIVER: overlay
   DOCKER_HOST: tcp://docker:2375
 
 check:rubocop:
@@ -42,12 +43,7 @@ build:image:
 test:instance:ce:
   stage: run
   image: $TEST_IMAGE
-  script:
-    - gem list
-    - ruby -e 'require "capybara/rspec"'
-    - ruby -e 'require "rspec/core"'
-    - bash -c 'ruby -e "require \"rspec/core\""'
-    - bin/run Test::Instance::CE
+  script: bin/run Test::Instance::CE
   tags:
     - docker
   artifacts:
