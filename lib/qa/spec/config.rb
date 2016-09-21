@@ -9,14 +9,22 @@ require 'capybara-screenshot/rspec'
 module QA
   module Spec
     class Config < Spec::Base
-      def configure
+      def initialize
+        @url = ENV['GITLAB_URL']
+      end
+
+      def with_url(url)
+        @url = url
+      end
+
+      def configure!
         configure_rspec
         configure_capybara
         configure_webkit
       end
 
       def configure_rspec
-        ::RSpec.configure do |config|
+        RSpec.configure do |config|
           config.expect_with :rspec do |expectations|
             # This option will default to `true` in RSpec 4. It makes the `description`
             # and `failure_message` of custom matchers include text for helper methods
@@ -45,8 +53,8 @@ module QA
       end
 
       def configure_capybara
-        ::Capybara.configure do |config|
-          config.app_host = ENV['GITLAB_URL']
+        Capybara.configure do |config|
+          config.app_host = @url
           config.default_driver = :webkit
           config.javascript_driver = :webkit
           config.default_max_wait_time = 4
@@ -57,8 +65,8 @@ module QA
       end
 
       def configure_webkit
-        ::Capybara::Webkit.configure do |config|
-          config.allow_url(ENV['GITLAB_URL'])
+        Capybara::Webkit.configure do |config|
+          config.allow_url(@url)
           config.block_unknown_urls
         end
       end

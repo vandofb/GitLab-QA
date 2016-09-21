@@ -11,8 +11,6 @@ module QA
         end
       end
 
-      private
-
       def exec(cmd)
         Open3.popen2e(cmd) do |_in, out, wait|
           out.each do |line|
@@ -24,6 +22,10 @@ module QA
             raise CommandError, "Docker command `#{cmd}` failed!"
           end
         end
+      end
+
+      def docker_host
+        ENV['DOCKER_HOST'] || 'http://localhost'
       end
     end
   end
