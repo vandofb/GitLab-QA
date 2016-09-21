@@ -1,9 +1,8 @@
-image: docker:1.12
 services:
  - docker:1.12-dind
 
 stages:
-  - test
+  - check
   - build
   - run
 
@@ -12,9 +11,10 @@ variables:
   TEST_IMAGE: $TEST_IMAGE_NAME:$CI_BUILD_REF
   TEST_IMAGE_LATEST: $TEST_IMAGE_NAME:latest
   DOCKER_DRIVER: overlay
+  DOCKER_HOST: tcp://docker:2375
 
-rubocop:
-  stage: test
+check:rubocop:
+  stage: check
   image: ruby:2.3
   script:
     - gem install rubocop
@@ -24,7 +24,8 @@ rubocop:
   tags:
     - docker
 
-build-image:
+build:image:
+  image: docker:1.12
   stage: build
   script:
     - docker build -t $TEST_IMAGE .
@@ -39,16 +40,10 @@ build-image:
   tags:
     - docker
 
-gitlab-ce-test:
+test:instance:ce:
   stage: run
-  variables:
-    HOSTNAME: gitlab-qa-ce.test
-    GITLAB_URL: http://$HOSTNAME
-    MOUNT_VOLUMES_TO_SERVICES: 'true'
-  script:
-    - docker network create test
-    - docker run -d --net test --name gitlab-qa-ce --hostname $HOSTNAME gitlab/gitlab-ce:nightly
-    - docker run -t --net test -e GITLAB_URL -v $(pwd)/tmp:/tests/tmp $TEST_IMAGE rspec --tag ce
+  image: $TEST_IMAGE
+  script: bin/run Test::Instance::CE
   tags:
     - docker
   artifacts:
@@ -56,16 +51,10 @@ gitlab-ce-test:
     paths:
       - tmp/*.png
 
-gitlab-ee-test:
+test:instance:ee:
+  image: $TEST_IMAGE
   stage: run
-  variables:
-    HOSTNAME: gitlab-qa-ee.test
-    GITLAB_URL: http://$HOSTNAME
-    MOUNT_VOLUMES_TO_SERVICES: 'true'
-  script:
-    - docker network create test
-    - docker run -d --net test --name gitlab-qa-ee --hostname $HOSTNAME gitlab/gitlab-ee:nightly
-    - docker run -t --net test -e GITLAB_URL -e EE_LICENSE -v $(pwd)/tmp:/tests/tmp $TEST_IMAGE rspec --tag ee
+  script: bin/run Test::Instance::EE
   tags:
     - docker
   artifacts:

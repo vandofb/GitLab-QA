@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# Exit immediately when commands below fail
 set -e
 
-# Wait for GitLab service to become available
-#
-ruby bin/wait
-
-# Run command
-#
-xvfb-run bundle exec $@
+xvfb-run bundle exec bin/qa $@
