@@ -18,10 +18,14 @@ module QA
       end
 
       def configure!
+        raise 'Please configure GitLab address!' unless @url
+
         configure_rspec
         configure_capybara
         configure_webkit
       end
+
+      private
 
       def configure_rspec
         RSpec.configure do |config|
