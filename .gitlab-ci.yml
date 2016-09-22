@@ -39,6 +39,7 @@ build:image:
     - triggers
   tags:
     - docker
+  when: manual
 
 test:instance:ce:
   stage: run
