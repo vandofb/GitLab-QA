@@ -35,22 +35,31 @@ module QA
       def instance
         raise 'Please provide a block!' unless block_given?
 
-        # instance_pull
-        instance_start
-        instance_wait
+        pull
+        start
+        wait
 
         yield url
 
-        instance_teardown
+        teardown
       end
 
-      private
+      def attach
+        exec("docker attach #{@name}") do |line|
+          yield line
+        end
+      end
 
-      def instance_pull
+      def reconfigure
+        start
+        attach { |line| yield line }
+      end
+
+      def pull
         exec("docker pull #{@image}:#{@tag}")
       end
 
-      def instance_start
+      def start
         unless [@name, @image, @tag, @network].all?
           raise 'Please configure an instance first!'
         end
@@ -63,14 +72,14 @@ module QA
         command.execute!
       end
 
-      def instance_teardown
+      def teardown
         raise 'Invalid instance name!' unless @name
 
         Docker::Command.execute("stop #{@name}")
         Docker::Command.execute("rm #{@name}")
       end
 
-      def instance_wait
+      def wait
         puts "GitLab URL: #{url}"
         print 'Waiting for GitLab to become available '
 
