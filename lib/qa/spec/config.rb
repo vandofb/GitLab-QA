@@ -15,7 +15,7 @@ module QA
         @url = ENV['GITLAB_URL']
       end
 
-      def with_url(url)
+      def with_address(url)
         @url = url
       end
 

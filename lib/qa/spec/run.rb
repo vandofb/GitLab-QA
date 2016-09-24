@@ -5,11 +5,14 @@ module QA
     class Run
       extend Scenario::Actable
 
-      def suite(tag)
-        args = ['--tag', tag.to_s, 'lib/qa/spec/feature']
+      def instance(tag)
+        rspec(tag, 'lib/qa/spec/feature')
+      end
 
-        status = ::RSpec::Core::Runner.run(args, $stderr, $stdout)
+      def rspec(tag, location)
+        args = ['-c', '--tag', tag.to_s, location].flatten
 
+        status = RSpec::Core::Runner.run(args, $stderr, $stdout)
         abort if status.nonzero?
       end
     end
