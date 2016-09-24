@@ -1,5 +1,3 @@
 #!/bin/bash
 
-set -e
-
-xvfb-run bundle exec bin/qa $@
+xvfb-run bundle exec bin/qa Test::$@

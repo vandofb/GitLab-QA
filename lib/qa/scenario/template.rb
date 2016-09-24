@@ -1,14 +1,14 @@
 module QA
   module Scenario
     class Template
-      def self.perform(&block)
+      def self.perform(*args, &block)
         new.tap do |scenario|
-          scenario.instance_eval(&block) if block_given?
-          return scenario.perform
+          scenario.instance_exec(*args, &block) if block_given?
+          return scenario.perform(*args)
         end
       end
 
-      def perform
+      def perform(*_args)
         raise NotImplementedError
       end
     end

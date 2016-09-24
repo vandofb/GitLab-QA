@@ -14,6 +14,7 @@ module QA
       module Instance
         autoload :CE, 'lib/qa/scenario/test/instance/ce'
         autoload :EE, 'lib/qa/scenario/test/instance/ee'
+        autoload :Any, 'lib/qa/scenario/test/instance/any'
       end
     end
 
