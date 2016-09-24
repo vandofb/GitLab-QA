@@ -42,7 +42,7 @@ build:image:
 instance:ce:
   stage: test
   image: $TEST_IMAGE
-  script: bin/run Instance::CE
+  script: bin/test Instance::CE
   tags:
     - docker
   artifacts:
@@ -53,7 +53,7 @@ instance:ce:
 instance:ee:
   image: $TEST_IMAGE
   stage: test
-  script: bin/run Instance::EE
+  script: bin/test Instance::EE
   tags:
     - docker
   artifacts:
