@@ -7,6 +7,7 @@ module QA
   end
 
   module Scenario
+    autoload :Actable, 'lib/qa/scenario/actable'
     autoload :Template, 'lib/qa/scenario/template'
 
     module Test

@@ -3,13 +3,8 @@ require 'open3'
 module QA
   module Docker
     class Base
+      extend Scenario::Actable
       class CommandError < StandardError; end
-
-      def self.act(*args, &block)
-        new.tap do |page|
-          return page.instance_exec(*args, &block)
-        end
-      end
 
       def exec(cmd)
         Open3.popen2e(cmd) do |_in, out, wait|

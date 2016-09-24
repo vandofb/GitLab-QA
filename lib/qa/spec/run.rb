@@ -2,7 +2,9 @@ require 'rspec/core'
 
 module QA
   module Spec
-    class Run < Spec::Base
+    class Run
+      extend Scenario::Actable
+
       def suite(tag)
         args = ['--tag', tag.to_s, 'lib/qa/spec/feature']
 
