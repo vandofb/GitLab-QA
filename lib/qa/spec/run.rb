@@ -2,12 +2,17 @@ require 'rspec/core'
 
 module QA
   module Spec
-    class Run < Spec::Base
-      def suite(tag)
-        args = ['--tag', tag.to_s, 'lib/qa/spec/feature']
+    class Run
+      extend Scenario::Actable
 
-        status = ::RSpec::Core::Runner.run(args, $stderr, $stdout)
+      def instance(tag)
+        rspec(tag, 'lib/qa/spec/feature')
+      end
 
+      def rspec(tag, location)
+        args = ['-c', '--tag', tag.to_s, location].flatten
+
+        status = RSpec::Core::Runner.run(args, $stderr, $stdout)
         abort if status.nonzero?
       end
     end

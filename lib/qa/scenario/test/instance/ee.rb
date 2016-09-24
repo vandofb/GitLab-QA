@@ -19,12 +19,12 @@ module QA
 
               instance do |url|
                 Spec::Config.act(url) do |address|
-                  with_url(address)
+                  with_address(address)
                   configure!
                 end
 
                 Scenario::License::Add.perform
-                Spec::Run.act { suite(:ee) }
+                Spec::Run.act { instance(:ee) }
               end
             end
           end

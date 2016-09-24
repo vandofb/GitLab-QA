@@ -7,12 +7,14 @@ module QA
   end
 
   module Scenario
+    autoload :Actable, 'lib/qa/scenario/actable'
     autoload :Template, 'lib/qa/scenario/template'
 
     module Test
       module Instance
         autoload :CE, 'lib/qa/scenario/test/instance/ce'
         autoload :EE, 'lib/qa/scenario/test/instance/ee'
+        autoload :Any, 'lib/qa/scenario/test/instance/any'
       end
     end
 

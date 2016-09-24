@@ -4,7 +4,7 @@ services:
 stages:
   - check
   - build
-  - run
+  - test
 
 variables:
   TEST_IMAGE_NAME: registry.gitlab.com/gitlab-org/gitlab-qa
@@ -39,10 +39,10 @@ build:image:
     - docker
   when: manual
 
-test:instance:ce:
-  stage: run
+instance:ce:
+  stage: test
   image: $TEST_IMAGE
-  script: bin/run Test::Instance::CE
+  script: bin/test Instance::CE
   tags:
     - docker
   artifacts:
@@ -50,10 +50,10 @@ test:instance:ce:
     paths:
       - tmp/*.png
 
-test:instance:ee:
+instance:ee:
   image: $TEST_IMAGE
-  stage: run
-  script: bin/run Test::Instance::EE
+  stage: test
+  script: bin/test Instance::EE
   tags:
     - docker
   artifacts:

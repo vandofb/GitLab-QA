@@ -8,12 +8,14 @@ require 'capybara-screenshot/rspec'
 
 module QA
   module Spec
-    class Config < Spec::Base
+    class Config
+      extend Scenario::Actable
+
       def initialize
         @url = ENV['GITLAB_URL']
       end
 
-      def with_url(url)
+      def with_address(url)
         @url = url
       end
 

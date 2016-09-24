@@ -18,11 +18,11 @@ module QA
 
               instance do |url|
                 Spec::Config.act(url) do |address|
-                  with_url(address)
+                  with_address(address)
                   configure!
                 end
 
-                Spec::Run.act { suite(:ce) }
+                Spec::Run.act { instance(:ce) }
               end
             end
           end

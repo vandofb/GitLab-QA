@@ -6,3 +6,6 @@ Style/ModuleFunction:
 
 Style/SignalException:
   Enabled: false
+
+Lint/ShadowingOuterLocalVariable:
+  Enabled: false
