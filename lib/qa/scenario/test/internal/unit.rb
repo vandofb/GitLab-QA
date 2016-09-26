@@ -5,6 +5,9 @@ module QA
     module Test
       module Internal
         class Unit < Scenario::Template
+          # rubocop:disable Metrics/MethodLength
+          # rubocop:disable Metrics/LineLength
+
           def perform(*args)
             RSpec.configure do |config|
               config.expect_with :rspec do |expectations|
@@ -22,7 +25,7 @@ module QA
             end
 
             Spec::Run.act(args) do |args|
-              rspec(args.any? ? args : %w[spec/])
+              rspec(args.any? ? args : %w(spec/))
             end
           end
         end

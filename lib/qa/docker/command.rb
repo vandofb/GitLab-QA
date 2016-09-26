@@ -23,7 +23,6 @@ module QA
         engine("docker #{@args.join(' ')}")
       end
 
-
       private
 
       def engine(cmd)
