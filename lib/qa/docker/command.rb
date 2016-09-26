@@ -3,7 +3,7 @@ require 'open3'
 module QA
   module Docker
     class Command
-      class CommandError < StandardError; end
+      class StatusError < StandardError; end
 
       attr_reader :args
 
@@ -33,7 +33,7 @@ module QA
           end
 
           if wait.value.exitstatus.nonzero?
-            raise CommandError, "Docker command `#{cmd}` failed!"
+            raise StatusError, "Docker command `#{cmd}` failed!"
           end
         end
       end

@@ -3,7 +3,7 @@ module QA
     class Network < Docker::Base
       def exists?(name)
         Docker::Command.execute("network inspect #{name}")
-      rescue CommandError
+      rescue Docker::Command::StatusError
         false
       else
         true
