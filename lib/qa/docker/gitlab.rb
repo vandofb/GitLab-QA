@@ -25,7 +25,7 @@ module QA
         # It is difficult to access docker network from the host
         # due to DNS resolution, so for now we just expose ports.
 
-        URI(docker_host).host
+        URI(DOCKER_HOST).host
       end
 
       def url
@@ -35,7 +35,7 @@ module QA
       def instance
         raise 'Please provide a block!' unless block_given?
 
-        instance_pull
+        # instance_pull
         instance_start
         instance_wait
 
@@ -55,18 +55,19 @@ module QA
           raise 'Please configure an instance first!'
         end
 
-        command = "docker run -d --net #{@network} -p 80:80 " \
-                  "--name #{@name} --hostname #{hostname} " \
-                  "#{@image}:#{@tag}"
+        command = Docker::Command.new('run') \
+          << "-d --net #{@network} -p 80:80" \
+          << "--name #{@name} --hostname #{hostname}" \
+          << "#{@image}:#{@tag}"
 
-        exec(command)
+        command.execute!
       end
 
       def instance_teardown
         raise 'Invalid instance name!' unless @name
 
-        exec("docker stop #{@name}")
-        exec("docker rm #{@name}")
+        Docker::Command.execute("stop #{@name}")
+        Docker::Command.execute("rm #{@name}")
       end
 
       def instance_wait

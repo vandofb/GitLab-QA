@@ -2,7 +2,7 @@ module QA
   module Docker
     class Network < Docker::Base
       def exists?(name)
-        exec("docker network inspect #{name}")
+        Docker::Command.execute("network inspect #{name}")
       rescue CommandError
         false
       else
@@ -10,7 +10,7 @@ module QA
       end
 
       def create(name)
-        exec("docker network create #{name}")
+        Docker::Command.execute("network create #{name}")
       end
     end
   end
