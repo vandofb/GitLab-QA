@@ -16,6 +16,10 @@ module QA
         autoload :EE, 'lib/qa/scenario/test/instance/ee'
         autoload :Any, 'lib/qa/scenario/test/instance/any'
       end
+
+      module Internal
+        autoload :Unit, 'lib/qa/scenario/test/internal/unit'
+      end
     end
 
     module Project
@@ -60,6 +64,7 @@ module QA
 
   module Docker
     autoload :Base, 'lib/qa/docker/base'
+    autoload :Command, 'lib/qa/docker/command'
     autoload :Network, 'lib/qa/docker/network'
     autoload :Gitlab, 'lib/qa/docker/gitlab'
   end

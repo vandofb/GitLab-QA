@@ -2,8 +2,8 @@ services:
  - docker:1.12-dind
 
 stages:
-  - check
   - build
+  - check
   - test
 
 variables:
@@ -12,16 +12,11 @@ variables:
   DOCKER_DRIVER: overlay
   DOCKER_HOST: tcp://docker:2375
 
-check:rubocop:
-  stage: check
-  image: ruby:2.3
-  script:
-    - gem install rubocop
-    - rubocop
-  except:
-    - triggers
-  tags:
-    - docker
+# Workaround for gitlab-org/gitlab-ce#22598
+#
+build:stub:
+  stage: build
+  script: echo 'Starting pipeline ...'
 
 build:image:
   image: docker:1.12
@@ -38,6 +33,26 @@ build:image:
   tags:
     - docker
   when: manual
+
+check:rubocop:
+  stage: check
+  image: ruby:2.3
+  script:
+    - gem install rubocop
+    - rubocop
+  except:
+    - triggers
+  tags:
+    - docker
+
+check:rspec:
+  stage: check
+  image: $TEST_IMAGE
+  script: bin/test Internal::Unit
+  except:
+    - triggers
+  tags:
+    - docker
 
 instance:ce:
   stage: test
