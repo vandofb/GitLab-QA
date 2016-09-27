@@ -11,7 +11,9 @@ module QA
               within_network('bridge')
 
               reconfigure do |line|
-                teardown if line =~ /gitlab Reconfigured!/
+                if line =~ /gitlab Reconfigured!/
+                  exit 0
+                end
               end
             end
           end
