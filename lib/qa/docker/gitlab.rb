@@ -45,14 +45,17 @@ module QA
       end
 
       def attach
-        exec("docker attach #{@name}") do |line|
+        Docker::Command.execute("attach #{@name}") do |line|
           yield line
         end
       end
 
-      def reconfigure
+      def reconfigure(&block)
         start
-        attach { |line| yield line }
+
+        attach do |line|
+          yield line
+        end
       end
 
       def pull

@@ -7,8 +7,8 @@ module QA
 
       attr_reader :args
 
-      def self.execute(cmd)
-        new(cmd).execute!
+      def self.execute(cmd, &block)
+        new(cmd).execute!(&block)
       end
 
       def initialize(cmd = nil)
@@ -19,8 +19,8 @@ module QA
         tap { @args << args }
       end
 
-      def execute!
-        engine("docker #{@args.join(' ')}")
+      def execute!(&block)
+        engine("docker #{@args.join(' ')}", &block)
       end
 
       private
