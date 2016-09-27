@@ -76,9 +76,9 @@ instance:ee:
     paths:
       - tmp/*.png
 
-test:omnibus:image:
+omnibus:image:
   image: $TEST_IMAGE
-  stage: run
-  script: bin/run Test::Omnibus::Image
+  stage: test
+  script: bin/test Omnibus::Image
   tags:
-    - docker
+     - docker
