@@ -50,7 +50,7 @@ module QA
         end
       end
 
-      def reconfigure(&block)
+      def reconfigure
         start
 
         attach do |line|
