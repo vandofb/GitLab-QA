@@ -20,6 +20,10 @@ module QA
       module Internal
         autoload :Unit, 'lib/qa/scenario/test/internal/unit'
       end
+
+      module Omnibus
+        autoload :Image, 'lib/qa/scenario/test/omnibus/image'
+      end
     end
 
     module Project

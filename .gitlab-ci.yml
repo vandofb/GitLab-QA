@@ -75,3 +75,10 @@ instance:ee:
     when: on_failure
     paths:
       - tmp/*.png
+
+omnibus:image:
+  image: $TEST_IMAGE
+  stage: test
+  script: bin/test Omnibus::Image
+  tags:
+     - docker
