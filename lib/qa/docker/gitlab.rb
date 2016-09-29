@@ -66,7 +66,7 @@ module QA
         Docker::Command.execute("pull #{@image}:#{@tag}")
       end
 
-      def start
+      def start # rubocop:disable Metrics/MethodLength
         unless [@name, @image, @tag, @network].all?
           raise 'Please configure an instance first!'
         end
