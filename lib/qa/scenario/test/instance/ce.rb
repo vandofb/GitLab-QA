@@ -2,12 +2,7 @@ module QA
   module Scenario
     module Test
       module Instance
-        class CE < Scenario::Template
-          def initialize
-            @tag = 'nightly'
-            @volumes = {}
-          end
-
+        class CE < Instance::Gitlab
           # rubocop:disable Metrics/MethodLength
           # rubocop:disable Metrics/AbcSize
 
@@ -32,14 +27,6 @@ module QA
                 Spec::Run.act { instance(:ce) }
               end
             end
-          end
-
-          def with_tag(tag)
-            @tag = tag
-          end
-
-          def with_volume(to, from)
-            @volumes.store(to, from)
           end
         end
       end

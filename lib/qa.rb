@@ -12,6 +12,7 @@ module QA
 
     module Test
       module Instance
+        autoload :Gitlab, 'lib/qa/scenario/test/instance/gitlab'
         autoload :CE, 'lib/qa/scenario/test/instance/ce'
         autoload :EE, 'lib/qa/scenario/test/instance/ee'
         autoload :Any, 'lib/qa/scenario/test/instance/any'

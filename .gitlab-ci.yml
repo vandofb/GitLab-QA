@@ -82,5 +82,9 @@ ee:image:
   <<: *test
 
 ce:upgrade:
-  script: bin/test Omnibus::Upgrade
+  script: bin/test Omnibus::Upgrade CE
+  <<: *test
+
+ee:upgrade:
+  script: bin/test Omnibus::Upgrade EE
   <<: *test
