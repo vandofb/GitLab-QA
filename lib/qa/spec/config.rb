@@ -75,7 +75,7 @@ module QA
           config.allow_url(@url)
           config.block_unknown_urls
         end
-      rescue RuntimeError
+      rescue RuntimeError # rubocop:disable Lint/HandleExceptions
         # TODO, Webkit is already configured, this make this
         # configuration step idempotent, should be improved.
       end
