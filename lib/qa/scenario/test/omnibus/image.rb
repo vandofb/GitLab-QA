@@ -3,10 +3,10 @@ module QA
     module Test
       module Omnibus
         class Image < Scenario::Template
-          def perform
-            Docker::Gitlab.act do
-              with_name('gitlab-qa-ce')
-              with_image('gitlab/gitlab-ce')
+          def perform(version)
+            Docker::Gitlab.act(version.downcase) do |version|
+              with_name("gitlab-qa-#{version}")
+              with_image("gitlab/gitlab-#{version}")
               with_image_tag('nightly')
               within_network('bridge')
 
