@@ -126,7 +126,7 @@ module QA
           end
 
           response.code.to_i == 200
-        rescue Errno::ECONNREFUSED, Errno::ECONNRESET
+        rescue Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError
           false
         end
       end
