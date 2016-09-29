@@ -38,8 +38,8 @@ module QA
             @tag = tag
           end
 
-          def with_volumes(volumes)
-            @volumes = volumes
+          def with_volume(to, from)
+            @volumes.store(to, from)
           end
         end
       end

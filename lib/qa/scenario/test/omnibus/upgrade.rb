@@ -8,18 +8,18 @@ module QA
         class Upgrade < Scenario::Template
           def perform # rubocop:disable Metrics/MethodLength
             within_temporary_directory do |dir|
-              volumes = { "#{dir}/config" => '/etc/gitlab',
-                          "#{dir}/logs" => '/var/log/gitlab',
-                          "#{dir}/data" => '/var/opt/gitlab' }
-
-              Scenario::Test::Instance::CE.perform(volumes) do |volumes|
+              Scenario::Test::Instance::CE.perform(dir) do |volumes|
                 with_tag('latest')
-                with_volumes(volumes)
+                with_volume("#{dir}/config", '/etc/gitlab')
+                with_volume("#{dir}/logs", '/var/log/gitlab')
+                with_volume("#{dir}/data", '/var/opt/gitlab')
               end
 
-              Scenario::Test::Instance::CE.perform(volumes) do |volumes|
+              Scenario::Test::Instance::CE.perform(dir) do |volumes|
                 with_tag('nightly')
-                with_volumes(volumes)
+                with_volume("#{dir}/config", '/etc/gitlab')
+                with_volume("#{dir}/logs", '/var/log/gitlab')
+                with_volume("#{dir}/data", '/var/opt/gitlab')
               end
             end
           end
