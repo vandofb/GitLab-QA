@@ -17,6 +17,10 @@ module QA
         @tag = tag
       end
 
+      def with_volumes(volumes)
+        @volumes = volumes
+      end
+
       def within_network(network)
         @network = network
       end
@@ -69,9 +73,13 @@ module QA
 
         command = Docker::Command.new('run') \
           << "-d --net #{@network} -p 80:80" \
-          << "--name #{@name} --hostname #{hostname}" \
-          << "#{@image}:#{@tag}"
+          << "--name #{@name} --hostname #{hostname}"
 
+        @volumes.to_h.each do |to, from|
+          command << "--volume #{to}:#{from}:Z"
+        end
+
+        command << "#{@image}:#{@tag}"
         command.execute!
       end
 

@@ -26,6 +26,8 @@ module QA
       private
 
       def engine(cmd)
+        puts "Running shell command: `#{cmd}`"
+
         Open3.popen2e(cmd) do |_in, out, wait|
           out.each do |line|
             puts line
