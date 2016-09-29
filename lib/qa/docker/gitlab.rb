@@ -59,7 +59,7 @@ module QA
       end
 
       def pull
-        exec("docker pull #{@image}:#{@tag}")
+        Docker::Command.execute("pull #{@image}:#{@tag}")
       end
 
       def start
