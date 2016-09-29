@@ -4,7 +4,7 @@ module QA
       Page::Main::Entry.act { sign_in_using_credentials }
 
       Scenario::Project::Create.perform do
-        with_random_project_name('awesome-project')
+        with_project_name('awesome-project')
         with_project_description 'create awesome project test'
       end
 

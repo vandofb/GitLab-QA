@@ -12,7 +12,7 @@ module QA
         Page::Main::Entry.act { sign_in_using_credentials }
 
         Scenario::Project::Create.perform do
-          with_random_project_name
+          with_project_name('project-with-code')
           with_project_description 'project for git clone tests'
         end
 
