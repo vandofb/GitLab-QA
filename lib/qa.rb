@@ -23,6 +23,7 @@ module QA
 
       module Omnibus
         autoload :Image, 'lib/qa/scenario/test/omnibus/image'
+        autoload :Upgrade, 'lib/qa/scenario/test/omnibus/upgrade'
       end
     end
 

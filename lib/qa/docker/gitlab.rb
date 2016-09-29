@@ -95,7 +95,7 @@ module QA
         print 'Waiting for GitLab to become available '
 
         if Availability.new(url).check(180)
-          sleep 10
+          sleep 12 # TODO, handle that better
           puts ' -> GitLab is available.'
         else
           abort ' -> GitLab unavailable!'
