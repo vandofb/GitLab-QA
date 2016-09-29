@@ -54,7 +54,7 @@ check:rspec:
   tags:
     - docker
 
-instance:ce:
+ce:instance:
   stage: test
   image: $TEST_IMAGE
   script: bin/test Instance::CE
@@ -65,7 +65,7 @@ instance:ce:
     paths:
       - tmp/*.png
 
-instance:ee:
+ee:instance:
   image: $TEST_IMAGE
   stage: test
   script: bin/test Instance::EE
@@ -76,9 +76,16 @@ instance:ee:
     paths:
       - tmp/*.png
 
-omnibus:image:
+ce:image:
   image: $TEST_IMAGE
   stage: test
-  script: bin/test Omnibus::Image
+  script: bin/test Omnibus::Image CE
+  tags:
+     - docker
+
+ee:image:
+  image: $TEST_IMAGE
+  stage: test
+  script: bin/test Omnibus::Image EE
   tags:
      - docker
