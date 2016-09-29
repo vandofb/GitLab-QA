@@ -6,16 +6,21 @@ module QA
     module Test
       module Omnibus
         class Upgrade < Scenario::Template
-          def perform # rubocop:disable Metrics/MethodLength
+          # rubocop:disable Metrics/MethodLength
+
+          def perform(version)
+            instance_test_scenario =
+              Scenario::Test::Instance.const_get(version.upcase)
+
             within_temporary_directory do |dir|
-              Scenario::Test::Instance::CE.perform(dir) do |dir|
+              instance_test_scenario.perform(dir) do |dir|
                 with_tag('latest')
                 with_volume("#{dir}/config", '/etc/gitlab')
                 with_volume("#{dir}/logs", '/var/log/gitlab')
                 with_volume("#{dir}/data", '/var/opt/gitlab')
               end
 
-              Scenario::Test::Instance::CE.perform(dir) do |dir|
+              instance_test_scenario.perform(dir) do |dir|
                 with_tag('nightly')
                 with_volume("#{dir}/config", '/etc/gitlab')
                 with_volume("#{dir}/logs", '/var/log/gitlab')
@@ -25,7 +30,7 @@ module QA
           end
 
           def within_temporary_directory
-            yield Dir.mktmpdir('gitlab-qa-') if block_given?
+            yield Dir.mktmpdir('gitlab-qa-')
           end
         end
       end
