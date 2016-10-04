@@ -22,17 +22,21 @@ build:image:
   image: docker:1.12
   stage: build
   script:
-    - docker build -t $TEST_IMAGE .
+    - ./bin/docker load
+    - ./bin/docker build
+    - ./bin/docker store
     - test -n "$CI_BUILD_TOKEN" || exit 0
-    - docker login --username gitlab-ci-token --password $CI_BUILD_TOKEN registry.gitlab.com
-    - docker push $TEST_IMAGE
-    - docker logout registry.gitlab.com
+    - ./bin/docker publish
   except:
     - triggers
     - master
   tags:
     - docker
   when: manual
+  cache:
+    key: "docker-build-cache"
+    paths:
+      - ./latest_image.tar
 
 check:rubocop:
   stage: check
