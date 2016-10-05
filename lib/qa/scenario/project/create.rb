@@ -20,12 +20,8 @@ module QA
           end
         end
 
-        def with_random_project_name(prefix = 'test-project')
-          with_project_name("#{prefix}-#{SecureRandom.hex(8)}")
-        end
-
         def with_project_name(name)
-          @project_name = name
+          @project_name = "#{name}-#{SecureRandom.hex(8)}"
         end
 
         def with_project_description(description)

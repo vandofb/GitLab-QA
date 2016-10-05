@@ -17,6 +17,10 @@ module QA
         @tag = tag
       end
 
+      def with_volumes(volumes)
+        @volumes = volumes
+      end
+
       def within_network(network)
         @network = network
       end
@@ -37,6 +41,7 @@ module QA
 
         pull
         start
+        reconfigure
         wait
 
         yield url
@@ -44,42 +49,44 @@ module QA
         teardown
       end
 
-      def attach
-        Docker::Command.execute("attach #{@name}") do |line|
-          yield line
-        end
-      end
-
-      def reconfigure
-        start
-
-        attach do |line|
-          yield line
-        end
-      end
-
       def pull
         Docker::Command.execute("pull #{@image}:#{@tag}")
       end
 
-      def start
+      def start # rubocop:disable Metrics/MethodLength
         unless [@name, @image, @tag, @network].all?
           raise 'Please configure an instance first!'
         end
 
         command = Docker::Command.new('run') \
           << "-d --net #{@network} -p 80:80" \
-          << "--name #{@name} --hostname #{hostname}" \
-          << "#{@image}:#{@tag}"
+          << "--name #{@name} --hostname #{hostname}"
 
+        @volumes.to_h.each do |to, from|
+          command << "--volume #{to}:#{from}:Z"
+        end
+
+        command << "#{@image}:#{@tag}"
         command.execute!
+      end
+
+      def attach(&block)
+        Docker::Command.execute("attach --sig-proxy=false #{@name}", &block)
+      end
+
+      def reconfigure
+        attach do |line, wait|
+          # TODO, this is a workaround, allows to detach from container
+          #
+          Process.kill('INT', wait.pid) if line =~ /gitlab Reconfigured!/
+        end
       end
 
       def teardown
         raise 'Invalid instance name!' unless @name
 
         Docker::Command.execute("stop #{@name}")
-        Docker::Command.execute("rm #{@name}")
+        Docker::Command.execute("rm -f #{@name}")
       end
 
       def wait
@@ -87,7 +94,7 @@ module QA
         print 'Waiting for GitLab to become available '
 
         if Availability.new(url).check(180)
-          sleep 10
+          sleep 12 # TODO, handle that better
           puts ' -> GitLab is available.'
         else
           abort ' -> GitLab unavailable!'
@@ -118,7 +125,7 @@ module QA
           end
 
           response.code.to_i == 200
-        rescue Errno::ECONNREFUSED, Errno::ECONNRESET
+        rescue Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError
           false
         end
       end

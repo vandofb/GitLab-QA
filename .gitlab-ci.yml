@@ -58,38 +58,37 @@ check:rspec:
   tags:
     - docker
 
-ce:instance:
+.test: &test
   stage: test
   image: $TEST_IMAGE
-  script: bin/test Instance::CE
   tags:
     - docker
   artifacts:
     when: on_failure
+    expire_in: 30d
     paths:
       - tmp/*.png
+
+ce:instance:
+  script: bin/test Instance::CE
+  <<: *test
 
 ee:instance:
-  image: $TEST_IMAGE
-  stage: test
   script: bin/test Instance::EE
-  tags:
-    - docker
-  artifacts:
-    when: on_failure
-    paths:
-      - tmp/*.png
+  <<: *test
 
 ce:image:
-  image: $TEST_IMAGE
-  stage: test
   script: bin/test Omnibus::Image CE
-  tags:
-     - docker
+  <<: *test
 
 ee:image:
-  image: $TEST_IMAGE
-  stage: test
   script: bin/test Omnibus::Image EE
-  tags:
-     - docker
+  <<: *test
+
+ce:upgrade:
+  script: bin/test Omnibus::Upgrade CE
+  <<: *test
+
+ee:upgrade:
+  script: bin/test Omnibus::Upgrade EE
+  <<: *test

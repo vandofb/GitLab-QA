@@ -2,18 +2,20 @@ module QA
   module Scenario
     module Test
       module Instance
-        class CE < Scenario::Template
+        class CE < Instance::Gitlab
           # rubocop:disable Metrics/MethodLength
+          # rubocop:disable Metrics/AbcSize
 
-          def perform
+          def perform(*)
             Docker::Network.act do
               create('test') unless exists?('test')
             end
 
-            Docker::Gitlab.act do
+            Docker::Gitlab.act(@tag, @volumes) do |tag, volumes|
               with_name('gitlab-qa-ce')
               with_image('gitlab/gitlab-ce')
-              with_image_tag('nightly')
+              with_image_tag(tag)
+              with_volumes(volumes)
               within_network('test')
 
               instance do |url|

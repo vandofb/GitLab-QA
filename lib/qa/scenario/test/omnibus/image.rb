@@ -10,9 +10,9 @@ module QA
               with_image_tag('nightly')
               within_network('bridge')
 
-              reconfigure do |line|
-                exit(0) if line =~ /gitlab Reconfigured!/
-              end
+              start
+              reconfigure
+              teardown
             end
           end
         end
