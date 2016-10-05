@@ -31,10 +31,10 @@ module QA
         Open3.popen2e(cmd) do |_in, out, wait|
           out.each do |line|
             puts line
-            yield line if block_given?
+            yield line, wait if block_given?
           end
 
-          if wait.value.exitstatus.nonzero?
+          if wait.value.exited? && wait.value.exitstatus.nonzero?
             raise StatusError, "Docker command `#{cmd}` failed!"
           end
         end

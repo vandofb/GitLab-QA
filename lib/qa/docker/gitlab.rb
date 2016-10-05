@@ -41,25 +41,12 @@ module QA
 
         pull
         start
+        reconfigure
         wait
 
         yield url
 
         teardown
-      end
-
-      def attach
-        Docker::Command.execute("attach #{@name}") do |line|
-          yield line
-        end
-      end
-
-      def reconfigure
-        start
-
-        attach do |line|
-          yield line
-        end
       end
 
       def pull
@@ -83,11 +70,23 @@ module QA
         command.execute!
       end
 
+      def attach(&block)
+        Docker::Command.execute("attach --sig-proxy=false #{@name}", &block)
+      end
+
+      def reconfigure
+        attach do |line, wait|
+          # TODO, this is a workaround, allows to detach from container
+          #
+          Process.kill('INT', wait.pid) if line =~ /gitlab Reconfigured!/
+        end
+      end
+
       def teardown
         raise 'Invalid instance name!' unless @name
 
         Docker::Command.execute("stop #{@name}")
-        Docker::Command.execute("rm #{@name}")
+        Docker::Command.execute("rm -f #{@name}")
       end
 
       def wait
