@@ -9,7 +9,7 @@ module QA
       end
 
       expect(page).to have_content(
-        /Project 'awesome-project-\h+' was successfully created/
+        /Project \S?awesome-project\S+ was successfully created/
       )
 
       expect(page).to have_content('create awesome project test')
