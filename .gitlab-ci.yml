@@ -12,12 +12,6 @@ variables:
   DOCKER_DRIVER: overlay
   DOCKER_HOST: tcp://docker:2375
 
-# Workaround for gitlab-org/gitlab-ce#22598
-#
-build:stub:
-  stage: build
-  script: echo 'Starting pipeline ...'
-
 build:image:
   image: docker:1.12
   stage: build
@@ -40,10 +34,9 @@ build:image:
 
 check:rubocop:
   stage: check
-  image: ruby:2.3
+  image: $TEST_IMAGE
   script:
-    - gem install rubocop
-    - rubocop
+    - bundle exec rubocop
   except:
     - triggers
   tags:
