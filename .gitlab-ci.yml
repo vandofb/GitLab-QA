@@ -40,10 +40,9 @@ build:image:
 
 check:rubocop:
   stage: check
-  image: ruby:2.3
+  image: $TEST_IMAGE
   script:
-    - gem install rubocop
-    - rubocop
+    - bundle exec rubocop
   except:
     - triggers
   tags:
