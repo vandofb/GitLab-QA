@@ -9,3 +9,6 @@ Style/SignalException:
 
 Lint/ShadowingOuterLocalVariable:
   Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
