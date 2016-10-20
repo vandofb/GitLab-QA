@@ -11,7 +11,7 @@ module QA
       before do
         Page::Main::Entry.act { sign_in_using_credentials }
 
-        Scenario::Project::Create.perform do
+        Scenario::Gitlab::Project::Create.perform do
           with_project_name('project-with-code')
           with_project_description 'project for git clone tests'
         end

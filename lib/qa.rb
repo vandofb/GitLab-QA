@@ -28,12 +28,14 @@ module QA
       end
     end
 
-    module Project
-      autoload :Create, 'lib/qa/scenario/project/create'
-    end
+    module Gitlab
+      module Project
+        autoload :Create, 'lib/qa/scenario/gitlab/project/create'
+      end
 
-    module License
-      autoload :Add, 'lib/qa/scenario/license/add'
+      module License
+        autoload :Add, 'lib/qa/scenario/gitlab/license/add'
+      end
     end
   end
 
