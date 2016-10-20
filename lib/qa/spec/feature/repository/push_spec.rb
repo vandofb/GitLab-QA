@@ -4,7 +4,7 @@ module QA
       scenario 'user pushes code to the repository' do
         Page::Main::Entry.act { sign_in_using_credentials }
 
-        Scenario::Project::Create.perform do
+        Scenario::Gitlab::Project::Create.perform do
           with_project_name 'project_with_code'
           with_project_description 'project with repository'
         end

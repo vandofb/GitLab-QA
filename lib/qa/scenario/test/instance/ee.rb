@@ -24,7 +24,7 @@ module QA
                   configure!
                 end
 
-                Scenario::License::Add.perform
+                Scenario::Gitlab::License::Add.perform
                 Spec::Run.act { instance(:ee) }
               end
             end

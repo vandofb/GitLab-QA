@@ -3,7 +3,7 @@ module QA
     scenario 'user creates a new project' do
       Page::Main::Entry.act { sign_in_using_credentials }
 
-      Scenario::Project::Create.perform do
+      Scenario::Gitlab::Project::Create.perform do
         with_project_name('awesome-project')
         with_project_description 'create awesome project test'
       end
