@@ -26,13 +26,13 @@ module QA
         def within_sidebar_menu
           find('.side-nav-toggle').click
 
-          page.within('ul.nav-sidebar') do
+          page.within('.nav-sidebar') do
             yield
           end
         end
 
         def within_top_menu
-          page.within('ul.navbar-nav') do
+          page.within('.nav-control') do
             yield
           end
         end
