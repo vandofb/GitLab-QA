@@ -6,12 +6,13 @@ module QA
       extend Scenario::Actable
 
       def instance(tag)
-        rspec(['--tag', tag.to_s, 'lib/qa/spec/feature'])
+        rspec('--tag', tag.to_s, 'lib/qa/spec/feature')
       end
 
-      def rspec(args)
-        status = RSpec::Core::Runner.run(args, $stderr, $stdout)
-        abort if status.nonzero?
+      def rspec(*args)
+        RSpec::Core::Runner.run(args.flatten, $stderr, $stdout).tap do |status|
+          abort if status.nonzero?
+        end
       end
     end
   end
