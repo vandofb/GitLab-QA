@@ -11,11 +11,11 @@ module QA
         end
 
         def go_to_admin_area
-          within_top_menu { click_link 'Admin Area' }
+          within_personal_menu { click_link 'Admin Area' }
         end
 
         def sign_out
-          within_top_menu do
+          within_personal_menu do
             find('.header-user-dropdown-toggle').click
             click_link('Sign out')
           end
@@ -31,8 +31,8 @@ module QA
           end
         end
 
-        def within_top_menu
-          page.within('.nav-control') do
+        def within_personal_menu
+          page.within('ul.navbar-nav') do
             yield
           end
         end

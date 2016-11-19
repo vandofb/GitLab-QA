@@ -9,7 +9,7 @@ module QA
         private
 
         def within_middle_menu
-          page.within('ul.nav-links') do
+          page.within('.nav-control') do
             yield
           end
         end
