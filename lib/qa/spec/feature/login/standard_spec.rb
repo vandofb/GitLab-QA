@@ -3,7 +3,7 @@ module QA
     scenario 'user logs in using credentials' do
       Page::Main::Entry.act { sign_in_using_credentials }
 
-      expect(page).to have_content('Signed in successfully.')
+      expect(page).to have_content('Your projects')
     end
   end
 end
