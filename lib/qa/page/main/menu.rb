@@ -2,6 +2,8 @@ module QA
   module Page
     module Main
       class Menu < Page::Base
+        include ::RSpec::Matchers
+
         def go_to_groups
           within_sidebar_menu { click_link 'Groups' }
         end
@@ -19,6 +21,10 @@ module QA
             find('.header-user-dropdown-toggle').click
             click_link('Sign out')
           end
+        end
+
+        def has_personal_menu?
+          page.has_selector?('.header-user-dropdown-toggle')
         end
 
         private

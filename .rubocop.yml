@@ -12,3 +12,6 @@ Lint/ShadowingOuterLocalVariable:
 
 Metrics/BlockLength:
   Enabled: false
+
+Style/PredicateName:
+  Enabled: false
