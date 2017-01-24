@@ -3,9 +3,9 @@ require 'rspec/core'
 module QA
   module Spec
     class Run
-      extend Scenario::Actable
+      include Scenario::Actable
 
-      def instance(tag)
+      def test_instance(tag)
         rspec('--tag', tag.to_s, 'lib/qa/spec/feature')
       end
 

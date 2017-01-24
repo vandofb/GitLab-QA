@@ -32,7 +32,7 @@ module QA
         URI(DOCKER_HOST).host
       end
 
-      def url
+      def address
         "http://#{hostname}"
       end
 
@@ -44,7 +44,7 @@ module QA
         reconfigure
         wait
 
-        yield url
+        yield address
 
         teardown
       end
@@ -90,10 +90,10 @@ module QA
       end
 
       def wait
-        puts "GitLab URL: #{url}"
+        puts "GitLab URL: #{address}"
         print 'Waiting for GitLab to become available '
 
-        if Availability.new(url).check(180)
+        if Availability.new(address).check(180)
           sleep 12 # TODO, handle that better
           puts ' -> GitLab is available.'
         else
@@ -102,8 +102,8 @@ module QA
       end
 
       class Availability
-        def initialize(url)
-          @uri = URI.join(url, '/help')
+        def initialize(address)
+          @uri = URI.join(address, '/help')
         end
 
         def check(retries)

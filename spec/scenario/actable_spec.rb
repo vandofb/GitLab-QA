@@ -1,7 +1,9 @@
 describe QA::Scenario::Actable do
   subject do
     Class.new do
-      extend QA::Scenario::Actable
+      include QA::Scenario::Actable
+
+      attr_accessor :something
 
       def do_something(arg = nil)
         "some#{arg}"
@@ -16,9 +18,27 @@ describe QA::Scenario::Actable do
       expect(result).to eq 'some'
     end
 
-    it 'supports passing arguments' do
-      result = subject.act('thing') do |arg|
-        do_something(arg)
+    it 'supports passing variables' do
+      result = subject.act('thing') do |variable|
+        do_something(variable)
+      end
+
+      expect(result).to eq 'something'
+    end
+
+    it 'returns value from the last method' do
+      result = subject.act { 'test' }
+
+      expect(result).to eq 'test'
+    end
+  end
+
+  describe '.perform' do
+    it 'makes it possible to pass binding' do
+      variable = 'something'
+
+      result = subject.perform do |object|
+        object.something = variable
       end
 
       expect(result).to eq 'something'

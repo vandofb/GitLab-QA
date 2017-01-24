@@ -8,28 +8,22 @@ require 'capybara-screenshot/rspec'
 
 module QA
   module Spec
-    class Config
-      extend Scenario::Actable
+    class Config < Scenario::Template
+      attr_writer :address
 
       def initialize
-        @url = ENV['GITLAB_URL']
+        @address = ENV['GITLAB_URL']
       end
 
-      def with_address(url)
-        @url = url
+      def perform
+        raise 'Please configure GitLab address!' unless @address
+
+        configure_rspec!
+        configure_capybara!
+        configure_webkit!
       end
 
-      def configure!
-        raise 'Please configure GitLab address!' unless @url
-
-        configure_rspec
-        configure_capybara
-        configure_webkit
-      end
-
-      private
-
-      def configure_rspec
+      def configure_rspec!
         RSpec.configure do |config|
           config.expect_with :rspec do |expectations|
             # This option will default to `true` in RSpec 4. It makes the `description`
@@ -58,9 +52,9 @@ module QA
         end
       end
 
-      def configure_capybara
+      def configure_capybara!
         Capybara.configure do |config|
-          config.app_host = @url
+          config.app_host = @address
           config.default_driver = :webkit
           config.javascript_driver = :webkit
           config.default_max_wait_time = 4
@@ -70,9 +64,9 @@ module QA
         end
       end
 
-      def configure_webkit
+      def configure_webkit!
         Capybara::Webkit.configure do |config|
-          config.allow_url(@url)
+          config.allow_url(@address)
           config.block_unknown_urls
         end
       rescue RuntimeError # rubocop:disable Lint/HandleExceptions

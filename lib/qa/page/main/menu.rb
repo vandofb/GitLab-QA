@@ -23,7 +23,7 @@ module QA
           end
         end
 
-        def has_personal_menu?
+        def has_personal_area?
           page.has_selector?('.header-user-dropdown-toggle')
         end
 

@@ -3,44 +3,40 @@ require 'uri'
 module QA
   module Git
     class Repository
-      include ::RSpec::Matchers
+      include Scenario::Actable
 
-      def self.act(*variables, &block)
-        new.tap do |repository|
-          Dir.mktmpdir do |dir|
-            Dir.chdir(dir) do
-              repository.instance_exec(*variables, &block)
-            end
-          end
+      def self.perform(*args)
+        Dir.mktmpdir do |dir|
+          Dir.chdir(dir) { super }
         end
       end
 
-      def with_location(uri)
-        @location = uri
-        @uri = URI(uri)
+      def location=(address)
+        @location = address
+        @uri = URI(address)
       end
 
-      def with_username(name)
+      def username=(name)
         @username = name
         @uri.user = name
       end
 
-      def with_password(pass)
+      def password=(pass)
         @password = pass
         @uri.password = pass
       end
 
-      def with_default_credentials
-        with_username(Test::User.name)
-        with_password(Test::User.password)
+      def use_default_credentials
+        self.username = Test::User.name
+        self.password = Test::User.password
       end
 
-      def clone_repository(opts = '')
+      def clone(opts = '')
         `git clone #{opts} #{@uri.to_s} ./`
       end
 
-      def clone_repository_shallow
-        clone_repository('--depth 1')
+      def shallow_clone
+        clone('--depth 1')
       end
 
       def configure_identity(name, email)

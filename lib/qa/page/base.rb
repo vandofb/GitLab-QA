@@ -2,7 +2,7 @@ module QA
   module Page
     class Base
       include Capybara::DSL
-      extend Scenario::Actable
+      include Scenario::Actable
 
       def refresh
         visit current_path
