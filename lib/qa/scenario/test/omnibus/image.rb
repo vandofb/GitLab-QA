@@ -12,7 +12,7 @@ module QA
               instance.tag = 'nightly'
               instance.network = 'bridge'
 
-              instance.act { start; reconfigure; teardown }
+              instance.act { prepare; start; reconfigure; teardown }
             end
           end
         end

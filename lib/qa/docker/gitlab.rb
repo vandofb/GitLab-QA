@@ -4,65 +4,61 @@ require 'uri'
 
 module QA
   module Docker
-    class Gitlab < Docker::Base
+    class Gitlab
+      include Scenario::Actable
+
+      # rubocop:disable Style/Semicolon
+
       attr_writer :image, :tag, :volumes, :network
+
+      def initialize
+        @docker = Docker::Engine.new
+      end
 
       def name=(name)
         @name = "#{name}-#{SecureRandom.hex(4)}"
       end
 
-      def hostname
-        # It is difficult to access docker network from the host
-        # due to DNS resolution, so for now we just expose ports.
-
-        URI(DOCKER_HOST).host
-      end
-
       def address
-        "http://#{hostname}"
+        "http://#{@docker.hostname}"
       end
 
       def instance
         raise 'Please provide a block!' unless block_given?
 
-        pull
-        start
-        reconfigure
-        wait
-
+        prepare; start; reconfigure; wait
         yield address
-
         teardown
       end
 
-      def pull
-        Docker::Command.execute("pull #{@image}:#{@tag}")
+      def prepare
+        @docker.pull(@image, @tag)
+
+        return if @docker.network_exists?(@network)
+        @docker.network_create(@network)
       end
 
-      def start # rubocop:disable Metrics/MethodLength
+      def start
         unless [@name, @image, @tag, @network].all?
           raise 'Please configure an instance first!'
         end
 
-        command = Docker::Command.new('run') \
-          << "-d --net #{@network} -p 80:80" \
-          << "--name #{@name} --hostname #{hostname}"
+        # It is difficult to access docker network from the host
+        # due to DNS resolution, so for now we just expose ports.
+        #
+        @docker.run(@image, @tag) do |command|
+          command << "-d --net #{@network} -p 80:80"
+          command << "--name #{@name} --hostname #{@docker.hostname}"
 
-        @volumes.to_h.each do |to, from|
-          command << "--volume #{to}:#{from}:Z"
+          @volumes.to_h.each do |to, from|
+            command << "--volume #{to}:#{from}:Z"
+          end
         end
-
-        command << "#{@image}:#{@tag}"
-        command.execute!
-      end
-
-      def attach(&block)
-        Docker::Command.execute("attach --sig-proxy=false #{@name}", &block)
       end
 
       def reconfigure
-        attach do |line, wait|
-          # TODO, this is a workaround, allows to detach from container
+        @docker.attach(@name) do |line, wait|
+          # TODO, workaround which allows to detach from the container
           #
           Process.kill('INT', wait.pid) if line =~ /gitlab Reconfigured!/
         end
@@ -71,8 +67,8 @@ module QA
       def teardown
         raise 'Invalid instance name!' unless @name
 
-        Docker::Command.execute("stop #{@name}")
-        Docker::Command.execute("rm -f #{@name}")
+        @docker.stop(@name)
+        @docker.remove(@name)
       end
 
       def wait

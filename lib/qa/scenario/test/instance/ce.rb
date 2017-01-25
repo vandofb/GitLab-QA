@@ -6,10 +6,6 @@ module QA
           # rubocop:disable Metrics/MethodLength
 
           def perform(*)
-            Docker::Network.act do
-              create('test') unless exists?('test')
-            end
-
             Docker::Gitlab.perform do |gitlab|
               gitlab.name = 'gitlab-qa-ce'
               gitlab.image = 'gitlab/gitlab-ce'
