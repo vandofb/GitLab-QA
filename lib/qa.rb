@@ -71,9 +71,8 @@ module QA
   end
 
   module Docker
-    autoload :Base, 'qa/docker/base'
+    autoload :Engine, 'qa/docker/engine'
     autoload :Command, 'qa/docker/command'
-    autoload :Network, 'qa/docker/network'
     autoload :Gitlab, 'qa/docker/gitlab'
   end
 end
