@@ -6,31 +6,31 @@ module QA
     module Test
       module Omnibus
         class Upgrade < Scenario::Template
-          # rubocop:disable Metrics/MethodLength
+          VOLUMES = { 'config' => '/etc/gitlab',
+                      'logs' => '/var/log/gitlab',
+                      'data' => '/var/opt/gitlab' }.freeze
 
-          def perform(version)
-            instance_test_scenario =
-              Scenario::Test::Instance.const_get(version.upcase)
+          def perform(version) # rubocop:disable Metrics/MethodLength
+            test_scenario =
+              Scenario::Test::Instance.const_get(version)
 
-            within_temporary_directory do |dir|
-              instance_test_scenario.perform do |instance|
-                instance.with_tag('latest')
-                instance.with_volume("#{dir}/config", '/etc/gitlab')
-                instance.with_volume("#{dir}/logs", '/var/log/gitlab')
-                instance.with_volume("#{dir}/data", '/var/opt/gitlab')
+            with_temporary_volumes do |volumes|
+              test_scenario.perform do |scenario|
+                scenario.tag = 'latest'
+                scenario.volumes = volumes
               end
 
-              instance_test_scenario.perform do |instance|
-                instance.with_tag('nightly')
-                instance.with_volume("#{dir}/config", '/etc/gitlab')
-                instance.with_volume("#{dir}/logs", '/var/log/gitlab')
-                instance.with_volume("#{dir}/data", '/var/opt/gitlab')
+              test_scenario.perform do |scenario|
+                scenario.tag = 'nightly'
+                scenario.volumes = volumes
               end
             end
           end
 
-          def within_temporary_directory
-            yield Dir.mktmpdir('gitlab-qa-')
+          def with_temporary_volumes
+            Dir.mktmpdir('gitlab-qa-').tap do |dir|
+              yield Hash[VOLUMES.map { |k, v| ["#{dir}/#{k}", v] }]
+            end
           end
         end
       end

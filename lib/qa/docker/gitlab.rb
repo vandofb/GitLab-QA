@@ -5,24 +5,10 @@ require 'uri'
 module QA
   module Docker
     class Gitlab < Docker::Base
-      def with_name(name)
+      attr_writer :image, :tag, :volumes, :network
+
+      def name=(name)
         @name = "#{name}-#{SecureRandom.hex(4)}"
-      end
-
-      def with_image(image)
-        @image = image
-      end
-
-      def with_image_tag(tag)
-        @tag = tag
-      end
-
-      def with_volumes(volumes)
-        @volumes = volumes
-      end
-
-      def within_network(network)
-        @network = network
       end
 
       def hostname

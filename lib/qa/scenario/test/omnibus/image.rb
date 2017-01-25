@@ -3,16 +3,16 @@ module QA
     module Test
       module Omnibus
         class Image < Scenario::Template
-          def perform(version)
-            Docker::Gitlab.act(version.downcase) do |version|
-              with_name("gitlab-qa-#{version}")
-              with_image("gitlab/gitlab-#{version}")
-              with_image_tag('nightly')
-              within_network('bridge')
+          # rubocop:disable Style/Semicolon
 
-              start
-              reconfigure
-              teardown
+          def perform(version)
+            Docker::Gitlab.perform do |instance|
+              instance.name = "gitlab-qa-#{version.downcase}"
+              instance.image = "gitlab/gitlab-#{version.downcase}"
+              instance.tag = 'nightly'
+              instance.network = 'bridge'
+
+              instance.act { start; reconfigure; teardown }
             end
           end
         end

@@ -3,6 +3,8 @@ module QA
     module Test
       module Instance
         class Gitlab < Scenario::Template
+          attr_writer :tag, :volumes
+
           def initialize
             @tag = 'nightly'
             @volumes = {}
@@ -10,14 +12,6 @@ module QA
 
           def perform(*)
             raise NotImplementedError
-          end
-
-          def with_tag(tag)
-            @tag = tag
-          end
-
-          def with_volume(to, from)
-            @volumes.store(to, from)
           end
         end
       end
