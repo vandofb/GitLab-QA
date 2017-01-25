@@ -8,13 +8,12 @@ module QA
         #
         class Any < Scenario::Template
           def perform(address, tag, *files)
-            Spec::Config.act(address) do |address|
-              with_address(address)
-              configure!
+            Spec::Config.perform do |specs|
+              specs.address = address
             end
 
-            Spec::Run.act(tag, files) do |tag, files|
-              rspec(tag.downcase, files)
+            Spec::Run.perform do |specs|
+              specs.rspec(tag.downcase, files)
             end
           end
         end

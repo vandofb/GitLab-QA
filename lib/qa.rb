@@ -1,79 +1,79 @@
-$LOAD_PATH << './'
+$LOAD_PATH << File.expand_path(File.dirname(__FILE__))
 
 module QA
   module Test
-    autoload :User, 'lib/qa/test/user'
-    autoload :Namespace, 'lib/qa/test/namespace'
+    autoload :User, 'qa/test/user'
+    autoload :Namespace, 'qa/test/namespace'
   end
 
   module Scenario
-    autoload :Actable, 'lib/qa/scenario/actable'
-    autoload :Template, 'lib/qa/scenario/template'
+    autoload :Actable, 'qa/scenario/actable'
+    autoload :Template, 'qa/scenario/template'
 
     module Test
       module Instance
-        autoload :Gitlab, 'lib/qa/scenario/test/instance/gitlab'
-        autoload :CE, 'lib/qa/scenario/test/instance/ce'
-        autoload :EE, 'lib/qa/scenario/test/instance/ee'
-        autoload :Any, 'lib/qa/scenario/test/instance/any'
+        autoload :Gitlab, 'qa/scenario/test/instance/gitlab'
+        autoload :CE, 'qa/scenario/test/instance/ce'
+        autoload :EE, 'qa/scenario/test/instance/ee'
+        autoload :Any, 'qa/scenario/test/instance/any'
       end
 
       module Internal
-        autoload :Unit, 'lib/qa/scenario/test/internal/unit'
+        autoload :Unit, 'qa/scenario/test/internal/unit'
       end
 
       module Omnibus
-        autoload :Image, 'lib/qa/scenario/test/omnibus/image'
-        autoload :Upgrade, 'lib/qa/scenario/test/omnibus/upgrade'
+        autoload :Image, 'qa/scenario/test/omnibus/image'
+        autoload :Upgrade, 'qa/scenario/test/omnibus/upgrade'
       end
     end
 
     module Gitlab
       module Project
-        autoload :Create, 'lib/qa/scenario/gitlab/project/create'
+        autoload :Create, 'qa/scenario/gitlab/project/create'
       end
 
       module License
-        autoload :Add, 'lib/qa/scenario/gitlab/license/add'
+        autoload :Add, 'qa/scenario/gitlab/license/add'
       end
     end
   end
 
   module Spec
-    autoload :Base, 'lib/qa/spec/base'
-    autoload :Config, 'lib/qa/spec/config'
-    autoload :Run, 'lib/qa/spec/run'
+    autoload :Base, 'qa/spec/base'
+    autoload :Config, 'qa/spec/config'
+    autoload :Run, 'qa/spec/run'
   end
 
   module Page
-    autoload :Base, 'lib/qa/page/base'
+    autoload :Base, 'qa/page/base'
 
     module Main
-      autoload :Entry, 'lib/qa/page/main/entry'
-      autoload :Menu, 'lib/qa/page/main/menu'
-      autoload :Groups, 'lib/qa/page/main/groups'
-      autoload :Projects, 'lib/qa/page/main/projects'
+      autoload :Entry, 'qa/page/main/entry'
+      autoload :Menu, 'qa/page/main/menu'
+      autoload :Groups, 'qa/page/main/groups'
+      autoload :Projects, 'qa/page/main/projects'
     end
 
     module Project
-      autoload :New, 'lib/qa/page/project/new'
-      autoload :Show, 'lib/qa/page/project/show'
+      autoload :New, 'qa/page/project/new'
+      autoload :Show, 'qa/page/project/show'
     end
 
     module Admin
-      autoload :Menu, 'lib/qa/page/admin/menu'
-      autoload :License, 'lib/qa/page/admin/license'
+      autoload :Menu, 'qa/page/admin/menu'
+      autoload :License, 'qa/page/admin/license'
     end
   end
 
   module Git
-    autoload :Repository, 'lib/qa/git/repository'
+    autoload :Repository, 'qa/git/repository'
   end
 
   module Docker
-    autoload :Base, 'lib/qa/docker/base'
-    autoload :Command, 'lib/qa/docker/command'
-    autoload :Network, 'lib/qa/docker/network'
-    autoload :Gitlab, 'lib/qa/docker/gitlab'
+    autoload :Base, 'qa/docker/base'
+    autoload :Command, 'qa/docker/command'
+    autoload :Network, 'qa/docker/network'
+    autoload :Gitlab, 'qa/docker/gitlab'
   end
 end

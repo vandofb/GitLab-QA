@@ -10,8 +10,12 @@ module QA
           end
         end
 
-        def repository_clone_uri
+        def repository_location
           find('#project_clone').value
+        end
+
+        def wait_for_push
+          sleep 5
         end
       end
     end

@@ -1,9 +1,9 @@
 module QA
   module Scenario
     class Template
-      def self.perform(*args, &block)
+      def self.perform(*args)
         new.tap do |scenario|
-          scenario.instance_exec(*args, &block) if block_given?
+          yield scenario if block_given?
           return scenario.perform(*args)
         end
       end

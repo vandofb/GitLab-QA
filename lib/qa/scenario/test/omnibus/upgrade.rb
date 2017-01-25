@@ -13,18 +13,18 @@ module QA
               Scenario::Test::Instance.const_get(version.upcase)
 
             within_temporary_directory do |dir|
-              instance_test_scenario.perform(dir) do |dir|
-                with_tag('latest')
-                with_volume("#{dir}/config", '/etc/gitlab')
-                with_volume("#{dir}/logs", '/var/log/gitlab')
-                with_volume("#{dir}/data", '/var/opt/gitlab')
+              instance_test_scenario.perform do |instance|
+                instance.with_tag('latest')
+                instance.with_volume("#{dir}/config", '/etc/gitlab')
+                instance.with_volume("#{dir}/logs", '/var/log/gitlab')
+                instance.with_volume("#{dir}/data", '/var/opt/gitlab')
               end
 
-              instance_test_scenario.perform(dir) do |dir|
-                with_tag('nightly')
-                with_volume("#{dir}/config", '/etc/gitlab')
-                with_volume("#{dir}/logs", '/var/log/gitlab')
-                with_volume("#{dir}/data", '/var/opt/gitlab')
+              instance_test_scenario.perform do |instance|
+                instance.with_tag('nightly')
+                instance.with_volume("#{dir}/config", '/etc/gitlab')
+                instance.with_volume("#{dir}/logs", '/var/log/gitlab')
+                instance.with_volume("#{dir}/data", '/var/opt/gitlab')
               end
             end
           end

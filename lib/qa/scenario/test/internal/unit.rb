@@ -24,8 +24,8 @@ module QA
               config.color = true
             end
 
-            Spec::Run.act(args) do |args|
-              rspec(args.any? ? args : %w(spec/))
+            Spec::Run.perform do |runner|
+              runner.rspec(args.any? ? args : %w(spec/))
             end
           end
         end
