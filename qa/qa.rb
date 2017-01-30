@@ -10,6 +10,10 @@ module QA
     autoload :Actable, 'qa/scenario/actable'
     autoload :Template, 'qa/scenario/template'
 
+    module Test
+      autoload :Instance, 'qa/scenario/test/instance'
+    end
+
     module Gitlab
       module Project
         autoload :Create, 'qa/scenario/gitlab/project/create'

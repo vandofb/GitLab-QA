@@ -6,13 +6,13 @@ module QA
       # including staging and on-premises installation.
       #
       class Instance < Scenario::Template
-        def perform(address, tag, *files)
+        def perform(address, *files)
           Spec::Config.perform do |specs|
             specs.address = address
           end
 
           Spec::Run.perform do |specs|
-            specs.rspec(tag.downcase, files)
+            specs.rspec(files.any? ? files : 'qa/spec/features')
           end
         end
       end
