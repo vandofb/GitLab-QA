@@ -10,24 +10,6 @@ module QA
     autoload :Actable, 'qa/scenario/actable'
     autoload :Template, 'qa/scenario/template'
 
-    module Test
-      module Instance
-        autoload :Gitlab, 'qa/scenario/test/instance/gitlab'
-        autoload :CE, 'qa/scenario/test/instance/ce'
-        autoload :EE, 'qa/scenario/test/instance/ee'
-        autoload :Any, 'qa/scenario/test/instance/any'
-      end
-
-      module Internal
-        autoload :Unit, 'qa/scenario/test/internal/unit'
-      end
-
-      module Omnibus
-        autoload :Image, 'qa/scenario/test/omnibus/image'
-        autoload :Upgrade, 'qa/scenario/test/omnibus/upgrade'
-      end
-    end
-
     module Gitlab
       module Project
         autoload :Create, 'qa/scenario/gitlab/project/create'
@@ -37,12 +19,6 @@ module QA
         autoload :Add, 'qa/scenario/gitlab/license/add'
       end
     end
-  end
-
-  module Spec
-    autoload :Base, 'qa/spec/base'
-    autoload :Config, 'qa/spec/config'
-    autoload :Run, 'qa/spec/run'
   end
 
   module Page
@@ -70,9 +46,9 @@ module QA
     autoload :Repository, 'qa/git/repository'
   end
 
-  module Docker
-    autoload :Engine, 'qa/docker/engine'
-    autoload :Command, 'qa/docker/command'
-    autoload :Gitlab, 'qa/docker/gitlab'
+  module Spec
+    autoload :Base, 'qa/spec/base'
+    autoload :Config, 'qa/spec/config'
+    autoload :Run, 'qa/spec/run'
   end
 end
