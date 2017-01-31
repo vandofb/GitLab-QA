@@ -1,8 +1,8 @@
 require 'rspec/core'
 
 module QA
-  module Spec
-    class Run
+  module Specs
+    class Runner
       include Scenario::Actable
 
       def rspec(*args)

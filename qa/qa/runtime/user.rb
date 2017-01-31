@@ -1,5 +1,5 @@
 module QA
-  module Test
+  module Runtime
     module User
       extend self
 

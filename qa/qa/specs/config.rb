@@ -7,7 +7,7 @@ require 'capybara-screenshot/rspec'
 # rubocop:disable Metrics/LineLength
 
 module QA
-  module Spec
+  module Specs
     class Config < Scenario::Template
       attr_writer :address
 

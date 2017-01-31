@@ -1,19 +1,34 @@
 $LOAD_PATH << File.expand_path(File.dirname(__FILE__))
 
 module QA
-  module Test
-    autoload :User, 'qa/test/user'
-    autoload :Namespace, 'qa/test/namespace'
+  ##
+  # GitLab QA runtime classes, mostly singletons.
+  #
+  module Runtime
+    autoload :User, 'qa/runtime/user'
+    autoload :Namespace, 'qa/runtime/namespace'
   end
 
+  ##
+  # GitLab QA Scenarios
+  #
   module Scenario
+    ##
+    # Support files
+    #
     autoload :Actable, 'qa/scenario/actable'
     autoload :Template, 'qa/scenario/template'
 
+    ##
+    # Test scenario entrypoints.
+    #
     module Test
       autoload :Instance, 'qa/scenario/test/instance'
     end
 
+    ##
+    # GitLab instance scenarios.
+    #
     module Gitlab
       module Project
         autoload :Create, 'qa/scenario/gitlab/project/create'
@@ -25,6 +40,11 @@ module QA
     end
   end
 
+  ##
+  # Classes describing structure of GitLab, pages, menus etc.
+  #
+  # Needed to execute click-driven-only black-box tests.
+  #
   module Page
     autoload :Base, 'qa/page/base'
 
@@ -46,13 +66,18 @@ module QA
     end
   end
 
+  ##
+  # Classes describing operations on Git repositories.
+  #
   module Git
     autoload :Repository, 'qa/git/repository'
   end
 
-  module Spec
-    autoload :Base, 'qa/spec/base'
-    autoload :Config, 'qa/spec/config'
-    autoload :Run, 'qa/spec/run'
+  ##
+  # Classes that make it possible to execute features tests.
+  #
+  module Specs
+    autoload :Config, 'qa/specs/config'
+    autoload :Runner, 'qa/specs/runner'
   end
 end

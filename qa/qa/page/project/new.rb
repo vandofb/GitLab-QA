@@ -4,7 +4,7 @@ module QA
       class New < Page::Base
         def choose_test_namespace
           find('#s2id_project_namespace_id').click
-          find('.select2-result-label', text: Test::Namespace.name).click
+          find('.select2-result-label', text: Runtime::Namespace.name).click
         end
 
         def choose_name(name)

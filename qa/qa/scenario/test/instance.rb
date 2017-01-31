@@ -7,12 +7,12 @@ module QA
       #
       class Instance < Scenario::Template
         def perform(address, *files)
-          Spec::Config.perform do |specs|
+          Specs::Config.perform do |specs|
             specs.address = address
           end
 
-          Spec::Run.perform do |specs|
-            specs.rspec(files.any? ? files : 'qa/spec/features')
+          Specs::Runner.perform do |specs|
+            specs.rspec(files.any? ? files : 'qa/specs/features')
           end
         end
       end
