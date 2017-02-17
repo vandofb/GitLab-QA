@@ -9,7 +9,8 @@ module QA
 
       # rubocop:disable Style/Semicolon
 
-      attr_writer :image, :tag, :volumes, :network
+      attr_accessor :release, :image, :tag, :volumes, :network
+      attr_reader :name
 
       def initialize
         @docker = Docker::Engine.new
@@ -20,14 +21,20 @@ module QA
       end
 
       def address
-        "http://#{@docker.hostname}"
+        "http://#{hostname}"
+      end
+
+      def hostname
+        "#{@name}.#{@network}"
       end
 
       def instance
         raise 'Please provide a block!' unless block_given?
 
         prepare; start; reconfigure; wait
-        yield address
+
+        yield self
+
         teardown
       end
 
@@ -43,12 +50,9 @@ module QA
           raise 'Please configure an instance first!'
         end
 
-        # It is difficult to access docker network from the host
-        # due to DNS resolution, so for now we just expose ports.
-        #
         @docker.run(@image, @tag) do |command|
-          command << "-d --net #{@network} -p 80:80"
-          command << "--name #{@name} --hostname #{@docker.hostname}"
+          command << "-d --name #{@name} -p 80:80"
+          command << "--net #{@network} --hostname #{hostname}"
 
           @volumes.to_h.each do |to, from|
             command << "--volume #{to}:#{from}:Z"
@@ -75,7 +79,7 @@ module QA
         puts "GitLab URL: #{address}"
         print 'Waiting for GitLab to become available '
 
-        if Availability.new(address).check(180)
+        if Availability.new('http://localhost').check(180)
           sleep 12 # TODO, handle that better
           puts ' -> GitLab is available.'
         else

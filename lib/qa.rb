@@ -24,13 +24,10 @@ module QA
     end
   end
 
-  module Spec
-    autoload :Image, 'qa/spec/image'
-  end
-
   module Docker
     autoload :Engine, 'qa/docker/engine'
     autoload :Command, 'qa/docker/command'
     autoload :Gitlab, 'qa/docker/gitlab'
+    autoload :Specs, 'qa/docker/specs'
   end
 end
