@@ -2,10 +2,10 @@ services:
  - docker:1.12-dind
 
 stages:
-  - build
   - check
   - test
   - notification
+  - image
 
 variables:
   TEST_IMAGE_NAME: registry.gitlab.com/gitlab-org/gitlab-qa
@@ -15,7 +15,7 @@ variables:
 
 build:image:
   image: docker:1.12
-  stage: build
+  stage: image
   script:
     - ./bin/docker load
     - ./bin/docker build
