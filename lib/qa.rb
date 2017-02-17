@@ -43,6 +43,7 @@ module QA
     autoload :Base, 'qa/spec/base'
     autoload :Config, 'qa/spec/config'
     autoload :Run, 'qa/spec/run'
+    autoload :Image, 'qa/spec/image'
   end
 
   module Page

@@ -6,13 +6,19 @@ module QA
       # including staging and on-premises installation.
       #
       class Instance < Scenario::Template
-        def perform(address, *files)
+        def perform(address, tag, *files)
           Specs::Config.perform do |specs|
             specs.address = address
           end
 
+          ##
+          # Temporary CE + EE support
+          Scenario::Gitlab::License::Add.perform if tag.to_s == 'ee'
+
           Specs::Runner.perform do |specs|
-            specs.rspec(files.any? ? files : 'qa/specs/features')
+            files = files.any? ? files : 'qa/specs/features'
+
+            specs.rspec('--tag', tag.to_s, files)
           end
         end
       end

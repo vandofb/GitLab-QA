@@ -14,11 +14,7 @@ module QA
               gitlab.network = 'test'
 
               gitlab.instance do |address|
-                Spec::Config.perform do |specs|
-                  specs.address = address
-                end
-
-                Spec::Run.act { test_instance(:ce) }
+                Spec::Image.act { test(address, :ce) }
               end
             end
           end
