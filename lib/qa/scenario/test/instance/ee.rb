@@ -3,8 +3,6 @@ module QA
     module Test
       module Instance
         class EE < Instance::Gitlab
-          # rubocop:disable Metrics/MethodLength
-
           def perform(*)
             Docker::Gitlab.perform do |gitlab|
               gitlab.name = 'gitlab-qa-ee'
