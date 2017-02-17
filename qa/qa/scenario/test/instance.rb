@@ -18,7 +18,7 @@ module QA
           Specs::Runner.perform do |specs|
             files = files.any? ? files : 'qa/specs/features'
 
-            specs.rspec('--tag', tag.to_s, files)
+            specs.rspec('--tty', '--tag', tag.to_s, files)
           end
         end
       end
