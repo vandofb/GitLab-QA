@@ -1,10 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'rspec', '~> 3.4'
-gem 'capybara', '~> 2.7.1'
-gem 'capybara-webkit', '~> 1.11.1'
-gem 'capybara-screenshot', '~> 1.0.13'
-
-group :test do
-  gem 'rubocop', '~> 0.44.1'
-end
+gem 'rake', '~> 12.0.0'
+gem 'rspec', '~> 3.5'
+gem 'rubocop', '~> 0.47.1'
