@@ -1,0 +1,30 @@
+#!/bin/sh
+
+SPECS_IMAGE='registry.gitlab.com/gitlab-org/gitlab-qa-specs'
+IMAGE_CACHE_ARCHIVE='./latest_specs_image.tar'
+
+case "$1" in
+    load)
+        if [[ -f $IMAGE_CACHE_ARCHIVE ]]; then
+            echo "Loading cached layers"
+            docker load < $IMAGE_CACHE_ARCHIVE
+            rm $IMAGE_CACHE_ARCHIVE
+        fi
+        ;;
+    store)
+        echo "Caching layers"
+        docker save $SPECS_IMAGE $(docker history -q $SPECS_IMAGE | grep -v "<missing>") > $IMAGE_CACHE_ARCHIVE
+        ;;
+    build)
+        docker build -t $SPECS_IMAGE .
+        ;;
+    publish)
+        docker login --username gitlab-ci-token --password $CI_BUILD_TOKEN registry.gitlab.com
+        docker push $SPECS_IMAGE
+        docker logout registry.gitlab.com
+        ;;
+    *)
+        echo "Usage: $0 [load|store|build|publish]"
+        exit 1
+        ;;
+esac

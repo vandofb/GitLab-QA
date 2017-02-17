@@ -4,7 +4,11 @@ module QA
   module Docker
     class Specs
       include Scenario::Actable
-      IMAGE_NAME = 'gitlab/gitlab-qa'
+      ##
+      # This should be changed to `gitlab/gitlab-qa` after we start
+      # pushing QA images to Docker Hub
+      #
+      IMAGE_NAME = 'registry.gitlab.com/gitlab-org/gitlab-qa-specs'
 
       def initialize
         @docker = Docker::Engine.new

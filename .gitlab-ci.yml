@@ -2,10 +2,10 @@ services:
  - docker:1.12-dind
 
 stages:
+  - build
   - check
   - test
   - notification
-  - image
 
 variables:
   TEST_IMAGE_NAME: registry.gitlab.com/gitlab-org/gitlab-qa
@@ -13,9 +13,28 @@ variables:
   DOCKER_DRIVER: overlay
   DOCKER_HOST: tcp://docker:2375
 
+build:specs:
+  image: docker:1.12
+  stage: build
+  script:
+    - cd qa/
+    - ./bin/docker load
+    - ./bin/docker build
+    - ./bin/docker store
+    - test -n "$CI_BUILD_TOKEN" || exit 0
+    - ./bin/docker publish
+  except:
+    - triggers
+  tags:
+    - docker
+  cache:
+    key: "docker-specs-cache"
+    paths:
+      - ./qa/latest_specs_image.tar
+
 build:image:
   image: docker:1.12
-  stage: image
+  stage: build
   script:
     - ./bin/docker load
     - ./bin/docker build
