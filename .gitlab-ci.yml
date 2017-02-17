@@ -46,7 +46,8 @@ check:rubocop:
 check:rspec:
   stage: check
   image: $TEST_IMAGE
-  script: bin/test Internal::Unit
+  script:
+    - bundle exec rspec
   except:
     - triggers
   tags:

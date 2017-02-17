@@ -27,8 +27,8 @@ module QA
       end
 
       def use_default_credentials
-        self.username = Test::User.name
-        self.password = Test::User.password
+        self.username = Runtime::User.name
+        self.password = Runtime::User.password
       end
 
       def clone(opts = '')

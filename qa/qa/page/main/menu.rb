@@ -2,8 +2,6 @@ module QA
   module Page
     module Main
       class Menu < Page::Base
-        include ::RSpec::Matchers
-
         def go_to_groups
           within_sidebar_menu { click_link 'Groups' }
         end

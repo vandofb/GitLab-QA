@@ -3,8 +3,6 @@ module QA
     module Test
       module Instance
         class EE < Instance::Gitlab
-          # rubocop:disable Metrics/MethodLength
-
           def perform(*)
             Docker::Gitlab.perform do |gitlab|
               gitlab.name = 'gitlab-qa-ee'
@@ -14,12 +12,7 @@ module QA
               gitlab.network = 'test'
 
               gitlab.instance do |address|
-                Spec::Config.perform do |specs|
-                  specs.address = address
-                end
-
-                Scenario::Gitlab::License::Add.perform
-                Spec::Run.act { test_instance(:ee) }
+                Spec::Image.act { test(address, :ee) }
               end
             end
           end
