@@ -20,7 +20,7 @@ module QA
              "#{gitlab.release.upcase} at #{gitlab.address}"
 
         @docker.run(IMAGE_NAME, tag, *args) do |command|
-          command << "-a stdout -a stderr --rm --net #{gitlab.network}"
+          command << "-t --rm --net #{gitlab.network}"
           command << "--name #{gitlab.name}-specs"
         end
       end
