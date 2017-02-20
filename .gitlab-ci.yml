@@ -1,5 +1,5 @@
 services:
- - docker:1.12-dind
+ - docker:1.13-dind
 
 stages:
   - build
@@ -13,23 +13,15 @@ variables:
   DOCKER_HOST: tcp://docker:2375
 
 image:specs:
-  image: docker:1.12
+  image: docker:1.13
   stage: build
   script:
-    - cd qa/
-    - ./bin/docker load
-    - ./bin/docker build
-    - ./bin/docker store
-    - test -n "$CI_BUILD_TOKEN" || exit 0
-    - ./bin/docker publish
+    - ./qa/bin/docker build
+    - ./qa/bin/docker publish
   except:
     - triggers
   tags:
     - docker
-  cache:
-    key: "docker-specs-cache"
-    paths:
-      - ./qa/latest_specs_image.tar
 
 check:rubocop:
   stage: check

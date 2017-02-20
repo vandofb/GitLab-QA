@@ -1,31 +1,20 @@
 #!/bin/sh
 
-IMAGE_CACHE_ARCHIVE='./latest_specs_image.tar'
-
 case "$1" in
-    load)
-        if [[ -f $IMAGE_CACHE_ARCHIVE ]]; then
-            echo "Loading cached layers"
-            docker load < $IMAGE_CACHE_ARCHIVE
-            rm $IMAGE_CACHE_ARCHIVE
-        fi
-        ;;
-    store)
-        echo "Caching layers"
-        docker save $CI_REGISTRY_IMAGE:ce-nightly $(docker history -q $CI_REGISTRY_IMAGE:ce-nightly | grep -v "<missing>") > $IMAGE_CACHE_ARCHIVE
-        ;;
     build)
-        docker build -t $CI_REGISTRY_IMAGE:ce-nightly .
-        docker build -t $CI_REGISTRY_IMAGE:ee-nightly .
+        docker pull -a $CI_REGISTRY_IMAGE
+        docker build --cache-from $CI_REGISTRY_IMAGE -t $CI_REGISTRY_IMAGE:ce-nightly .
+        docker build --cache-from $CI_REGISTRY_IMAGE -t $CI_REGISTRY_IMAGE:ee-nightly .
         ;;
     publish)
+        test -n "$CI_BUILD_TOKEN" || exit 1
         docker login --username gitlab-ci-token --password $CI_BUILD_TOKEN registry.gitlab.com
         docker push $CI_REGISTRY_IMAGE:ce-nightly
         docker push $CI_REGISTRY_IMAGE:ee-nightly
         docker logout registry.gitlab.com
         ;;
     *)
-        echo "Usage: $0 [load|store|build|publish]"
+        echo "Usage: $0 [build|publish]"
         exit 1
         ;;
 esac
