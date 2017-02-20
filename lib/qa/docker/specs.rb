@@ -18,8 +18,11 @@ module QA
         tag = "#{gitlab.release}-#{gitlab.tag}"
         args = ['Test::Instance', gitlab.address, gitlab.release]
 
+        puts 'Running instance test scenarios for Gitlab ' \
+             "#{gitlab.release.upcase} at #{gitlab.address}"
+
         @docker.run(IMAGE_NAME, tag, *args) do |command|
-          command << "-t --rm --net #{gitlab.network}"
+          command << "-a stdout -a stderr --rm --net #{gitlab.network}"
           command << "--name #{gitlab.name}-specs"
         end
       end
