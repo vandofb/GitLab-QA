@@ -79,7 +79,7 @@ module QA
         puts "GitLab URL: #{address}"
         print 'Waiting for GitLab to become available '
 
-        if Availability.new('http://localhost').check(180)
+        if Availability.new("http://#{@docker.hostname}").check(180)
           sleep 12 # TODO, handle that better
           puts ' -> GitLab is available.'
         else
