@@ -11,11 +11,13 @@ module QA
         Docker::Command.execute("pull #{image}:#{tag}")
       end
 
-      def run(image, tag)
+      def run(image, tag, *args)
         Docker::Command.new('run').tap do |command|
           yield command
 
           command << "#{image}:#{tag}"
+          command << args if args.any?
+
           command.execute!
         end
       end

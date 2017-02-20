@@ -1,42 +1,34 @@
 services:
- - docker:1.12-dind
+ - docker:1.13-dind
 
 stages:
   - build
   - check
   - test
-  - notification
+  - notify
 
 variables:
-  TEST_IMAGE_NAME: registry.gitlab.com/gitlab-org/gitlab-qa
-  TEST_IMAGE: $TEST_IMAGE_NAME:latest
+  TEST_IMAGE: registry.gitlab.com/gitlab-org/gitlab-build-images:gitlab-qa
   DOCKER_DRIVER: overlay
   DOCKER_HOST: tcp://docker:2375
 
-build:image:
-  image: docker:1.12
+image:specs:
+  image: docker:1.13
   stage: build
   script:
-    - ./bin/docker load
+    - cd qa/
     - ./bin/docker build
-    - ./bin/docker store
-    - test -n "$CI_BUILD_TOKEN" || exit 0
     - ./bin/docker publish
   except:
     - triggers
-    - master
   tags:
     - docker
-  when: manual
-  cache:
-    key: "docker-build-cache"
-    paths:
-      - ./latest_image.tar
 
 check:rubocop:
   stage: check
   image: $TEST_IMAGE
   script:
+    - bundle install
     - bundle exec rubocop
   except:
     - triggers
@@ -47,6 +39,7 @@ check:rspec:
   stage: check
   image: $TEST_IMAGE
   script:
+    - bundle install
     - bundle exec rspec
   except:
     - triggers
@@ -65,34 +58,34 @@ check:rspec:
       - tmp/*.png
 
 ce:instance:
-  script: bin/test Instance::CE
+  script: bin/qa Test::Instance::CE
   <<: *test
 
 ee:instance:
-  script: bin/test Instance::EE
+  script: bin/qa Test::Instance::EE
   <<: *test
 
 ce:image:
-  script: bin/test Omnibus::Image CE
+  script: bin/qa Test::Omnibus::Image CE
   <<: *test
 
 ee:image:
-  script: bin/test Omnibus::Image EE
+  script: bin/qa Test::Omnibus::Image EE
   <<: *test
 
 ce:upgrade:
-  script: bin/test Omnibus::Upgrade CE
+  script: bin/qa Test::Omnibus::Upgrade CE
   <<: *test
 
 ee:upgrade:
-  script: bin/test Omnibus::Upgrade EE
+  script: bin/qa Test::Omnibus::Upgrade EE
   <<: *test
 
-notify:slack-fail:
+notify:slack:
   before_script:
     - apk update && apk add git curl bash
   image: alpine
-  stage: notification
+  stage: notify
   script:
     - bin/slack "#omnibus-builds" "(╯°□°)╯︵┻━┻  Pipeline on \`$CI_BUILD_REF_NAME\` failed! Commit \`$(git log -1 --oneline | sed 's|\"|\\\\\"|g')\` See <https://gitlab.com/gitlab-org/gitlab-qa/commit/"$CI_BUILD_REF"/pipelines>"
   when: on_failure

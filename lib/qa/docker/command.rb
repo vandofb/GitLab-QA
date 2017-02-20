@@ -15,8 +15,8 @@ module QA
         @args = Array(cmd)
       end
 
-      def <<(args)
-        tap { @args << args }
+      def <<(*args)
+        tap { @args.concat(args) }
       end
 
       def execute!(&block)
