@@ -58,27 +58,27 @@ check:rspec:
       - tmp/*.png
 
 ce:instance:
-  script: bin/test Instance::CE
+  script: bin/qa Test::Instance::CE
   <<: *test
 
 ee:instance:
-  script: bin/test Instance::EE
+  script: bin/qa Test::Instance::EE
   <<: *test
 
 ce:image:
-  script: bin/test Omnibus::Image CE
+  script: bin/qa Test::Omnibus::Image CE
   <<: *test
 
 ee:image:
-  script: bin/test Omnibus::Image EE
+  script: bin/qa Test::Omnibus::Image EE
   <<: *test
 
 ce:upgrade:
-  script: bin/test Omnibus::Upgrade CE
+  script: bin/qa Test::Omnibus::Upgrade CE
   <<: *test
 
 ee:upgrade:
-  script: bin/test Omnibus::Upgrade EE
+  script: bin/qa Test::Omnibus::Upgrade EE
   <<: *test
 
 notify:slack:
