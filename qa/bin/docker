@@ -2,13 +2,13 @@
 
 case "$1" in
     build)
-        docker pull $CI_REGISTRY_IMAGE:ce-nightly
-        docker build --cache-from $CI_REGISTRY_IMAGE -t $CI_REGISTRY_IMAGE:ce-nightly .
-        docker build --cache-from $CI_REGISTRY_IMAGE -t $CI_REGISTRY_IMAGE:ee-nightly .
+        docker pull $CI_REGISTRY_IMAGE:latest
+        docker build --cache-from $CI_REGISTRY_IMAGE:latest -t $CI_REGISTRY_IMAGE:ce-nightly -t $CI_REGISTRY_IMAGE:ee-nightly .
         ;;
     publish)
         test -n "$CI_BUILD_TOKEN" || exit 1
         docker login --username gitlab-ci-token --password $CI_BUILD_TOKEN registry.gitlab.com
+        docker push $CI_REGISTRY_IMAGE:latest
         docker push $CI_REGISTRY_IMAGE:ce-nightly
         docker push $CI_REGISTRY_IMAGE:ee-nightly
         docker logout registry.gitlab.com
