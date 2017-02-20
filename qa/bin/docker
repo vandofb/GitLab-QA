@@ -2,7 +2,7 @@
 
 case "$1" in
     build)
-        docker pull -a $CI_REGISTRY_IMAGE
+        docker pull $CI_REGISTRY_IMAGE:ce-nightly
         docker build --cache-from $CI_REGISTRY_IMAGE -t $CI_REGISTRY_IMAGE:ce-nightly .
         docker build --cache-from $CI_REGISTRY_IMAGE -t $CI_REGISTRY_IMAGE:ee-nightly .
         ;;
