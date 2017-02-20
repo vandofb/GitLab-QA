@@ -8,7 +8,7 @@ module QA
       # This should be changed to `gitlab/gitlab-qa` after we start
       # pushing QA images to Docker Hub
       #
-      IMAGE_NAME = 'registry.gitlab.com/gitlab-org/gitlab-qa-specs'
+      IMAGE_NAME = 'registry.gitlab.com/gitlab-org/gitlab-qa'.freeze
 
       def initialize
         @docker = Docker::Engine.new

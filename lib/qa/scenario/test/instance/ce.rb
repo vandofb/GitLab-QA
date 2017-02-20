@@ -3,6 +3,8 @@ module QA
     module Test
       module Instance
         class CE < Instance::Gitlab
+          # rubocop:disable Metrics/MethodLength
+
           def perform(*)
             Docker::Gitlab.perform do |gitlab|
               gitlab.release = :ce
