@@ -16,8 +16,9 @@ image:specs:
   image: docker:1.13
   stage: build
   script:
-    - ./qa/bin/docker build
-    - ./qa/bin/docker publish
+    - cd qa/
+    - ./bin/docker build
+    - ./bin/docker publish
   except:
     - triggers
   tags:
