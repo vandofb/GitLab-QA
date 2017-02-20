@@ -1,5 +1,3 @@
-require 'rspec/core'
-
 module QA
   module Docker
     class Specs
