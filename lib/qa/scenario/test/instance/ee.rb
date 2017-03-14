@@ -16,6 +16,7 @@ module QA
 
               gitlab.instance do
                 Docker::Specs.act(gitlab) do |instance|
+                  env 'EE_LICENSE'
                   test(instance)
                 end
               end

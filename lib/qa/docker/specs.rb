@@ -12,6 +12,10 @@ module QA
         @docker = Docker::Engine.new
       end
 
+      def env(name)
+        @env = name
+      end
+
       def test(gitlab)
         tag = "#{gitlab.release}-#{gitlab.tag}"
         args = ['Test::Instance', gitlab.address]
@@ -21,6 +25,7 @@ module QA
 
         @docker.run(IMAGE_NAME, tag, *args) do |command|
           command << "-t --rm --net #{gitlab.network}"
+          command << %Q{-e #{@env}="$#{$env}"} if @env
           command << "--name #{gitlab.name}-specs"
         end
       end
