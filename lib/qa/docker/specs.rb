@@ -14,7 +14,7 @@ module QA
 
       def test(gitlab)
         tag = "#{gitlab.release}-#{gitlab.tag}"
-        args = ['Test::Instance', gitlab.address, gitlab.release]
+        args = ['Test::Instance', gitlab.address]
 
         puts 'Running instance test scenarios for Gitlab ' \
              "#{gitlab.release.upcase} at #{gitlab.address}"
