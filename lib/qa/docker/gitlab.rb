@@ -20,6 +20,10 @@ module QA
         @name = "#{name}-#{SecureRandom.hex(4)}"
       end
 
+      def ee?
+        @release == :ee
+      end
+
       def address
         "http://#{hostname}"
       end
