@@ -2,7 +2,7 @@ module Gitlab
   module QA
     module Scenario
       module Test
-        module Gitlab
+        module Instance
           class Image < Scenario::Template
             attr_writer :tag, :volumes
 

@@ -7,9 +7,9 @@ module Gitlab
       autoload :Template, 'qa/scenario/template'
 
       module Test
-        module Gitlab
-          autoload :Image, 'qa/scenario/test/gitlab/image'
-          autoload :Any, 'qa/scenario/test/gitlab/any'
+        module Instance
+          autoload :Image, 'qa/scenario/test/instance/image'
+          autoload :Any, 'qa/scenario/test/instance/any'
         end
 
         module Omnibus

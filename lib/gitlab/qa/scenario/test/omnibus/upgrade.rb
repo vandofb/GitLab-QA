@@ -13,12 +13,12 @@ module Gitlab
 
             def perform(version)
               with_temporary_volumes do |volumes|
-                Scenario::Test::Gitlab::Image.perform(version) do |scenario|
+                Scenario::Test::Instance::Image.perform(version) do |scenario|
                   scenario.tag = 'latest'
                   scenario.volumes = volumes
                 end
 
-                Scenario::Test::Gitlab::Image.perform(version) do |scenario|
+                Scenario::Test::Instance::Image.perform(version) do |scenario|
                   scenario.tag = 'nightly'
                   scenario.volumes = volumes
                 end
