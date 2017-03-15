@@ -1,4 +1,4 @@
-describe QA::Docker::Command do
+describe Gitlab::QA::Docker::Command do
   describe '#<<' do
     it 'appends command arguments' do
       subject << '--help'
