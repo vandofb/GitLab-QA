@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'gitlab-qa'
+require 'gitlab/qa'
 
 Gitlab::QA::Scenario
   .const_get(ARGV.shift)
