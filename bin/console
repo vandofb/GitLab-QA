@@ -2,7 +2,6 @@
 
 require 'bundler/setup'
 require 'gitlab/qa'
+require 'pry'
 
-Gitlab::QA::Scenario
-  .const_get(ARGV.shift)
-  .perform(*ARGV)
+Pry.start

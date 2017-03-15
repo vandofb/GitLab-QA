@@ -1,4 +1,4 @@
-require_relative '../lib/qa'
+require 'gitlab/qa'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

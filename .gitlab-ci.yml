@@ -11,12 +11,13 @@ variables:
   DOCKER_DRIVER: overlay
   DOCKER_HOST: tcp://docker:2375
 
+before_script:
+  - bundle install
+
 check:rubocop:
   stage: check
   image: $TEST_IMAGE
-  script:
-    - bundle install
-    - bundle exec rubocop
+  script: bundle exec rubocop
   except:
     - triggers
   tags:
@@ -25,9 +26,7 @@ check:rubocop:
 check:rspec:
   stage: check
   image: $TEST_IMAGE
-  script:
-    - bundle install
-    - bundle exec rspec
+  script: bundle exec rspec
   except:
     - triggers
   tags:
@@ -45,11 +44,11 @@ check:rspec:
       - tmp/*.png
 
 ce:instance:
-  script: bin/qa Test::Gitlab::Image CE
+  script: bin/qa Test::Instance::Image CE
   <<: *test
 
 ee:instance:
-  script: bin/qa Test::Gitlab::Image EE
+  script: bin/qa Test::Instance::Image EE
   <<: *test
 
 ce:image:
