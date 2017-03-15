@@ -1,7 +1,7 @@
 module QA
   module Scenario
     module Test
-      module Instance
+      module Gitlab
         class Image < Scenario::Template
           attr_writer :tag, :volumes
 
@@ -10,8 +10,10 @@ module QA
             @volumes = {}
           end
 
+          # rubocop:disable Metrics/MethodLength
+          #
           def perform(version)
-            unless %w[CE EE].include?(version)
+            unless %w(CE EE).include?(version)
               raise 'Unknown GitLab release type specified!'
             end
 

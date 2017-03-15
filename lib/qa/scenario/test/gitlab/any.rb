@@ -1,7 +1,7 @@
 module QA
   module Scenario
     module Test
-      module Instance
+      module Gitlab
         ##
         # Run test suite against any GitLab instance,
         # including staging and on-premises installation.

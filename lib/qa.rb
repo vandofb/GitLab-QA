@@ -6,15 +6,9 @@ module QA
     autoload :Template, 'qa/scenario/template'
 
     module Test
-      module Instance
-        autoload :Gitlab, 'qa/scenario/test/instance/gitlab'
-        autoload :CE, 'qa/scenario/test/instance/ce'
-        autoload :EE, 'qa/scenario/test/instance/ee'
-        autoload :Any, 'qa/scenario/test/instance/any'
-      end
-
-      module Internal
-        autoload :Unit, 'qa/scenario/test/internal/unit'
+      module Gitlab
+        autoload :Image, 'qa/scenario/test/gitlab/image'
+        autoload :Any, 'qa/scenario/test/gitlab/any'
       end
 
       module Omnibus
