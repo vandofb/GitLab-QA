@@ -2,7 +2,6 @@ services:
  - docker:1.13-dind
 
 stages:
-  - build
   - check
   - test
   - notify
@@ -11,18 +10,6 @@ variables:
   TEST_IMAGE: registry.gitlab.com/gitlab-org/gitlab-build-images:gitlab-qa
   DOCKER_DRIVER: overlay
   DOCKER_HOST: tcp://docker:2375
-
-image:specs:
-  image: docker:1.13
-  stage: build
-  script:
-    - cd qa/
-    - ./bin/docker build
-    - ./bin/docker publish
-  except:
-    - triggers
-  tags:
-    - docker
 
 check:rubocop:
   stage: check

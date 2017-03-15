@@ -15,8 +15,9 @@ module QA
               gitlab.network = 'test'
 
               gitlab.instance do
-                Docker::Specs.act(gitlab) do |instance|
-                  test(instance)
+                Docker::Specs.perform do |instance|
+                  instance.env = 'EE_LICENSE'
+                  instance.test(gitlab)
                 end
               end
             end
