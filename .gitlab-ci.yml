@@ -45,11 +45,11 @@ check:rspec:
       - tmp/*.png
 
 ce:instance:
-  script: bin/qa Test::Instance::CE
+  script: bin/qa Test::Gitlab::Image CE
   <<: *test
 
 ee:instance:
-  script: bin/qa Test::Instance::EE
+  script: bin/qa Test::Gitlab::Image EE
   <<: *test
 
 ce:image:
