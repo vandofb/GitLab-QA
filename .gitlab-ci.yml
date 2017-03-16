@@ -41,7 +41,7 @@ check:rspec:
     when: on_failure
     expire_in: 30d
     paths:
-      - tmp/*.png
+      - /tmp/gitlab-qa-screenshots/*.png
 
 ce:instance:
   script: bin/qa Test::Instance::Image CE

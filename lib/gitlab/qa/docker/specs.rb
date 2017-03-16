@@ -24,6 +24,7 @@ module Gitlab
           @docker.run(IMAGE_NAME, tag, *args) do |command|
             command << "-t --rm --net #{gitlab.network}"
             command << %(-e #{env}="$#{env}") if env
+            command << '-v /tmp/gitlab-qa-screenshots:/home/qa/tmp/'
             command << "--name #{gitlab.name}-specs"
           end
         end
