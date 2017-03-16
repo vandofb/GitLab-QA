@@ -8,9 +8,10 @@ module Gitlab
           # including staging and on-premises installation.
           #
           class Any < Scenario::Template
-            def perform(address)
-              Spec::Image.perform do |specs|
-                specs.test(address)
+            def perform(release, tag, address)
+              Docker::Specs.perform do |instance|
+                instance.env = 'EE_LICENSE' if release == 'ee'
+                instance.test_address(release, tag, address)
               end
             end
           end

@@ -34,6 +34,18 @@ module Gitlab
             command << "--name #{gitlab.name}-specs"
           end
         end
+
+        def test_address(release, tag, address)
+          puts 'Running test scenarios for existing Gitlab ' \
+               "#{release.upcase} instance at #{address}"
+
+          args = ['Test::Instance', address]
+
+          @docker.run(IMAGE_NAME, "#{release}-#{tag}", *args) do |command|
+            command << %(-t --rm -e #{env}="$#{env}") if env
+            command << "--name gitlab-specs-#{Time.now.to_i}"
+          end
+        end
       end
     end
   end
