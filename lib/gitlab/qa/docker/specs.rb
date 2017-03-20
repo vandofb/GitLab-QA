@@ -6,13 +6,15 @@ module Gitlab
 
         IMAGE_NAME = 'gitlab/gitlab-qa'.freeze
 
-        attr_accessor :env
+        ENVS = %w(GITLAB_USERNAME GITLAB_PASSWORD
+                  GITLAB_URL EE_LICENSE).freeze
 
         def initialize
           @docker = Docker::Engine.new
         end
 
         # rubocop:disable Metrics/AbcSize
+        # rubocop:disable Metrics/MethodLength
         #
         def test(gitlab)
           tag = "#{gitlab.release}-#{gitlab.tag}"
@@ -23,7 +25,11 @@ module Gitlab
 
           @docker.run(IMAGE_NAME, tag, *args) do |command|
             command << "-t --rm --net #{gitlab.network}"
-            command << %(-e #{env}="$#{env}") if env
+
+            ENVS.each do |env|
+              command << %(-e #{env}="$#{env}") if ENV[env]
+            end
+
             command << '-v /tmp/gitlab-qa-screenshots:/home/qa/tmp/'
             command << "--name #{gitlab.name}-specs"
           end

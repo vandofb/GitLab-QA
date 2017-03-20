@@ -28,7 +28,6 @@ module Gitlab
 
                 gitlab.instance do
                   Docker::Specs.perform do |instance|
-                    instance.env = 'EE_LICENSE' if gitlab.ee?
                     instance.test(gitlab)
                   end
                 end
