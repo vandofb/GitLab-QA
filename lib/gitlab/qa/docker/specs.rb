@@ -13,25 +13,29 @@ module Gitlab
           @docker = Docker::Engine.new
         end
 
-        # rubocop:disable Metrics/AbcSize
+        def test(gitlab)
+          test_address(gitlab.release, gitlab.tag, gitlab.address,
+                       "#{gitlab.name}-specs", gitlab.network)
+        end
+
         # rubocop:disable Metrics/MethodLength
         #
-        def test(gitlab)
-          tag = "#{gitlab.release}-#{gitlab.tag}"
-          args = ['Test::Instance', gitlab.address]
-
+        def test_address(release, tag, address, name = nil, network = nil)
           puts 'Running instance test scenarios for Gitlab ' \
-               "#{gitlab.release.upcase} at #{gitlab.address}"
+               "#{release.upcase} at #{address}"
 
-          @docker.run(IMAGE_NAME, tag, *args) do |command|
-            command << "-t --rm --net #{gitlab.network}"
+          args = ['Test::Instance', address]
+
+          @docker.run(IMAGE_NAME, "#{release}-#{tag}", *args) do |command|
+            command << %(-t --rm)
+            command << "--net=#{network}" if network
 
             ENVS.each do |env|
               command << %(-e #{env}="$#{env}") if ENV[env]
             end
 
             command << '-v /tmp/gitlab-qa-screenshots:/home/qa/tmp/'
-            command << "--name #{gitlab.name}-specs"
+            command << "--name #{name || ('gitlab-specs-' + Time.now.to_i)}"
           end
         end
       end
