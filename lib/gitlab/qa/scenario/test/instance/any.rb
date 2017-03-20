@@ -10,7 +10,6 @@ module Gitlab
           class Any < Scenario::Template
             def perform(release, tag, address)
               Docker::Specs.perform do |instance|
-                instance.env = 'EE_LICENSE' if release == 'ee'
                 instance.test_address(release, tag, address)
               end
             end
