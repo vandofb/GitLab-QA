@@ -14,6 +14,7 @@ module Gitlab
         end
 
         # rubocop:disable Metrics/AbcSize
+        # rubocop:disable Metrics/MethodLength
         #
         def test(gitlab)
           tag = "#{gitlab.release}-#{gitlab.tag}"
