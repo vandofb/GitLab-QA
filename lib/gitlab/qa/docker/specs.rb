@@ -42,7 +42,13 @@ module Gitlab
           args = ['Test::Instance', address]
 
           @docker.run(IMAGE_NAME, "#{release}-#{tag}", *args) do |command|
-            command << %(-t --rm -e #{env}="$#{env}") if env
+            command << %(-t --rm)
+
+            ENVS.each do |env|
+              command << %(-e #{env}="$#{env}") if ENV[env]
+            end
+
+            command << '-v /tmp/gitlab-qa-screenshots:/home/qa/tmp/'
             command << "--name gitlab-specs-#{Time.now.to_i}"
           end
         end
