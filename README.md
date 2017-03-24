@@ -27,14 +27,14 @@ command in your system.
 
 1. Test upgrade process:
 
-    `gitlab-qa Test::Omnibus::Upgrade CE|EE
+    `gitlab-qa Test::Omnibus::Upgrade CE|EE`
 
 1. Run tests against any existing instance:
 
-    `gitlab-qa Test::Instance::Any nightly|latest CE|EE http://your.instance.gitlab`
+    `gitlab-qa Test::Instance::Any CE|EE nightly|latest http://your.instance.gitlab`
 
 ## Supported environment variables
 
-* `GITLAB_USERNAME` Username to use when signing in to GitLab
-* `GITLAB_PASSWORD` Password to use when signing in to GitLab
-* `EE_LICENSE` Enterprise Edition license
+* `GITLAB_USERNAME` - username to use when signing in to GitLab
+* `GITLAB_PASSWORD`  - password to use when signing in to GitLab
+* `EE_LICENSE` - Enterprise Edition license
