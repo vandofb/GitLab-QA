@@ -6,9 +6,6 @@ module Gitlab
 
         IMAGE_NAME = 'gitlab/gitlab-qa'.freeze
 
-        ENVS = %w(GITLAB_USERNAME GITLAB_PASSWORD
-                  GITLAB_URL EE_LICENSE).freeze
-
         def initialize
           @docker = Docker::Engine.new
         end
@@ -30,11 +27,11 @@ module Gitlab
             command << %(-t --rm)
             command << "--net=#{network}" if network
 
-            ENVS.each do |env|
+            Runtime::Env.delegated.each do |env|
               command << %(-e #{env}="$#{env}") if ENV[env]
             end
 
-            command << '-v /tmp/gitlab-qa-screenshots:/home/qa/tmp/'
+            command << "-v #{Runtime::Env.screenshots_dir}:/home/qa/tmp/"
             command << "--name #{name || ('gitlab-specs-' + Time.now.to_i)}"
           end
         end
