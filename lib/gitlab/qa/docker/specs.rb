@@ -24,8 +24,7 @@ module Gitlab
           args = ['Test::Instance', address]
 
           @docker.run(IMAGE_NAME, "#{release}-#{tag}", *args) do |command|
-            command << %(-t --rm)
-            command << "--net=#{network}" if network
+            command << "-t --rm --net=#{network || 'bridge'}"
 
             Runtime::Env.delegated.each do |env|
               command << %(-e #{env}="$#{env}") if ENV[env]
