@@ -10,6 +10,7 @@ variables:
   TEST_IMAGE: registry.gitlab.com/gitlab-org/gitlab-build-images:gitlab-qa
   DOCKER_DRIVER: overlay
   DOCKER_HOST: tcp://docker:2375
+  QA_SCREENSHOTS_DIR: $CI_PROJECT_DIR/screenshots
 
 before_script:
   - bundle install
@@ -41,7 +42,7 @@ check:rspec:
     when: on_failure
     expire_in: 30d
     paths:
-      - /tmp/gitlab-qa-screenshots/*.png
+      - screenshots/*.png
 
 ce:instance:
   script: bin/qa Test::Instance::Image CE

@@ -2,6 +2,10 @@ $LOAD_PATH << File.expand_path(File.dirname(__FILE__))
 
 module Gitlab
   module QA
+    module Runtime
+      autoload :Env, 'qa/runtime/env'
+    end
+
     module Scenario
       autoload :Actable, 'qa/scenario/actable'
       autoload :Template, 'qa/scenario/template'
