@@ -30,7 +30,7 @@ module Gitlab
               command << %(-e #{env}="$#{env}") if ENV[env]
             end
 
-            command << "-v #{Runtime::Env.screenshots_dir}:/home/qa/tmp/"
+            command << "-v #{Runtime::Env.screenshots_dir}:/home/qa/tmp"
             command << "--name #{name || ('gitlab-specs-' + Time.now.to_i)}"
           end
         end
