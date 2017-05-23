@@ -13,7 +13,7 @@ module Gitlab
                 instance.tag = 'nightly'
                 instance.network = 'bridge'
 
-                instance.act { prepare; start; reconfigure; teardown }
+                instance.act { prepare; start; reconfigure; restart; wait; teardown }
               end
             end
           end

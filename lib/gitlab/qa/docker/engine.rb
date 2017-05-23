@@ -27,6 +27,10 @@ module Gitlab
           Docker::Command.execute("attach --sig-proxy=false #{name}", &block)
         end
 
+        def restart(name)
+          Docker::Command.execute("restart #{name}")
+        end
+
         def stop(name)
           Docker::Command.execute("stop #{name}")
         end

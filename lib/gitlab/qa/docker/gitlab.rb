@@ -69,6 +69,10 @@ module Gitlab
           end
         end
 
+        def restart
+          @docker.restart(@name)
+        end
+
         def teardown
           raise 'Invalid instance name!' unless @name
 
