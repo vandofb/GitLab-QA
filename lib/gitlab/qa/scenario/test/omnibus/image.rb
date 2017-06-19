@@ -5,12 +5,13 @@ module Gitlab
         module Omnibus
           class Image < Scenario::Template
             # rubocop:disable Style/Semicolon
-
-            def perform(version)
+            # rubocop:disable Metrics/MethodLength
+            def perform(release)
               Docker::Gitlab.perform do |instance|
-                instance.name = "gitlab-qa-#{version.downcase}"
-                instance.image = "gitlab/gitlab-#{version.downcase}"
-                instance.tag = 'nightly'
+                instance.release = release
+                instance.name = "gitlab-qa-#{instance.release.edition}"
+                instance.image = instance.release.image
+                instance.tag = instance.release.tag
                 instance.network = 'bridge'
 
                 instance.act do

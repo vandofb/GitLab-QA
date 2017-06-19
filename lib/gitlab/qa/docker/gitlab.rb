@@ -10,8 +10,8 @@ module Gitlab
 
         # rubocop:disable Style/Semicolon
 
-        attr_accessor :release, :image, :tag, :volumes, :network
-        attr_reader :name
+        attr_accessor :image, :tag, :volumes, :network
+        attr_reader :name, :release
 
         def initialize
           @docker = Docker::Engine.new
@@ -19,6 +19,10 @@ module Gitlab
 
         def name=(name)
           @name = "#{name}-#{SecureRandom.hex(4)}"
+        end
+
+        def release=(release)
+          @release ||= Release.new(release)
         end
 
         def address
