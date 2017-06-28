@@ -11,15 +11,17 @@ module Gitlab
                         'logs' => '/var/log/gitlab',
                         'data' => '/var/opt/gitlab' }.freeze
 
-            def perform(version)
+            # rubocop:disable Metrics/MethodLength
+            def perform(release)
               with_temporary_volumes do |volumes|
-                Scenario::Test::Instance::Image.perform(version) do |scenario|
+                Scenario::Test::Instance::Image
+                  .perform(Release.new(release).edition) do |scenario|
                   scenario.tag = 'latest'
                   scenario.volumes = volumes
                 end
 
-                Scenario::Test::Instance::Image.perform(version) do |scenario|
-                  scenario.tag = 'nightly'
+                Scenario::Test::Instance::Image
+                  .perform(release) do |scenario|
                   scenario.volumes = volumes
                 end
               end

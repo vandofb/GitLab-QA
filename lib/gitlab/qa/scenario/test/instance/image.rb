@@ -7,22 +7,17 @@ module Gitlab
             attr_writer :tag, :volumes
 
             def initialize
-              @tag = 'nightly'
               @volumes = {}
             end
 
             # rubocop:disable Metrics/MethodLength
             #
-            def perform(version)
-              unless %w(CE EE).include?(version)
-                raise 'Unknown GitLab release type specified!'
-              end
-
+            def perform(release)
               Docker::Gitlab.perform do |gitlab|
-                gitlab.release = version.downcase.to_sym
-                gitlab.name = "gitlab-qa-#{gitlab.release}"
-                gitlab.image = "gitlab/gitlab-#{gitlab.release}"
-                gitlab.tag = @tag
+                gitlab.release = release
+                gitlab.name = "gitlab-qa-#{gitlab.release.edition}"
+                gitlab.image = gitlab.release.image
+                gitlab.tag = gitlab.release.tag
                 gitlab.volumes = @volumes
                 gitlab.network = 'test'
 
