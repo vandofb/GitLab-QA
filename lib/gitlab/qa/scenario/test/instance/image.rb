@@ -17,7 +17,7 @@ module Gitlab
                 gitlab.release = release
                 gitlab.name = "gitlab-qa-#{gitlab.release.edition}"
                 gitlab.image = gitlab.release.image
-                gitlab.tag = gitlab.release.tag
+                gitlab.tag = @tag || gitlab.release.tag
                 gitlab.volumes = @volumes
                 gitlab.network = 'test'
 
