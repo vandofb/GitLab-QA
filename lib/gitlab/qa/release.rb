@@ -1,7 +1,7 @@
 module Gitlab
   module QA
     class Release
-      CUSTOM_GITLAB_IMAGE_REGEX = /gitlab-([ce]e):(\w+)/
+      CUSTOM_GITLAB_IMAGE_REGEX = %r{/gitlab-([ce]e):(.+)\z}
       DEFAULT_TAG = 'nightly'.freeze
 
       attr_reader :release
@@ -22,7 +22,7 @@ module Gitlab
         if canonical?
           "gitlab/gitlab-#{edition}"
         else
-          release.sub(/:\w+/, '')
+          release.sub(/:.+\z/, '')
         end
       end
 
