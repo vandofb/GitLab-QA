@@ -11,7 +11,7 @@ module Gitlab
         end
 
         def test(gitlab)
-          test_address(gitlab.release.edition, gitlab.tag, gitlab.address,
+          test_address(gitlab.edition, gitlab.tag, gitlab.address,
                        "#{gitlab.name}-specs", gitlab.network)
         end
 

@@ -5,33 +5,41 @@ module Gitlab
       DEFAULT_TAG = 'nightly'.freeze
 
       attr_reader :release
+      attr_writer :tag
+
+      def self.init(release)
+        release.is_a?(Release) ? release : new(release)
+      end
 
       def initialize(release)
         @release = release.to_s
       end
 
       def edition
-        if canonical?
-          release.downcase.to_sym
-        else
-          release.match(CUSTOM_GITLAB_IMAGE_REGEX)[1].to_sym
-        end
+        @edition ||=
+          if canonical?
+            release.downcase.to_sym
+          else
+            release.match(CUSTOM_GITLAB_IMAGE_REGEX)[1].to_sym
+          end
       end
 
       def image
-        if canonical?
-          "gitlab/gitlab-#{edition}"
-        else
-          release.sub(/:.+\z/, '')
-        end
+        @image ||=
+          if canonical?
+            "gitlab/gitlab-#{edition}"
+          else
+            release.sub(/:.+\z/, '')
+          end
       end
 
       def tag
-        if canonical?
-          DEFAULT_TAG
-        else
-          release.match(CUSTOM_GITLAB_IMAGE_REGEX)[2]
-        end
+        @tag ||=
+          if canonical?
+            DEFAULT_TAG
+          else
+            release.match(CUSTOM_GITLAB_IMAGE_REGEX)[2]
+          end
       end
 
       private

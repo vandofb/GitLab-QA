@@ -6,6 +6,24 @@ describe Gitlab::QA::Release do
   let(:full_ee_address_with_simple_tag) { "#{full_ee_address}:latest" }
   let(:full_ee_address_with_complex_tag) { "#{full_ee_address}:omnibus-7263a2" }
 
+  describe '.init' do
+    context 'when release is a Release' do
+      let(:release) { described_class.new('CE') }
+
+      it 'returns the given release' do
+        expect(described_class.init(release)).to eq release
+      end
+    end
+
+    context 'when release is a string' do
+      let(:release) { 'CE' }
+
+      it 'creates a new Release object' do
+        expect(described_class.init(release)).to be_a described_class
+      end
+    end
+  end
+
   describe '#edition' do
     context 'when release is CE' do
       subject { described_class.new('CE') }

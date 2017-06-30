@@ -1,28 +1,31 @@
 require 'securerandom'
 require 'net/http'
 require 'uri'
+require 'forwardable'
 
 module Gitlab
   module QA
     module Docker
       class Gitlab
+        extend Forwardable
         include Scenario::Actable
 
         # rubocop:disable Style/Semicolon
 
-        attr_accessor :image, :tag, :volumes, :network
-        attr_reader :name, :release
+        attr_accessor :volumes, :network
+
+        def_delegators :@release, :tag, :image, :edition
 
         def initialize
           @docker = Docker::Engine.new
         end
 
-        def name=(name)
-          @name = "#{name}-#{SecureRandom.hex(4)}"
+        def release=(release)
+          @release ||= Release.init(release)
         end
 
-        def release=(release)
-          @release ||= Release.new(release)
+        def name
+          @name ||= "gitlab-qa-#{edition}-#{SecureRandom.hex(4)}"
         end
 
         def address
@@ -44,18 +47,18 @@ module Gitlab
         end
 
         def prepare
-          @docker.pull(@image, @tag)
+          @docker.pull(image, tag)
 
           return if @docker.network_exists?(@network)
           @docker.network_create(@network)
         end
 
         def start
-          unless [@name, @image, @tag, @network].all?
+          unless [name, @release, @network].all?
             raise 'Please configure an instance first!'
           end
 
-          @docker.run(@image, @tag) do |command|
+          @docker.run(image, tag) do |command|
             command << "-d --name #{@name} -p 80:80"
             command << "--net #{@network} --hostname #{hostname}"
 
