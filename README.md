@@ -23,15 +23,51 @@ command in your system.
 
 1. Run tests against a Docker image with GitLab:
 
-    `gitlab-qa Test::Instance::Image CE|EE`
+    `gitlab-qa Test::Instance::Image CE|EE|<full image address>`
 
 1. Test upgrade process:
 
-    `gitlab-qa Test::Omnibus::Upgrade CE|EE`
+    `gitlab-qa Test::Omnibus::Upgrade CE|EE|<full image address>`
 
 1. Run tests against any existing instance:
 
     `gitlab-qa Test::Instance::Any CE|EE nightly|latest http://your.instance.gitlab`
+
+## How does it work?
+
+GitLab QA handles a few scenarios:
+
+### `Test::Omnibus::Image CE|EE|<full image address>`
+
+This scenario only tests that a GitLab Docker container can be run.
+
+This spins up a GitLab Docker container based on the given edition or image:
+  - `gitlab/gitlab-ce:nightly` for `CE`
+  - `gitlab/gitlab-ee:nightly` for `EE`
+  - the given custom image for `<full image address>`
+
+### `Test::Omnibus::Upgrade CE|EE|<full image address>`
+
+This scenario tests that:
+
+- the GitLab Docker container works as expected by running tests against it (see
+  `Test::Instance::Image` below)
+- that it can be upgraded to a new (`nightly` or custom image) container
+- that the new GitLab container still works as expected
+
+### `Test::Instance::Image CE|EE|<full image address>`
+
+This scenario tests that the GitLab Docker container works as expected by
+running tests against it.
+
+To run tests against the GitLab containers, a GitLab QA (`gitlab/gitlab-qa`)
+container is spin up and tests are run from it by running the `Test::Instance`
+scenario (located under `qa/scenario/test/instance` in the GitLab codebase).
+
+### `Test::Instance::Any CE|EE|<full image address>`
+
+This scenario tests that the any GitLab instance works as expected by running
+tests against it (see `Test::Instance::Image` below).
 
 ## Supported environment variables
 
