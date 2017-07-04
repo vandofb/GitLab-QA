@@ -12,16 +12,18 @@ module Gitlab
 
         # rubocop:disable Style/Semicolon
 
+        attr_reader :release
         attr_accessor :volumes, :network
 
-        def_delegators :@release, :tag, :image, :edition
+        def_delegators :release, :tag, :image, :edition
 
         def initialize
           @docker = Docker::Engine.new
+          self.release = 'CE'
         end
 
         def release=(release)
-          @release ||= Release.init(release)
+          @release = Release.new(release)
         end
 
         def name
@@ -33,7 +35,7 @@ module Gitlab
         end
 
         def hostname
-          "#{@name}.#{@network}"
+          "#{name}.#{network}"
         end
 
         def instance
@@ -49,18 +51,18 @@ module Gitlab
         def prepare
           @docker.pull(image, tag)
 
-          return if @docker.network_exists?(@network)
-          @docker.network_create(@network)
+          return if @docker.network_exists?(network)
+          @docker.network_create(network)
         end
 
         def start
-          unless [name, @release, @network].all?
+          unless [name, release, network].all?
             raise 'Please configure an instance first!'
           end
 
           @docker.run(image, tag) do |command|
-            command << "-d --name #{@name} -p 80:80"
-            command << "--net #{@network} --hostname #{hostname}"
+            command << "-d --name #{name} -p 80:80"
+            command << "--net #{network} --hostname #{hostname}"
 
             @volumes.to_h.each do |to, from|
               command << "--volume #{to}:#{from}:Z"
@@ -69,7 +71,7 @@ module Gitlab
         end
 
         def reconfigure
-          @docker.attach(@name) do |line, wait|
+          @docker.attach(name) do |line, wait|
             # TODO, workaround which allows to detach from the container
             #
             Process.kill('INT', wait.pid) if line =~ /gitlab Reconfigured!/
@@ -77,14 +79,14 @@ module Gitlab
         end
 
         def restart
-          @docker.restart(@name)
+          @docker.restart(name)
         end
 
         def teardown
-          raise 'Invalid instance name!' unless @name
+          raise 'Invalid instance name!' unless name
 
-          @docker.stop(@name)
-          @docker.remove(@name)
+          @docker.stop(name)
+          @docker.remove(name)
         end
 
         def wait

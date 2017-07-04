@@ -6,20 +6,100 @@ describe Gitlab::QA::Release do
   let(:full_ee_address_with_simple_tag) { "#{full_ee_address}:latest" }
   let(:full_ee_address_with_complex_tag) { "#{full_ee_address}:omnibus-7263a2" }
 
-  describe '.init' do
-    context 'when release is a Release' do
-      let(:release) { described_class.new('CE') }
+  describe '#to_s' do
+    context 'when release is CE' do
+      subject { described_class.new('CE') }
 
-      it 'returns the given release' do
-        expect(described_class.init(release)).to eq release
+      it { expect(subject.to_s).to eq 'gitlab/gitlab-ce:nightly' }
+    end
+
+    context 'when release is EE' do
+      subject { described_class.new('EE') }
+
+      it { expect(subject.to_s).to eq 'gitlab/gitlab-ee:nightly' }
+    end
+
+    context 'when release is a full CE address' do
+      context 'with a simple tag' do
+        subject { described_class.new(full_ce_address_with_simple_tag) }
+
+        it { expect(subject.to_s).to eq full_ce_address_with_simple_tag }
+      end
+
+      context 'with a complex tag' do
+        subject { described_class.new(full_ce_address_with_complex_tag) }
+
+        it { expect(subject.to_s).to eq full_ce_address_with_complex_tag }
       end
     end
 
-    context 'when release is a string' do
-      let(:release) { 'CE' }
+    context 'when release is a full EE address' do
+      context 'with a simple tag' do
+        subject { described_class.new(full_ee_address_with_simple_tag) }
 
-      it 'creates a new Release object' do
-        expect(described_class.init(release)).to be_a described_class
+        it { expect(subject.to_s).to eq full_ee_address_with_simple_tag }
+      end
+
+      context 'with a complex tag' do
+        subject { described_class.new(full_ee_address_with_complex_tag) }
+
+        it { expect(subject.to_s).to eq full_ee_address_with_complex_tag }
+      end
+    end
+  end
+
+  describe '#previous_stable' do
+    context 'when release is CE' do
+      subject { described_class.new('CE').previous_stable }
+
+      it { expect(subject.image).to eq 'gitlab/gitlab-ce' }
+      it { expect(subject.tag).to eq 'latest' }
+    end
+
+    context 'when release is EE' do
+      subject { described_class.new('EE').previous_stable }
+
+      it { expect(subject.image).to eq 'gitlab/gitlab-ee' }
+      it { expect(subject.tag).to eq 'latest' }
+    end
+
+    context 'when release is a full CE address' do
+      context 'with a simple tag' do
+        subject do
+          described_class.new(full_ce_address_with_simple_tag).previous_stable
+        end
+
+        it { expect(subject.image).to eq 'gitlab/gitlab-ce' }
+        it { expect(subject.tag).to eq 'latest' }
+      end
+
+      context 'with a complex tag' do
+        subject do
+          described_class.new(full_ce_address_with_complex_tag).previous_stable
+        end
+
+        it { expect(subject.image).to eq 'gitlab/gitlab-ce' }
+        it { expect(subject.tag).to eq 'latest' }
+      end
+    end
+
+    context 'when release is a full EE address' do
+      context 'with a simple tag' do
+        subject do
+          described_class.new(full_ee_address_with_simple_tag).previous_stable
+        end
+
+        it { expect(subject.image).to eq 'gitlab/gitlab-ee' }
+        it { expect(subject.tag).to eq 'latest' }
+      end
+
+      context 'with a complex tag' do
+        subject do
+          described_class.new(full_ee_address_with_complex_tag).previous_stable
+        end
+
+        it { expect(subject.image).to eq 'gitlab/gitlab-ee' }
+        it { expect(subject.tag).to eq 'latest' }
       end
     end
   end

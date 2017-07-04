@@ -7,12 +7,20 @@ module Gitlab
       attr_reader :release
       attr_writer :tag
 
-      def self.init(release)
-        release.is_a?(Release) ? release : new(release)
-      end
-
       def initialize(release)
         @release = release.to_s
+      end
+
+      def to_s
+        "#{image}:#{tag}"
+      end
+
+      def previous_stable
+        # The previous stable is always gitlab/gitlab-ce:latest or
+        # gitlab/gitlab-ee:latest
+        self.class.new(edition).tap do |release|
+          release.tag = 'latest'
+        end
       end
 
       def edition

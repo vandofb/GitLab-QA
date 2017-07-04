@@ -11,10 +11,14 @@ module Gitlab
                         'logs' => '/var/log/gitlab',
                         'data' => '/var/opt/gitlab' }.freeze
 
+            # rubocop:disable Metrics/MethodLength
+            #
             def perform(next_release)
+              next_release = Release.new(next_release)
+
               with_temporary_volumes do |volumes|
                 Scenario::Test::Instance::Image
-                  .perform(current_release(next_release)) do |scenario|
+                  .perform(next_release.previous_stable) do |scenario|
                   scenario.volumes = volumes
                 end
 
@@ -22,13 +26,6 @@ module Gitlab
                   .perform(next_release) do |scenario|
                   scenario.volumes = volumes
                 end
-              end
-            end
-
-            def current_release(next_release)
-              Release.init(next_release).tap do |release|
-                # The current release is always ce:latest or ee:latest
-                release.tag = 'latest'
               end
             end
 
