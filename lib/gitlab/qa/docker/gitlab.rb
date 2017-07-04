@@ -56,9 +56,7 @@ module Gitlab
         end
 
         def start
-          unless [name, release, network].all?
-            raise 'Please configure an instance first!'
-          end
+          ensure_configured!
 
           @docker.run(image, tag) do |command|
             command << "-d --name #{name} -p 80:80"
@@ -98,6 +96,15 @@ module Gitlab
             puts ' -> GitLab is available.'
           else
             abort ' -> GitLab unavailable!'
+          end
+        end
+
+        private
+
+        # rubocop:disable Style/GuardClause
+        def ensure_configured!
+          unless [name, release, network].all?
+            raise 'Please configure an instance first!'
           end
         end
 
