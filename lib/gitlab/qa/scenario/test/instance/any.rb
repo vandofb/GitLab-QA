@@ -8,9 +8,13 @@ module Gitlab
           # including staging and on-premises installation.
           #
           class Any < Scenario::Template
-            def perform(release, tag, address)
+            def perform(edition, tag, address)
+              release = Release.new(edition).tap do |r|
+                r.tag = tag
+              end
+
               Docker::Specs.perform do |instance|
-                instance.test_address(release, tag, address)
+                instance.test_address(release, address)
               end
             end
           end

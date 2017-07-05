@@ -1,28 +1,33 @@
 require 'securerandom'
 require 'net/http'
 require 'uri'
+require 'forwardable'
 
 module Gitlab
   module QA
     module Docker
       class Gitlab
+        extend Forwardable
         include Scenario::Actable
 
         # rubocop:disable Style/Semicolon
 
-        attr_accessor :image, :tag, :volumes, :network
-        attr_reader :name, :release
+        attr_reader :release
+        attr_accessor :volumes, :network
+
+        def_delegators :release, :tag, :image, :edition
 
         def initialize
           @docker = Docker::Engine.new
-        end
-
-        def name=(name)
-          @name = "#{name}-#{SecureRandom.hex(4)}"
+          self.release = 'CE'
         end
 
         def release=(release)
-          @release ||= Release.new(release)
+          @release = Release.new(release)
+        end
+
+        def name
+          @name ||= "gitlab-qa-#{edition}-#{SecureRandom.hex(4)}"
         end
 
         def address
@@ -30,7 +35,7 @@ module Gitlab
         end
 
         def hostname
-          "#{@name}.#{@network}"
+          "#{name}.#{network}"
         end
 
         def instance
@@ -44,20 +49,18 @@ module Gitlab
         end
 
         def prepare
-          @docker.pull(@image, @tag)
+          @docker.pull(image, tag)
 
-          return if @docker.network_exists?(@network)
-          @docker.network_create(@network)
+          return if @docker.network_exists?(network)
+          @docker.network_create(network)
         end
 
         def start
-          unless [@name, @image, @tag, @network].all?
-            raise 'Please configure an instance first!'
-          end
+          ensure_configured!
 
-          @docker.run(@image, @tag) do |command|
-            command << "-d --name #{@name} -p 80:80"
-            command << "--net #{@network} --hostname #{hostname}"
+          @docker.run(image, tag) do |command|
+            command << "-d --name #{name} -p 80:80"
+            command << "--net #{network} --hostname #{hostname}"
 
             @volumes.to_h.each do |to, from|
               command << "--volume #{to}:#{from}:Z"
@@ -66,7 +69,7 @@ module Gitlab
         end
 
         def reconfigure
-          @docker.attach(@name) do |line, wait|
+          @docker.attach(name) do |line, wait|
             # TODO, workaround which allows to detach from the container
             #
             Process.kill('INT', wait.pid) if line =~ /gitlab Reconfigured!/
@@ -74,14 +77,14 @@ module Gitlab
         end
 
         def restart
-          @docker.restart(@name)
+          @docker.restart(name)
         end
 
         def teardown
-          raise 'Invalid instance name!' unless @name
+          raise 'Invalid instance name!' unless name
 
-          @docker.stop(@name)
-          @docker.remove(@name)
+          @docker.stop(name)
+          @docker.remove(name)
         end
 
         def wait
@@ -93,6 +96,15 @@ module Gitlab
             puts ' -> GitLab is available.'
           else
             abort ' -> GitLab unavailable!'
+          end
+        end
+
+        private
+
+        # rubocop:disable Style/GuardClause
+        def ensure_configured!
+          unless [name, release, network].all?
+            raise 'Please configure an instance first!'
           end
         end
 
