@@ -18,9 +18,7 @@ module Gitlab
       def previous_stable
         # The previous stable is always gitlab/gitlab-ce:latest or
         # gitlab/gitlab-ee:latest
-        self.class.new(edition).tap do |release|
-          release.tag = 'latest'
-        end
+        self.class.new("#{canonical_image}:latest")
       end
 
       def edition
@@ -39,6 +37,10 @@ module Gitlab
           else
             release.sub(/:.+\z/, '')
           end
+      end
+
+      def canonical_image
+        @canonical_image ||= "gitlab/gitlab-#{edition}"
       end
 
       def tag

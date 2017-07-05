@@ -21,14 +21,14 @@ module Gitlab
 
           args = ['Test::Instance', address]
 
-          @docker.run(IMAGE_NAME, full_tag(release), *args) do |command|
+          @docker.run(IMAGE_NAME, edition_tag(release), *args) do |command|
             build_command(command, name, network)
           end
         end
 
         private
 
-        def full_tag(release)
+        def edition_tag(release)
           "#{release.edition}-#{release.tag}"
         end
 
