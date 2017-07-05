@@ -52,6 +52,10 @@ module Gitlab
           end
       end
 
+      def edition_tag
+        @edition_tag ||= "#{edition}-#{tag}"
+      end
+
       private
 
       def canonical?

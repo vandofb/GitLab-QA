@@ -271,4 +271,46 @@ describe Gitlab::QA::Release do
       end
     end
   end
+
+  describe '#edition_tag' do
+    context 'when release is CE' do
+      subject { described_class.new('CE') }
+
+      it { expect(subject.edition_tag).to eq 'ce-nightly' }
+    end
+
+    context 'when release is EE' do
+      subject { described_class.new('EE') }
+
+      it { expect(subject.edition_tag).to eq 'ee-nightly' }
+    end
+
+    context 'when release is a full CE address' do
+      context 'with a simple tag' do
+        subject { described_class.new(full_ce_address_with_simple_tag) }
+
+        it { expect(subject.edition_tag).to eq 'ce-latest' }
+      end
+
+      context 'with a complex tag' do
+        subject { described_class.new(full_ce_address_with_complex_tag) }
+
+        it { expect(subject.edition_tag).to eq 'ce-omnibus-7263a2' }
+      end
+    end
+
+    context 'when release is a full EE address' do
+      context 'with a simple tag' do
+        subject { described_class.new(full_ee_address_with_simple_tag) }
+
+        it { expect(subject.edition_tag).to eq 'ee-latest' }
+      end
+
+      context 'with a complex tag' do
+        subject { described_class.new(full_ee_address_with_complex_tag) }
+
+        it { expect(subject.edition_tag).to eq 'ee-omnibus-7263a2' }
+      end
+    end
+  end
 end

@@ -21,16 +21,12 @@ module Gitlab
 
           args = ['Test::Instance', address]
 
-          @docker.run(IMAGE_NAME, edition_tag(release), *args) do |command|
+          @docker.run(IMAGE_NAME, release.edition_tag, *args) do |command|
             build_command(command, name, network)
           end
         end
 
         private
-
-        def edition_tag(release)
-          "#{release.edition}-#{release.tag}"
-        end
 
         def build_command(command, name, network)
           command << "-t --rm --net=#{network || 'bridge'}"
