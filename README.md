@@ -74,3 +74,7 @@ tests against it (see `Test::Instance::Image` below).
 * `GITLAB_USERNAME` - username to use when signing in to GitLab
 * `GITLAB_PASSWORD`  - password to use when signing in to GitLab
 * `EE_LICENSE` - Enterprise Edition license
+
+## Contributing
+
+Please see the [contribution guidelines](CONTRIBUTING.md)
