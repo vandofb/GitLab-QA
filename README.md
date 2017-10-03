@@ -72,8 +72,11 @@ tests against it (see `Test::Instance::Image` below).
 ## Supported environment variables
 
 * `GITLAB_USERNAME` - username to use when signing in to GitLab
-* `GITLAB_PASSWORD`  - password to use when signing in to GitLab
+* `GITLAB_PASSWORD` - password to use when signing in to GitLab
 * `EE_LICENSE` - Enterprise Edition license
+* `QA_SCREENSHOTS_DIR` - Path to a directory where screenshots for failing tests
+  will be saved (default: `/tmp/gitlab-qa-screenshots`)
+* `DOCKER_HOST` - Docker host to run tests against (default: `http://localhost`)
 
 ## Contributing
 
