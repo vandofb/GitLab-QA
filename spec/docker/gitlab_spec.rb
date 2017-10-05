@@ -71,6 +71,86 @@ describe Gitlab::QA::Docker::Gitlab do
     end
   end
 
+  describe '#start' do
+    let(:args) { [] }
+    let(:command) { spy('docker command') }
+    let(:docker) { spy('docker engine') }
+
+    before do
+      allow(subject).to receive(:ensure_configured!)
+
+      allow(subject).to receive(:docker) { docker }
+      allow(docker).to receive(:run) { |&blk| blk.call command }
+      allow(command).to receive(:<<) { |*argv| args.concat(argv) }
+    end
+
+    it 'should call Gitlab::QA::Docker::Engine#run' do
+      expect(docker).to receive(:run)
+      subject.start
+    end
+
+    it 'should specify boilerplate switches' do
+      subject.start
+      expect(args).to include('-d -p 80:80')
+    end
+
+    it 'should specify the name' do
+      subject.start
+      expect(args).to include("--name #{subject.name}")
+    end
+
+    it 'should specify the hostname' do
+      subject.start
+      expect(args).to include("--hostname #{subject.hostname}")
+    end
+
+    context 'with a network' do
+      before do
+        subject.network = 'testing-network'
+      end
+
+      it 'should specify the network' do
+        subject.start
+        expect(args).to include('--net testing-network')
+      end
+    end
+
+    context 'with volumes' do
+      before do
+        subject.volumes = { '/from' => '/to' }
+      end
+
+      it 'adds --volume switches to the command' do
+        subject.start
+        expect(args).to include('--volume /from:/to:Z')
+      end
+    end
+
+    context 'with environment' do
+      context 'plain values' do
+        before do
+          subject.environment = { 'TEST' => 'value' }
+        end
+
+        it 'adds --env switches to the command' do
+          subject.start
+          expect(args).to include('--env TEST=value')
+        end
+      end
+
+      context 'values with spaces' do
+        before do
+          subject.environment = { 'TEST' => 'a value with spaces' }
+        end
+
+        it 'adds --env shell escaped values' do
+          subject.start
+          expect(args).to include('--env TEST=a\ value\ with\ spaces')
+        end
+      end
+    end
+  end
+
   def create_release(release)
     Gitlab::QA::Release.new(release)
   end
