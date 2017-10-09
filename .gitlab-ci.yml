@@ -86,6 +86,10 @@ ee:upgrade:
   script: bin/qa Test::Omnibus::Upgrade EE
   <<: *test
 
+ce-to-ee:upgrade:
+  script: bin/qa Test::Omnibus::EditionUpgrade
+  <<: *test
+
 ce:mattermost:
   script: bin/qa Test::Integration::Mattermost CE
   <<: *test

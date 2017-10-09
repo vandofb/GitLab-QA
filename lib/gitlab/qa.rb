@@ -21,6 +21,7 @@ module Gitlab
         module Omnibus
           autoload :Image, 'qa/scenario/test/omnibus/image'
           autoload :Upgrade, 'qa/scenario/test/omnibus/upgrade'
+          autoload :EditionUpgrade, 'qa/scenario/test/omnibus/edition_upgrade'
         end
 
         module Integration
