@@ -22,6 +22,10 @@ module Gitlab
           autoload :Image, 'qa/scenario/test/omnibus/image'
           autoload :Upgrade, 'qa/scenario/test/omnibus/upgrade'
         end
+
+        module Integration
+          autoload :Mattermost, 'qa/scenario/test/integration/mattermost'
+        end
       end
     end
 

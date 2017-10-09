@@ -68,6 +68,14 @@ ee:upgrade:
   script: bin/qa Test::Omnibus::Upgrade EE
   <<: *test
 
+ce:mattermost:
+  script: bin/qa Test::Integration::Mattermost CE
+  <<: *test
+
+ee:mattermost:
+  script: bin/qa Test::Integration::Mattermost EE
+  <<: *test
+
 notify:slack:
   before_script:
     - apk update && apk add git curl bash
