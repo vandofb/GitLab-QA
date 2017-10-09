@@ -2,6 +2,7 @@ require 'securerandom'
 require 'net/http'
 require 'uri'
 require 'forwardable'
+require 'shellwords'
 
 module Gitlab
   module QA
@@ -12,8 +13,8 @@ module Gitlab
 
         # rubocop:disable Style/Semicolon
 
-        attr_reader :release
-        attr_accessor :volumes, :network
+        attr_reader :release, :docker
+        attr_accessor :volumes, :network, :environment
 
         def_delegators :release, :tag, :image, :edition
 
@@ -55,15 +56,24 @@ module Gitlab
           @docker.network_create(network)
         end
 
+        # rubocop:disable Metrics/MethodLength
+        # rubocop:disable Metrics/AbcSize
         def start
           ensure_configured!
 
-          @docker.run(image, tag) do |command|
-            command << "-d --name #{name} -p 80:80"
-            command << "--net #{network} --hostname #{hostname}"
+          docker.run(image, tag) do |command|
+            command << '-d -p 80:80'
+            command << "--name #{name}"
+            command << "--net #{network}"
+            command << "--hostname #{hostname}"
 
             @volumes.to_h.each do |to, from|
               command << "--volume #{to}:#{from}:Z"
+            end
+
+            @environment.to_h.each do |key, value|
+              escaped_value = Shellwords.escape(value)
+              command << "--env #{key}=#{escaped_value}"
             end
           end
         end
