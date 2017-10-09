@@ -61,19 +61,22 @@ This scenario tests that the GitLab Docker container works as expected by
 running tests against it.
 
 To run tests against the GitLab containers, a GitLab QA (`gitlab/gitlab-qa`)
-container is spin up and tests are run from it by running the `Test::Instance`
+container is spun up and tests are run from it by running the `Test::Instance`
 scenario (located under `qa/scenario/test/instance` in the GitLab codebase).
 
 ### `Test::Instance::Any CE|EE|<full image address>`
 
 This scenario tests that the any GitLab instance works as expected by running
-tests against it (see `Test::Instance::Image` below).
+tests against it (see `Test::Instance::Image` above).
 
 ## Supported environment variables
 
 * `GITLAB_USERNAME` - username to use when signing in to GitLab
-* `GITLAB_PASSWORD`  - password to use when signing in to GitLab
+* `GITLAB_PASSWORD` - password to use when signing in to GitLab
 * `EE_LICENSE` - Enterprise Edition license
+* `QA_SCREENSHOTS_DIR` - Path to a directory where screenshots for failing tests
+  will be saved (default: `/tmp/gitlab-qa-screenshots`)
+* `DOCKER_HOST` - Docker host to run tests against (default: `http://localhost`)
 
 ## Contributing
 
