@@ -149,6 +149,17 @@ describe Gitlab::QA::Docker::Gitlab do
         end
       end
     end
+
+    context 'with network_aliases' do
+      before do
+        subject.network_aliases = ['lolcathost']
+      end
+
+      it 'adds --network-alias switches to the command' do
+        subject.start
+        expect(args).to include('--network-alias lolcathost')
+      end
+    end
   end
 
   def create_release(release)
