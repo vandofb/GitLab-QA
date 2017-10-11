@@ -14,7 +14,7 @@ module Gitlab
         # rubocop:disable Style/Semicolon
 
         attr_reader :release, :docker
-        attr_accessor :volumes, :network, :environment
+        attr_accessor :volumes, :network, :environment, :network_aliases
 
         def_delegators :release, :tag, :image, :edition
 
@@ -74,6 +74,10 @@ module Gitlab
             @environment.to_h.each do |key, value|
               escaped_value = Shellwords.escape(value)
               command << "--env #{key}=#{escaped_value}"
+            end
+
+            @network_aliases.to_a.each do |network_alias|
+              command << "--network-alias #{network_alias}"
             end
           end
         end
