@@ -10,16 +10,22 @@ module Gitlab
           @docker = Docker::Engine.new
         end
 
-        def test(gitlab)
-          test_address(gitlab.release, gitlab.address,
-                       "#{gitlab.name}-specs", gitlab.network)
+        def test(gitlab:, suite: 'Test::Instance')
+          test_address(
+            release: gitlab.release,
+            address: gitlab.address,
+            name: "#{gitlab.name}-specs",
+            network: gitlab.network,
+            suite: suite
+          )
         end
 
-        def test_address(release, address, name = nil, network = nil)
-          puts 'Running instance test scenarios for Gitlab ' \
+        def test_address(release:, address:, name: nil, network: nil,
+                         suite: 'Test::Instance')
+          puts "Running instance suite #{suite} for Gitlab " \
                "#{release.edition.upcase} at #{address}"
 
-          args = ['Test::Instance', address]
+          args = [suite, address]
 
           @docker.run(IMAGE_NAME, release.edition_tag, *args) do |command|
             build_command(command, name, network)
