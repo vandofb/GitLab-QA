@@ -20,7 +20,12 @@ module Gitlab
 
         def initialize
           @docker = Docker::Engine.new
+          @environment = {}
           self.release = 'CE'
+        end
+
+        def omnibus_config=(config)
+          @environment['GITLAB_OMNIBUS_CONFIG'] = config
         end
 
         def release=(release)
