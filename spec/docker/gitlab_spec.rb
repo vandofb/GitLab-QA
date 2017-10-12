@@ -2,6 +2,19 @@ describe Gitlab::QA::Docker::Gitlab do
   let(:full_ce_address) { 'registry.gitlab.com/foo/gitlab/gitlab-ce' }
   let(:full_ce_address_with_complex_tag) { "#{full_ce_address}:omnibus-7263a2" }
 
+  describe '#omnibus_config=' do
+    context 'when set' do
+      before do
+        subject.omnibus_config = '# Be configured'
+      end
+
+      it 'updates #environment' do
+        expect(subject.environment['GITLAB_OMNIBUS_CONFIG'])
+          .to eq('# Be configured')
+      end
+    end
+  end
+
   describe '#release' do
     context 'whith no release' do
       it 'defaults to CE' do
