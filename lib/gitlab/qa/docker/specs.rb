@@ -36,7 +36,7 @@ module Gitlab
           end
 
           command << "-v #{Runtime::Env.screenshots_dir}:/home/qa/tmp"
-          command << "--name #{name || ('gitlab-specs-' + Time.now.to_i)}"
+          command << "--name #{name || ('gitlab-specs-' + Time.now.to_i.to_s)}"
         end
       end
     end
