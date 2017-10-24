@@ -18,7 +18,7 @@ module Gitlab
 
                 gitlab.instance do
                   Docker::Specs.perform do |instance|
-                    instance.test(gitlab)
+                    instance.test(gitlab: gitlab)
                   end
                 end
               end

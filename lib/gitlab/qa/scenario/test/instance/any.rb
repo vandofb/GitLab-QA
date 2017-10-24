@@ -14,7 +14,7 @@ module Gitlab
               end
 
               Docker::Specs.perform do |instance|
-                instance.test_address(release, address)
+                instance.test_address(release: release, address: address)
               end
             end
           end
