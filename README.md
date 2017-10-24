@@ -25,6 +25,10 @@ command in your system.
 
     `gitlab-qa Test::Instance::Image CE|EE|<full image address>`
 
+1. Run tests against a Docker image with GitLab and Mattermost:
+
+    `gitlab-qa Test::Integration::Mattermost CE|EE|<full image address>`
+
 1. Test upgrade process:
 
     `gitlab-qa Test::Omnibus::Upgrade CE|EE|<full image address>`
@@ -63,6 +67,12 @@ running tests against it.
 To run tests against the GitLab containers, a GitLab QA (`gitlab/gitlab-qa`)
 container is spun up and tests are run from it by running the `Test::Instance`
 scenario (located under `qa/scenario/test/instance` in the GitLab codebase).
+
+### `Test::Integration::Mattermost CE|EE|<full image address>`
+
+This scenario tests that GitLab instance works as expected when
+enabling the embedded Mattermost server (see `Test::Instance::Image`
+above).
 
 ### `Test::Instance::Any CE|EE|<full image address>`
 
