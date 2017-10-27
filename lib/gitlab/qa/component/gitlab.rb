@@ -6,7 +6,7 @@ require 'shellwords'
 
 module Gitlab
   module QA
-    module Docker
+    module Component
       class Gitlab
         extend Forwardable
         include Scenario::Actable

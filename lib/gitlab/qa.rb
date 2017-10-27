@@ -29,12 +29,15 @@ module Gitlab
       end
     end
 
+    module Component
+      autoload :Gitlab, 'qa/component/gitlab'
+      autoload :Specs, 'qa/component/specs'
+    end
+
     module Docker
       autoload :Engine, 'qa/docker/engine'
       autoload :Command, 'qa/docker/command'
       autoload :Shellout, 'qa/docker/shellout'
-      autoload :Gitlab, 'qa/docker/gitlab'
-      autoload :Specs, 'qa/docker/specs'
     end
   end
 end

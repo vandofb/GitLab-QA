@@ -1,6 +1,6 @@
 module Gitlab
   module QA
-    module Docker
+    module Component
       ##
       # This class represents GitLab QA specs image that is implemented in
       # the `qa/` directory located in GitLab CE / EE repositories.

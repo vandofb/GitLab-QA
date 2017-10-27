@@ -1,4 +1,4 @@
-describe Gitlab::QA::Docker::Gitlab do
+describe Gitlab::QA::Component::Gitlab do
   let(:full_ce_address) { 'registry.gitlab.com/foo/gitlab/gitlab-ce' }
   let(:full_ce_address_with_complex_tag) { "#{full_ce_address}:omnibus-7263a2" }
 

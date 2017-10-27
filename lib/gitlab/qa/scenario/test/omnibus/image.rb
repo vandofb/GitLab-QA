@@ -6,7 +6,7 @@ module Gitlab
           class Image < Scenario::Template
             # rubocop:disable Style/Semicolon
             def perform(release)
-              Docker::Gitlab.perform do |gitlab|
+              Component::Gitlab.perform do |gitlab|
                 gitlab.release = release
                 gitlab.network = 'bridge'
 

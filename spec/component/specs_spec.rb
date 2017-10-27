@@ -1,4 +1,4 @@
-describe Gitlab::QA::Docker::Specs do
+describe Gitlab::QA::Component::Specs do
   let(:docker) { spy('docker command') }
 
   before do

@@ -13,7 +13,7 @@ module Gitlab
                 r.tag = tag
               end
 
-              Docker::Specs.perform do |instance|
+              Component::Specs.perform do |instance|
                 instance.test_address(release: release, address: address)
               end
             end
