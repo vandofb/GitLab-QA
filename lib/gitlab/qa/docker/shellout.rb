@@ -6,10 +6,10 @@ module Gitlab
       class Shellout
         class StatusError < StandardError; end
 
-        def self.execute!(cmd)
-          puts "Running shell command: `#{cmd}`"
+        def self.execute!(command)
+          puts "Running shell command: `#{command}`"
 
-          Open3.popen2e(@command) do |_in, out, wait|
+          Open3.popen2e(command.to_s) do |_in, out, wait|
             out.each do |line|
               puts line
 
@@ -17,7 +17,7 @@ module Gitlab
             end
 
             if wait.value.exited? && wait.value.exitstatus.nonzero?
-              raise StatusError, "Docker command `#{cmd}` failed!"
+              raise StatusError, "Docker command `#{command}` failed!"
             end
           end
         end

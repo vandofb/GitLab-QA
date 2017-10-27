@@ -52,7 +52,7 @@ module Gitlab
           end
 
           command.volume(Runtime::Env.screenshots_dir, '/home/qa/tmp')
-          command.name(name || "gitlab-specs-#{Time.now.to_i.to_s}")
+          command.name(name || "gitlab-specs-#{Time.now.to_i}")
         end
       end
     end

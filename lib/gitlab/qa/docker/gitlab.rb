@@ -20,7 +20,11 @@ module Gitlab
 
         def initialize
           @docker = Docker::Engine.new
+
           @environment = {}
+          @volumes = {}
+          @network_aliases = []
+
           self.release = 'CE'
         end
 

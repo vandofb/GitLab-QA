@@ -21,7 +21,7 @@ module Gitlab
         end
 
         def env(name, value)
-          tap { @args << %Q(-e #{name}="#{value}") }
+          tap { @args << %(-e #{name}="#{value}") }
         end
 
         def to_s
@@ -29,7 +29,7 @@ module Gitlab
         end
 
         def execute!(&block)
-          Docker::Shellout.execute!(self.to_s, &block)
+          Docker::Shellout.execute!(self, &block)
         end
 
         def self.execute(cmd, &block)
