@@ -12,7 +12,7 @@ module Gitlab
         end
 
         def delegated
-          VARIABLES.dup.tap do |variables|
+          VARIABLES.select { |env| ENV[env] }.tap do |variables|
             variables << 'DOCKER_HOST' if dind?
           end
         end

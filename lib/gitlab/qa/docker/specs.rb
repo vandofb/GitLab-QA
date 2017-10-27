@@ -1,6 +1,12 @@
 module Gitlab
   module QA
     module Docker
+      ##
+      # This class represents GitLab QA specs image that is implemented in
+      # the `qa/` directory located in GitLab CE / EE repositories.
+      #
+      # TODO, it needs some refactoring.
+      #
       class Specs
         include Scenario::Actable
 
@@ -38,11 +44,15 @@ module Gitlab
           command << "-t --rm --net=#{network || 'bridge'}"
 
           Runtime::Env.delegated.each do |env|
-            command << %(-e #{env}="$#{env}") if ENV[env]
+            command.env(env, "$#{env}")
           end
 
-          command << "-v #{Runtime::Env.screenshots_dir}:/home/qa/tmp"
-          command << "--name #{name || ('gitlab-specs-' + Time.now.to_i.to_s)}"
+          unless Runtime::Env.dind?
+            command.volume('/var/run/docker.sock', '/var/run/docker.sock')
+          end
+
+          command.volume(Runtime::Env.screenshots_dir, '/home/qa/tmp')
+          command.name(name || "gitlab-specs-#{Time.now.to_i.to_s}")
         end
       end
     end
