@@ -12,13 +12,7 @@ module Gitlab
         end
 
         def delegated
-          VARIABLES.select { |env| ENV[env] }.tap do |variables|
-            variables << 'DOCKER_HOST' if dind?
-          end
-        end
-
-        def dind?
-          !ENV['DOCKER_HOST'].to_s.strip.empty?
+          VARIABLES.select { |name| ENV[name] }
         end
       end
     end

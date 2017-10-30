@@ -47,10 +47,7 @@ module Gitlab
             command.env(env, "$#{env}")
           end
 
-          unless Runtime::Env.dind?
-            command.volume('/var/run/docker.sock', '/var/run/docker.sock')
-          end
-
+          command.volume('/var/run/docker.sock', '/var/run/docker.sock')
           command.volume(Runtime::Env.screenshots_dir, '/home/qa/tmp')
           command.name(name || "gitlab-specs-#{Time.now.to_i}")
         end

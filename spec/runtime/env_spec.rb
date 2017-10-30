@@ -31,26 +31,6 @@ describe Gitlab::QA::Runtime::Env do
       expect(described_class.delegated).to include('GITLAB_USERNAME')
       expect(described_class.delegated).not_to include('GITLAB_PASSWORD')
     end
-
-    it 'appends docker host if docker-in-docker is available' do
-      stub_env('DOCKER_HOST', '192.168.1.101')
-
-      expect(described_class.delegated).to include 'DOCKER_HOST'
-    end
-  end
-
-  describe '.dind?' do
-    it 'returns true when docker-in-docker is available' do
-      stub_env('DOCKER_HOST', '192.168.1.101')
-
-      expect(described_class.dind?).to eq true
-    end
-
-    it 'returns false when docker-in-docker is not available' do
-      stub_env('DOCKER_HOST', nil)
-
-      expect(described_class.dind?).to eq false
-    end
   end
 
   def stub_env(name, value)
