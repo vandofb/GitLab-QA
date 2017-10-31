@@ -20,7 +20,6 @@ module Gitlab
 
         def initialize
           @docker = Docker::Engine.new
-
           @environment = {}
           @volumes = {}
           @network_aliases = []
