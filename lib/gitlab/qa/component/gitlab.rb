@@ -122,6 +122,19 @@ module Gitlab
           end
         end
 
+        def pull
+          @docker.pull(@release.image, @release.tag)
+        end
+
+        def sha_version
+          json = @docker.read_file(
+            @release.image, @release.tag,
+            '/opt/gitlab/version-manifest.json'
+          )
+          manifest = JSON.parse(json)
+          manifest['software']['gitlab-rails']['locked_version']
+        end
+
         private
 
         # rubocop:disable Style/GuardClause

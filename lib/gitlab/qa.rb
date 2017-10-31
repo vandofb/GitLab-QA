@@ -26,6 +26,10 @@ module Gitlab
         module Integration
           autoload :Mattermost, 'qa/scenario/test/integration/mattermost'
         end
+
+        module Sanity
+          autoload :Version, 'qa/scenario/test/sanity/version'
+        end
       end
     end
 

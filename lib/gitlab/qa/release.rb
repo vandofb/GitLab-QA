@@ -43,6 +43,10 @@ module Gitlab
         @canonical_image ||= "gitlab/gitlab-#{edition}"
       end
 
+      def project_name
+        @project_name ||= image.sub(%r{^gitlab\/}, '')
+      end
+
       def tag
         @tag ||=
           if canonical?
