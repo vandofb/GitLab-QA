@@ -6,7 +6,7 @@ module Gitlab
           class Mattermost < Scenario::Template
             # rubocop:disable Metrics/MethodLength
             def perform(release)
-              Docker::Gitlab.perform do |gitlab|
+              Component::Gitlab.perform do |gitlab|
                 gitlab.release = release
                 gitlab.network = 'test'
 
@@ -16,7 +16,7 @@ module Gitlab
                 gitlab.network_aliases = [mattermost_hostname]
 
                 gitlab.instance do
-                  Docker::Specs.perform do |instance|
+                  Component::Specs.perform do |instance|
                     instance.test(
                       gitlab: gitlab,
                       suite: 'Test::Integration::Mattermost'

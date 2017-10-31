@@ -1,16 +1,8 @@
-require 'open3'
-
 module Gitlab
   module QA
     module Docker
       class Command
-        class StatusError < StandardError; end
-
         attr_reader :args
-
-        def self.execute(cmd, &block)
-          new(cmd).execute!(&block)
-        end
 
         def initialize(cmd = nil)
           @args = Array(cmd)
@@ -20,25 +12,28 @@ module Gitlab
           tap { @args.concat(args) }
         end
 
-        def execute!(&block)
-          engine("docker #{@args.join(' ')}", &block)
+        def volume(from, to)
+          tap { @args << "-v #{from}:#{to}" }
         end
 
-        private
+        def name(identity)
+          tap { @args << "--name #{identity}" }
+        end
 
-        def engine(cmd)
-          puts "Running shell command: `#{cmd}`"
+        def env(name, value)
+          tap { @args << %(-e #{name}="#{value}") }
+        end
 
-          Open3.popen2e(cmd) do |_in, out, wait|
-            out.each do |line|
-              puts line
-              yield line, wait if block_given?
-            end
+        def to_s
+          "docker #{@args.join(' ')}"
+        end
 
-            if wait.value.exited? && wait.value.exitstatus.nonzero?
-              raise StatusError, "Docker command `#{cmd}` failed!"
-            end
-          end
+        def execute!(&block)
+          Docker::Shellout.execute!(self, &block)
+        end
+
+        def self.execute(cmd, &block)
+          new(cmd).execute!(&block)
         end
       end
     end

@@ -19,12 +19,22 @@ describe Gitlab::QA::Runtime::Env do
   end
 
   describe '.delegated' do
+    before do
+      stub_env('GITLAB_USERNAME', 'root')
+    end
+
     it 'returns a list of envs delegated to tests component' do
       expect(described_class.delegated).not_to be_empty
+    end
+
+    it 'returns only these delegated variables that are set' do
+      expect(described_class.delegated).to include('GITLAB_USERNAME')
+      expect(described_class.delegated).not_to include('GITLAB_PASSWORD')
     end
   end
 
   def stub_env(name, value)
+    allow(ENV).to receive(:[]).and_call_original
     allow(ENV).to receive(:[]).with(name).and_return(value)
   end
 end

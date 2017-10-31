@@ -6,7 +6,7 @@ require 'shellwords'
 
 module Gitlab
   module QA
-    module Docker
+    module Component
       class Gitlab
         extend Forwardable
         include Scenario::Actable
@@ -21,6 +21,9 @@ module Gitlab
         def initialize
           @docker = Docker::Engine.new
           @environment = {}
+          @volumes = {}
+          @network_aliases = []
+
           self.release = 'CE'
         end
 

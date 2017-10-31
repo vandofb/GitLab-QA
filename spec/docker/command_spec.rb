@@ -12,12 +12,9 @@ describe Gitlab::QA::Docker::Command do
   end
 
   describe 'execute!' do
-    before do
-      allow(subject).to receive(:engine)
-    end
-
-    it 'calls docker engine method' do
-      expect(subject).to receive(:engine)
+    it 'calls docker engine shellout' do
+      expect(Gitlab::QA::Docker::Shellout)
+        .to receive(:execute!)
 
       subject.execute!
     end
