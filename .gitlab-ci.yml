@@ -82,7 +82,7 @@ notify:slack:
   image: alpine
   stage: notify
   script:
-    - bin/slack "#omnibus-builds" "(╯°□°)╯︵┻━┻  Pipeline on \`$CI_BUILD_REF_NAME\` failed! Commit \`$(git log -1 --oneline | sed 's|\"|\\\\\"|g')\` See <https://gitlab.com/gitlab-org/gitlab-qa/commit/"$CI_BUILD_REF"/pipelines>"
+    - bin/slack "#development" "Pipeline on \`$CI_BUILD_REF_NAME\` failed! Commit \`$(git log -1 --oneline | sed 's|\"|\\\\\"|g')\` See <https://gitlab.com/gitlab-org/gitlab-qa/commit/"$CI_BUILD_REF"/pipelines>"
   when: on_failure
   only:
     - master
