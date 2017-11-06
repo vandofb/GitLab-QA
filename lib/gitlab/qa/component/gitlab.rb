@@ -92,6 +92,7 @@ module Gitlab
 
         def reconfigure
           @docker.attach(name) do |line, wait|
+            puts line
             # TODO, workaround which allows to detach from the container
             #
             Process.kill('INT', wait.pid) if line =~ /gitlab Reconfigured!/
