@@ -11,15 +11,17 @@ module Gitlab
                 gitlab.network = 'test'
 
                 mattermost_hostname = "mattermost.#{gitlab.network}"
+                mattermost_external_url = "http://#{mattermost_hostname}"
                 gitlab.omnibus_config =
-                  "mattermost_external_url 'http://#{mattermost_hostname}'"
+                  "mattermost_external_url '#{mattermost_external_url}'"
                 gitlab.network_aliases = [mattermost_hostname]
 
                 gitlab.instance do
                   Component::Specs.perform do |instance|
                     instance.test(
                       gitlab: gitlab,
-                      suite: 'Test::Integration::Mattermost'
+                      suite: 'Test::Integration::Mattermost',
+                      extra_args: [mattermost_external_url]
                     )
                   end
                 end

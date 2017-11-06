@@ -16,22 +16,24 @@ module Gitlab
           @docker = Docker::Engine.new
         end
 
-        def test(gitlab:, suite: 'Test::Instance')
+        def test(gitlab:, suite: 'Test::Instance', extra_args: [])
           test_address(
             release: gitlab.release,
             address: gitlab.address,
             name: "#{gitlab.name}-specs",
             network: gitlab.network,
-            suite: suite
+            suite: suite,
+            extra_args: extra_args
           )
         end
 
+        # rubocop:disable Metrics/ParameterLists
         def test_address(release:, address:, name: nil, network: nil,
-                         suite: 'Test::Instance')
+                         suite: 'Test::Instance', extra_args: [])
           puts "Running instance suite #{suite} for Gitlab " \
                "#{release.edition.upcase} at #{address}"
 
-          args = [suite, address]
+          args = [suite, address] + extra_args
 
           @docker.run(IMAGE_NAME, release.edition_tag, *args) do |command|
             build_command(command, name, network)
