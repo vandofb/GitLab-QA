@@ -92,6 +92,7 @@ module Gitlab
 
         def reconfigure
           @docker.attach(name) do |line, wait|
+            puts line
             # TODO, workaround which allows to detach from the container
             #
             Process.kill('INT', wait.pid) if line =~ /gitlab Reconfigured!/
@@ -119,6 +120,19 @@ module Gitlab
           else
             abort ' -> GitLab unavailable!'
           end
+        end
+
+        def pull
+          @docker.pull(@release.image, @release.tag)
+        end
+
+        def sha_version
+          json = @docker.read_file(
+            @release.image, @release.tag,
+            '/opt/gitlab/version-manifest.json'
+          )
+          manifest = JSON.parse(json)
+          manifest['software']['gitlab-rails']['locked_version']
         end
 
         private

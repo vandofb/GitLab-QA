@@ -230,6 +230,20 @@ describe Gitlab::QA::Release do
     end
   end
 
+  describe '#project_name' do
+    context 'when release is CE' do
+      subject { described_class.new('CE') }
+
+      it { expect(subject.project_name).to eq 'gitlab-ce' }
+    end
+
+    context 'when release is EE' do
+      subject { described_class.new('EE') }
+
+      it { expect(subject.project_name).to eq 'gitlab-ee' }
+    end
+  end
+
   describe '#tag' do
     context 'when release is CE' do
       subject { described_class.new('CE') }

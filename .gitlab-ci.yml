@@ -3,6 +3,7 @@ services:
 
 stages:
   - check
+  - sanity
   - test
   - notify
 
@@ -32,6 +33,23 @@ check:rspec:
     - triggers
   tags:
     - docker
+
+.sanity: &sanity
+  stage: sanity
+  image: $TEST_IMAGE
+  except:
+    - triggers
+  tags:
+    - docker
+
+ce:version:
+  script: bin/qa Test::Sanity::Version CE
+  <<: *sanity
+
+ee:version:
+  script: bin/qa Test::Sanity::Version EE
+  allow_failure: true
+  <<: *sanity
 
 .test: &test
   stage: test
