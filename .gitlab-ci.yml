@@ -95,6 +95,11 @@ ee:mattermost:
   script: bin/qa Test::Integration::Mattermost EE
   <<: *test
 
+ee:geo:
+  script: bin/qa Test::Integration:Geo EE
+  allow_failure: true
+  <<: *test
+
 notify:slack:
   before_script:
     - apk update && apk add git curl bash
