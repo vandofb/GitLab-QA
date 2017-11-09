@@ -5,53 +5,31 @@ module Gitlab
       # This class represents GitLab QA specs image that is implemented in
       # the `qa/` directory located in GitLab CE / EE repositories.
       #
-      # TODO, it needs some refactoring.
-      #
-      class Specs
-        include Scenario::Actable
+      class Specs < Scenario::Template
+        IMAGE = 'gitlab/gitlab-qa'.freeze
 
-        IMAGE_NAME = 'gitlab/gitlab-qa'.freeze
+        attr_accessor :suite, :release, :network, :args
 
         def initialize
           @docker = Docker::Engine.new
         end
 
-        def test(gitlab:, suite: 'Test::Instance', extra_args: [])
-          test_address(
-            release: gitlab.release,
-            address: gitlab.address,
-            name: "#{gitlab.name}-specs",
-            network: gitlab.network,
-            suite: suite,
-            extra_args: extra_args
-          )
-        end
+        def perform # rubocop:disable Metrics/AbcSize
+          raise ArgumentError unless [suite, release].all?
 
-        # rubocop:disable Metrics/ParameterLists
-        def test_address(release:, address:, name: nil, network: nil,
-                         suite: 'Test::Instance', extra_args: [])
-          puts "Running instance suite #{suite} for Gitlab " \
-               "#{release.edition.upcase} at #{address}"
+          puts "Running test suite `#{suite}` for #{release.project_name}"
 
-          args = [suite, address] + extra_args
+          @docker.run(IMAGE, release.edition_tag, suite, *args) do |command|
+            command << "-t --rm --net=#{network || 'bridge'}"
 
-          @docker.run(IMAGE_NAME, release.edition_tag, *args) do |command|
-            build_command(command, name, network)
+            Runtime::Env.delegated.each do |env|
+              command.env(env, "$#{env}")
+            end
+
+            command.volume('/var/run/docker.sock', '/var/run/docker.sock')
+            command.volume(Runtime::Env.screenshots_dir, '/home/qa/tmp')
+            command.name("gitlab-specs-#{Time.now.to_i}")
           end
-        end
-
-        private
-
-        def build_command(command, name, network)
-          command << "-t --rm --net=#{network || 'bridge'}"
-
-          Runtime::Env.delegated.each do |env|
-            command.env(env, "$#{env}")
-          end
-
-          command.volume('/var/run/docker.sock', '/var/run/docker.sock')
-          command.volume(Runtime::Env.screenshots_dir, '/home/qa/tmp')
-          command.name(name || "gitlab-specs-#{Time.now.to_i}")
         end
       end
     end

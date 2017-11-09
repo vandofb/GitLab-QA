@@ -5,10 +5,11 @@ describe Gitlab::QA::Component::Specs do
     stub_const('Gitlab::QA::Docker::Command', docker)
   end
 
-  describe '#test' do
+  describe '#perform' do
     it 'bind-mounts a docker socket' do
       described_class.perform do |specs|
-        specs.test(gitlab: spy('gitlab'))
+        specs.suite = spy('suite')
+        specs.release = spy('release')
       end
 
       expect(docker).to have_received(:volume)

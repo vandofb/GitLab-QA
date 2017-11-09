@@ -13,8 +13,10 @@ module Gitlab
                 r.tag = tag
               end
 
-              Component::Specs.perform do |instance|
-                instance.test_address(release: release, address: address)
+              Component::Specs.perform do |specs|
+                specs.suite = 'Test::Instance'
+                specs.release = release
+                specs.args = [address]
               end
             end
           end

@@ -11,8 +11,6 @@ module Gitlab
                         'logs' => '/var/log/gitlab',
                         'data' => '/var/opt/gitlab' }.freeze
 
-            # rubocop:disable Metrics/MethodLength
-            #
             def perform(next_release)
               next_release = Release.new(next_release)
 

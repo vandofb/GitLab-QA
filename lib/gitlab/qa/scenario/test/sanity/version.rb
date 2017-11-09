@@ -16,7 +16,6 @@ module Gitlab
             COMMITS = 10_000
 
             # rubocop:disable Style/Semicolon
-            # rubocop:disable Metrics/MethodLength
             def perform(release)
               version = Component::Gitlab.perform do |gitlab|
                 gitlab.release = release
