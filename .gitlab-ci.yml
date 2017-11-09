@@ -44,6 +44,7 @@ check:rspec:
 
 ce:version:
   script: bin/qa Test::Sanity::Version CE
+  allow_failure: true
   <<: *sanity
 
 ee:version:
