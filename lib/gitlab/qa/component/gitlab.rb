@@ -64,7 +64,6 @@ module Gitlab
           @docker.network_create(network)
         end
 
-        # rubocop:disable Metrics/MethodLength
         # rubocop:disable Metrics/AbcSize
         def start
           ensure_configured!

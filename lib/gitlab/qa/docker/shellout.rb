@@ -6,7 +6,6 @@ module Gitlab
       class Shellout
         class StatusError < StandardError; end
 
-        # rubocop:disable Metrics/MethodLength
         def self.execute!(command)
           puts "Running shell command: `#{command}`"
 
