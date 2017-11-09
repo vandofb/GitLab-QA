@@ -14,6 +14,7 @@ module Gitlab
 
               Component::Gitlab.perform do |primary|
                 primary.release = release
+                primary.network = 'geo'
                 primary.omnibus_config = <<~OMNIBUS
                   geo_primary_role['enable'] = true;
                   postgresql['listen_address'] = '0.0.0.0';
@@ -26,6 +27,7 @@ module Gitlab
                 primary.instance do
                   Component::Gitlab.perform do |secondary|
                     secondary.release = release
+                    secondary.network = 'geo'
                     secondary.omnibus_config = <<~OMNIBUS
                       geo_secondary_role['enable'] = true";
                       gitlab_rails['db_key_base'] = '4dd58204865eb41bca93bd38131d51cc';
