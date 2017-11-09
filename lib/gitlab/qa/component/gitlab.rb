@@ -130,6 +130,7 @@ module Gitlab
             @release.image, @release.tag,
             '/opt/gitlab/version-manifest.json'
           )
+
           manifest = JSON.parse(json)
           manifest['software']['gitlab-rails']['locked_version']
         end

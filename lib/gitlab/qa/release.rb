@@ -63,7 +63,7 @@ module Gitlab
       private
 
       def canonical?
-        %w(ce ee).include?(release.downcase)
+        %w[ce ee].include?(release.downcase)
       end
     end
   end

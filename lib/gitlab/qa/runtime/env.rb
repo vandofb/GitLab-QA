@@ -4,10 +4,10 @@ module Gitlab
       module Env
         extend self
 
-        VARIABLES = %w(GITLAB_USERNAME
+        VARIABLES = %w[GITLAB_USERNAME
                        GITLAB_PASSWORD
                        GITLAB_URL
-                       EE_LICENSE).freeze
+                       EE_LICENSE].freeze
 
         def screenshots_dir
           ENV['QA_SCREENSHOTS_DIR'] || '/tmp/gitlab-qa-screenshots'

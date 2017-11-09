@@ -1,3 +1,6 @@
+AllCops:
+  TargetRubyVersion: 2.3
+
 Style/Documentation:
   Enabled: false
 
@@ -13,7 +16,7 @@ Lint/ShadowingOuterLocalVariable:
 Metrics/BlockLength:
   Enabled: false
 
-Style/PredicateName:
+Style/FrozenStringLiteralComment:
   Enabled: false
 
 Metrics/MethodLength:
