@@ -23,15 +23,12 @@ module Gitlab
           @environment = {}
           @volumes = {}
           @network_aliases = []
-          @omnibus_config = []
 
           self.release = 'CE'
         end
 
-        def add_omnibus_config(config)
-          @omnibus_config.push(config).tap do |lines|
-            @environment['GITLAB_OMNIBUS_CONFIG'] = lines.join(';')
-          end
+        def omnibus_config=(config)
+          @environment['GITLAB_OMNIBUS_CONFIG'] = config
         end
 
         def add_network_alias(name)

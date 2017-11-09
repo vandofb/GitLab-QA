@@ -2,10 +2,10 @@ describe Gitlab::QA::Component::Gitlab do
   let(:full_ce_address) { 'registry.gitlab.com/foo/gitlab/gitlab-ce' }
   let(:full_ce_address_with_complex_tag) { "#{full_ce_address}:omnibus-7263a2" }
 
-  describe '#add_omnibus_config' do
+  describe '#omnibus_config=' do
     context 'when set' do
       before do
-        subject.add_omnibus_config('# Be configured')
+        subject.omnibus_config = '# Be configured'
       end
 
       it 'updates environment variables' do
