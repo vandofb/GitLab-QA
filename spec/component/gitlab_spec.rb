@@ -2,13 +2,13 @@ describe Gitlab::QA::Component::Gitlab do
   let(:full_ce_address) { 'registry.gitlab.com/foo/gitlab/gitlab-ce' }
   let(:full_ce_address_with_complex_tag) { "#{full_ce_address}:omnibus-7263a2" }
 
-  describe '#omnibus_config=' do
+  describe '#add_omnibus_config' do
     context 'when set' do
       before do
-        subject.omnibus_config = '# Be configured'
+        subject.add_omnibus_config('# Be configured')
       end
 
-      it 'updates #environment' do
+      it 'updates environment variables' do
         expect(subject.environment['GITLAB_OMNIBUS_CONFIG'])
           .to eq('# Be configured')
       end
@@ -163,9 +163,9 @@ describe Gitlab::QA::Component::Gitlab do
       end
     end
 
-    context 'with network_aliases' do
+    context 'with network_alias' do
       before do
-        subject.network_aliases = ['lolcathost']
+        subject.add_network_alias('lolcathost')
       end
 
       it 'adds --network-alias switches to the command' do

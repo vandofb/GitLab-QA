@@ -14,7 +14,7 @@ module Gitlab
         # rubocop:disable Style/Semicolon
 
         attr_reader :release, :docker
-        attr_accessor :volumes, :network, :environment, :network_aliases
+        attr_accessor :volumes, :network, :environment
 
         def_delegators :release, :tag, :image, :edition
 
@@ -23,12 +23,19 @@ module Gitlab
           @environment = {}
           @volumes = {}
           @network_aliases = []
+          @omnibus_config = []
 
           self.release = 'CE'
         end
 
-        def omnibus_config=(config)
-          @environment['GITLAB_OMNIBUS_CONFIG'] = config
+        def add_omnibus_config(config)
+          @omnibus_config.push(config).tap do |lines|
+            @environment['GITLAB_OMNIBUS_CONFIG'] = lines.join(';')
+          end
+        end
+
+        def add_network_alias(name)
+          @network_aliases.push(name)
         end
 
         def release=(release)
