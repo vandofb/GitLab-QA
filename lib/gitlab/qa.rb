@@ -25,6 +25,7 @@ module Gitlab
 
         module Integration
           autoload :Mattermost, 'qa/scenario/test/integration/mattermost'
+          autoload :Geo, 'qa/scenario/test/integration/geo'
         end
 
         module Sanity
