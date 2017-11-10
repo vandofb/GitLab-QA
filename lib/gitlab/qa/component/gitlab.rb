@@ -146,9 +146,9 @@ module Gitlab
             @docker = Docker::Engine.new
 
             host = @docker.hostname
-            port = @docker.exposure(name, 80)
+            port = @docker.exposure(name, 80).split(':').last
 
-            @uri = URI.join("#{host}:#{port}", '/help')
+            @uri = URI.join("http://#{host}:#{port}", '/help')
           end
 
           def check(retries)

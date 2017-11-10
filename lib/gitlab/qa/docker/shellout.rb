@@ -26,7 +26,7 @@ module Gitlab
             end
           end
 
-          output.join
+          output.join.chomp
         end
       end
     end
