@@ -33,7 +33,7 @@ module Gitlab
         end
 
         def execute!(&block)
-          Docker::Shellout.execute!(self, &block)
+          Docker::Shellout.new(self).execute!(&block)
         end
 
         def self.execute(cmd, &block)

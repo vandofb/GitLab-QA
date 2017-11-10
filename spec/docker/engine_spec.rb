@@ -9,7 +9,7 @@ describe Gitlab::QA::Docker::Engine do
     it 'pulls docker image' do
       subject.pull('gitlab/gitlab-ce', 'nightly')
 
-      expect(docker).to have_received(:execute!)
+      expect(docker).to have_received(:new)
         .with(eq('docker pull gitlab/gitlab-ce:nightly'))
     end
   end
@@ -18,7 +18,7 @@ describe Gitlab::QA::Docker::Engine do
     it 'runs docker container' do
       subject.run('gitlab/gitlab-ce', 'nightly', 'cmd')
 
-      expect(docker).to have_received(:execute!)
+      expect(docker).to have_received(:new)
         .with(eq('docker run gitlab/gitlab-ce:nightly cmd'))
     end
   end
@@ -27,7 +27,7 @@ describe Gitlab::QA::Docker::Engine do
     it 'stops docker container' do
       subject.stop('some_container')
 
-      expect(docker).to have_received(:execute!)
+      expect(docker).to have_received(:new)
         .with(eq('docker stop some_container'))
     end
   end
@@ -36,7 +36,7 @@ describe Gitlab::QA::Docker::Engine do
     it 'returns exposed TCP port' do
       subject.exposure('some_container', 80)
 
-      expect(docker).to have_received(:execute!)
+      expect(docker).to have_received(:new)
         .with(eq('docker port some_container 80/tcp'))
     end
   end

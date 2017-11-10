@@ -1,4 +1,10 @@
 describe Gitlab::QA::Docker::Command do
+  let(:docker) { spy('docker') }
+
+  before do
+    stub_const('Gitlab::QA::Docker::Shellout', docker)
+  end
+
   describe '#<<' do
     it 'appends command arguments' do
       subject << '--help'
@@ -13,8 +19,7 @@ describe Gitlab::QA::Docker::Command do
 
   describe 'execute!' do
     it 'calls docker engine shellout' do
-      expect(Gitlab::QA::Docker::Shellout)
-        .to receive(:execute!)
+      expect(docker).to receive(:execute!)
 
       subject.execute!
     end
