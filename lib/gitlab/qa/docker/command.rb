@@ -29,7 +29,7 @@ module Gitlab
         end
 
         def ==(other)
-          other.to_s == self.to_s
+          to_s == other.to_s
         end
 
         def execute!(&block)
