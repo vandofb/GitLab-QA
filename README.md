@@ -10,6 +10,10 @@ GitLab consists of multiple pieces configured and packaged by
 
 The purpose of this test suite is to verify that all pieces do integrate well together.
 
+## Architecture
+
+See the [GitLab QA architecture](/docs/architecture.md).
+
 ## How do we use it
 
 Currently we trigger test suite against GitLab Docker images created by Omnibus nightly.
@@ -36,6 +40,10 @@ command in your system.
 1. Run tests against any existing instance:
 
     `gitlab-qa Test::Instance::Any CE|EE nightly|latest http://your.instance.gitlab`
+
+    For instance, to run it against https://staging.gitlab.com:
+
+    `GITLAB_USERNAME=your_username GITLAB_PASSWORD=your_password gitlab-qa Test::Instance::Any EE latest https://staging.gitlab.com`
 
 ## How does it work?
 
