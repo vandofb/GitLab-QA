@@ -28,6 +28,10 @@ module Gitlab
           "docker #{@args.join(' ')}"
         end
 
+        def ==(other)
+          other.to_s == self.to_s
+        end
+
         def execute!(&block)
           Docker::Shellout.execute!(self, &block)
         end
