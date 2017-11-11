@@ -14,6 +14,8 @@ module Gitlab
         end
 
         def execute!
+          raise StatusError, 'Command already executed' if @output.any?
+
           Open3.popen2e(@command.to_s) do |_in, out, wait|
             out.each do |line|
               @output.push(line)
