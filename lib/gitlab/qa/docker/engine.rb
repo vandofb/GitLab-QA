@@ -14,7 +14,7 @@ module Gitlab
 
         def run(image, tag, *args)
           Docker::Command.new('run').tap do |command|
-            yield command
+            yield command if block_given?
 
             command << "#{image}:#{tag}"
             command << args if args.any?
@@ -54,6 +54,10 @@ module Gitlab
 
         def network_create(name)
           Docker::Command.execute("network create #{name}")
+        end
+
+        def port(name, port)
+          Docker::Command.execute("port #{name} #{port}/tcp")
         end
       end
     end

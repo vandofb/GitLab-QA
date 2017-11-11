@@ -102,9 +102,9 @@ describe Gitlab::QA::Component::Gitlab do
       subject.start
     end
 
-    it 'should specify boilerplate switches' do
+    it 'should dynamically bind HTTP port' do
       subject.start
-      expect(args).to include('-d -p 80:80')
+      expect(args).to include('-d -p 80')
     end
 
     it 'should specify the name' do

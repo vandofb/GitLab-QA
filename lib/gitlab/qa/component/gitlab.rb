@@ -69,7 +69,7 @@ module Gitlab
           ensure_configured!
 
           docker.run(image, tag) do |command|
-            command << '-d -p 80:80'
+            command << '-d -p 80'
             command << "--name #{name}"
             command << "--net #{network}"
             command << "--hostname #{hostname}"
@@ -110,10 +110,7 @@ module Gitlab
         end
 
         def wait
-          puts "GitLab URL: #{address}"
-          print 'Waiting for GitLab to become available '
-
-          if Availability.new("http://#{@docker.hostname}").check(180)
+          if Availability.new(name).check(180)
             sleep 12 # TODO, handle that better
             puts ' -> GitLab is available.'
           else
@@ -145,11 +142,18 @@ module Gitlab
         end
 
         class Availability
-          def initialize(address)
-            @uri = URI.join(address, '/help')
+          def initialize(name)
+            @docker = Docker::Engine.new
+
+            host = @docker.hostname
+            port = @docker.port(name, 80).split(':').last
+
+            @uri = URI.join("http://#{host}:#{port}", '/help')
           end
 
           def check(retries)
+            print "Waiting for GitLab at `#{@uri}` to become available "
+
             retries.times do
               return true if service_available?
 
