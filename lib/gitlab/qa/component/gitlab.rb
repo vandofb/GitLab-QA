@@ -146,7 +146,7 @@ module Gitlab
             @docker = Docker::Engine.new
 
             host = @docker.hostname
-            port = @docker.exposure(name, 80).split(':').last
+            port = @docker.port(name, 80).split(':').last
 
             @uri = URI.join("http://#{host}:#{port}", '/help')
           end

@@ -56,7 +56,7 @@ module Gitlab
           Docker::Command.execute("network create #{name}")
         end
 
-        def exposure(name, port)
+        def port(name, port)
           Docker::Command.execute("port #{name} #{port}/tcp")
         end
       end

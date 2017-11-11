@@ -32,9 +32,9 @@ describe Gitlab::QA::Docker::Engine do
     end
   end
 
-  describe '#exposure' do
+  describe '#port' do
     it 'returns exposed TCP port' do
-      subject.exposure('some_container', 80)
+      subject.port('some_container', 80)
 
       expect(docker).to have_received(:new)
         .with(eq('docker port some_container 80/tcp'))
