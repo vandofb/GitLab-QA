@@ -4,8 +4,7 @@ module Gitlab
       module Test
         module Integration
           class Geo < Scenario::Template
-            # rubocop:disable Metrics/MethodLength
-            def perform(release)
+            def perform(release) # rubocop:disable Metrics/MethodLength
               release = Release.new(release)
 
               unless release.edition == :ee

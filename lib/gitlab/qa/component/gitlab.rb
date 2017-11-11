@@ -7,7 +7,7 @@ require 'shellwords'
 module Gitlab
   module QA
     module Component
-      class Gitlab # rubocop:disable Metrics/ClassLength
+      class Gitlab
         extend Forwardable
         include Scenario::Actable
 
