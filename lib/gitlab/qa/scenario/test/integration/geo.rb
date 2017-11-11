@@ -28,7 +28,7 @@ module Gitlab
                     secondary.release = release
                     secondary.network = 'geo'
                     secondary.omnibus_config = <<~OMNIBUS
-                      geo_secondary_role['enable'] = true";
+                      geo_secondary_role['enable'] = true;
                       gitlab_rails['db_key_base'] = '4dd58204865eb41bca93bd38131d51cc';
                     OMNIBUS
 
