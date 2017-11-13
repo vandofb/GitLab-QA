@@ -6,8 +6,6 @@ module Gitlab
       # the `qa/` directory located in GitLab CE / EE repositories.
       #
       class Specs < Scenario::Template
-        IMAGE = 'gitlab/gitlab-qa'.freeze
-
         attr_accessor :suite, :release, :network, :args
 
         def initialize
@@ -19,7 +17,7 @@ module Gitlab
 
           puts "Running test suite `#{suite}` for #{release.project_name}"
 
-          @docker.run(IMAGE, release.edition_tag, suite, *args) do |command|
+          @docker.run(release.qa_image, release.tag, suite, *args) do |command|
             command << "-t --rm --net=#{network || 'bridge'}"
 
             Runtime::Env.delegated.each do |env|
