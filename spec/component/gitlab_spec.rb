@@ -135,31 +135,20 @@ describe Gitlab::QA::Component::Gitlab do
 
       it 'adds --volume switches to the command' do
         subject.start
+
         expect(args).to include('--volume /from:/to:Z')
       end
     end
 
     context 'with environment' do
-      context 'plain values' do
-        before do
-          subject.environment = { 'TEST' => 'value' }
-        end
-
-        it 'adds --env switches to the command' do
-          subject.start
-          expect(args).to include('--env TEST=value')
-        end
+      before do
+        subject.environment = { 'TEST' => 'a value with spaces' }
       end
 
-      context 'values with spaces' do
-        before do
-          subject.environment = { 'TEST' => 'a value with spaces' }
-        end
+      it 'adds quotes around env' do
+        subject.start
 
-        it 'adds --env shell escaped values' do
-          subject.start
-          expect(args).to include('--env TEST=a\ value\ with\ spaces')
-        end
+        expect(args).to include('--env TEST="a value with spaces"')
       end
     end
 
@@ -170,6 +159,7 @@ describe Gitlab::QA::Component::Gitlab do
 
       it 'adds --network-alias switches to the command' do
         subject.start
+
         expect(args).to include('--network-alias lolcathost')
       end
     end
