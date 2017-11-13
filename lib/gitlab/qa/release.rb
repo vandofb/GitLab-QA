@@ -1,14 +1,15 @@
 module Gitlab
   module QA
     class Release
-      CUSTOM_GITLAB_IMAGE_REGEX = %r{/gitlab-([ce]e):(.+)\z}
+      CANONICAL_REGEX = /\A(?<edition>ce|ee):?(?<tag>.+)?/i
+      CUSTOM_GITLAB_IMAGE_REGEX = %r{/gitlab-(?<edition>[ce]e):(?<tag>.+)\z}
       DEFAULT_TAG = 'nightly'.freeze
 
       attr_reader :release
       attr_writer :tag
 
       def initialize(release)
-        @release = release.to_s
+        @release = release.to_s.downcase
       end
 
       def to_s
@@ -24,9 +25,9 @@ module Gitlab
       def edition
         @edition ||=
           if canonical?
-            release.downcase.to_sym
+            release.match(CANONICAL_REGEX)[:edition].to_sym
           else
-            release.match(CUSTOM_GITLAB_IMAGE_REGEX)[1].to_sym
+            release.match(CUSTOM_GITLAB_IMAGE_REGEX)[:edition].to_sym
           end
       end
 
@@ -39,10 +40,6 @@ module Gitlab
           end
       end
 
-      def canonical_image
-        @canonical_image ||= "gitlab/gitlab-#{edition}"
-      end
-
       def project_name
         @project_name ||= image.sub(%r{^gitlab\/}, '')
       end
@@ -50,9 +47,9 @@ module Gitlab
       def tag
         @tag ||=
           if canonical?
-            DEFAULT_TAG
+            release.match(CANONICAL_REGEX)[:tag] || DEFAULT_TAG
           else
-            release.match(CUSTOM_GITLAB_IMAGE_REGEX)[2]
+            release.match(CUSTOM_GITLAB_IMAGE_REGEX)[:tag]
           end
       end
 
@@ -63,7 +60,11 @@ module Gitlab
       private
 
       def canonical?
-        %w[ce ee].include?(release.downcase)
+        release =~ CANONICAL_REGEX
+      end
+
+      def canonical_image
+        @canonical_image ||= "gitlab/gitlab-#{edition}"
       end
     end
   end
