@@ -16,41 +16,41 @@ variables:
 before_script:
   - bundle install
 
-# check:rubocop:
-#   stage: check
-#   image: $TEST_IMAGE
-#   script: bundle exec rubocop
-#   except:
-#     - triggers
-#   tags:
-#     - docker
-#
-# check:rspec:
-#   stage: check
-#   image: $TEST_IMAGE
-#   script: bundle exec rspec
-#   except:
-#     - triggers
-#   tags:
-#     - docker
-#
-# .sanity: &sanity
-#   stage: sanity
-#   image: $TEST_IMAGE
-#   except:
-#     - triggers
-#   tags:
-#     - docker
-#
-# ce:version:
-#   script: bin/qa Test::Sanity::Version CE
-#   allow_failure: true
-#   <<: *sanity
-#
-# ee:version:
-#   script: bin/qa Test::Sanity::Version EE
-#   allow_failure: true
-#   <<: *sanity
+check:rubocop:
+  stage: check
+  image: $TEST_IMAGE
+  script: bundle exec rubocop
+  except:
+    - triggers
+  tags:
+    - docker
+
+check:rspec:
+  stage: check
+  image: $TEST_IMAGE
+  script: bundle exec rspec
+  except:
+    - triggers
+  tags:
+    - docker
+
+.sanity: &sanity
+  stage: sanity
+  image: $TEST_IMAGE
+  except:
+    - triggers
+  tags:
+    - docker
+
+ce:version:
+  script: bin/qa Test::Sanity::Version CE
+  allow_failure: true
+  <<: *sanity
+
+ee:version:
+  script: bin/qa Test::Sanity::Version EE
+  allow_failure: true
+  <<: *sanity
 
 .test: &test
   stage: test
@@ -63,37 +63,37 @@ before_script:
     paths:
       - screenshots/*.png
 
-# ce:instance:
-#   script: bin/qa Test::Instance::Image CE
-#   <<: *test
-#
-# ee:instance:
-#   script: bin/qa Test::Instance::Image EE
-#   <<: *test
-#
-# ce:image:
-#   script: bin/qa Test::Omnibus::Image CE
-#   <<: *test
-#
-# ee:image:
-#   script: bin/qa Test::Omnibus::Image EE
-#   <<: *test
-#
-# ce:upgrade:
-#   script: bin/qa Test::Omnibus::Upgrade CE
-#   <<: *test
-#
-# ee:upgrade:
-#   script: bin/qa Test::Omnibus::Upgrade EE
-#   <<: *test
-#
-# ce:mattermost:
-#   script: bin/qa Test::Integration::Mattermost CE
-#   <<: *test
-#
-# ee:mattermost:
-#   script: bin/qa Test::Integration::Mattermost EE
-#   <<: *test
+ce:instance:
+  script: bin/qa Test::Instance::Image CE
+  <<: *test
+
+ee:instance:
+  script: bin/qa Test::Instance::Image EE
+  <<: *test
+
+ce:image:
+  script: bin/qa Test::Omnibus::Image CE
+  <<: *test
+
+ee:image:
+  script: bin/qa Test::Omnibus::Image EE
+  <<: *test
+
+ce:upgrade:
+  script: bin/qa Test::Omnibus::Upgrade CE
+  <<: *test
+
+ee:upgrade:
+  script: bin/qa Test::Omnibus::Upgrade EE
+  <<: *test
+
+ce:mattermost:
+  script: bin/qa Test::Integration::Mattermost CE
+  <<: *test
+
+ee:mattermost:
+  script: bin/qa Test::Integration::Mattermost EE
+  <<: *test
 
 ee:geo:
   script: bin/qa Test::Integration::Geo EE
