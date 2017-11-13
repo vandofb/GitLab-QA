@@ -11,9 +11,11 @@ module Gitlab
 
                 mattermost_hostname = "mattermost.#{gitlab.network}"
                 mattermost_external_url = "http://#{mattermost_hostname}"
-                gitlab.omnibus_config =
-                  "mattermost_external_url '#{mattermost_external_url}'"
-                gitlab.network_aliases = [mattermost_hostname]
+
+                gitlab.add_network_alias(mattermost_hostname)
+                gitlab.omnibus_config = <<~OMNIBUS
+                  mattermost_external_url '#{mattermost_external_url}'
+                OMNIBUS
 
                 gitlab.instance do
                   Component::Specs.perform do |specs|

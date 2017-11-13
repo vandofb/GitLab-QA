@@ -2,7 +2,6 @@ require 'securerandom'
 require 'net/http'
 require 'uri'
 require 'forwardable'
-require 'shellwords'
 
 module Gitlab
   module QA
@@ -14,7 +13,7 @@ module Gitlab
         # rubocop:disable Style/Semicolon
 
         attr_reader :release, :docker
-        attr_accessor :volumes, :network, :environment, :network_aliases
+        attr_accessor :volumes, :network, :environment
 
         def_delegators :release, :tag, :image, :edition
 
@@ -28,7 +27,11 @@ module Gitlab
         end
 
         def omnibus_config=(config)
-          @environment['GITLAB_OMNIBUS_CONFIG'] = config
+          @environment['GITLAB_OMNIBUS_CONFIG'] = config.tr("\n", ' ')
+        end
+
+        def add_network_alias(name)
+          @network_aliases.push(name)
         end
 
         def release=(release)
@@ -79,8 +82,7 @@ module Gitlab
             end
 
             @environment.to_h.each do |key, value|
-              escaped_value = Shellwords.escape(value)
-              command << "--env #{key}=#{escaped_value}"
+              command << %(--env #{key}="#{value}")
             end
 
             @network_aliases.to_a.each do |network_alias|

@@ -8,7 +8,7 @@ describe Gitlab::QA::Component::Gitlab do
         subject.omnibus_config = '# Be configured'
       end
 
-      it 'updates #environment' do
+      it 'updates environment variables' do
         expect(subject.environment['GITLAB_OMNIBUS_CONFIG'])
           .to eq('# Be configured')
       end
@@ -135,41 +135,31 @@ describe Gitlab::QA::Component::Gitlab do
 
       it 'adds --volume switches to the command' do
         subject.start
+
         expect(args).to include('--volume /from:/to:Z')
       end
     end
 
     context 'with environment' do
-      context 'plain values' do
-        before do
-          subject.environment = { 'TEST' => 'value' }
-        end
-
-        it 'adds --env switches to the command' do
-          subject.start
-          expect(args).to include('--env TEST=value')
-        end
+      before do
+        subject.environment = { 'TEST' => 'a value with spaces' }
       end
 
-      context 'values with spaces' do
-        before do
-          subject.environment = { 'TEST' => 'a value with spaces' }
-        end
+      it 'adds quotes around env' do
+        subject.start
 
-        it 'adds --env shell escaped values' do
-          subject.start
-          expect(args).to include('--env TEST=a\ value\ with\ spaces')
-        end
+        expect(args).to include('--env TEST="a value with spaces"')
       end
     end
 
-    context 'with network_aliases' do
+    context 'with network_alias' do
       before do
-        subject.network_aliases = ['lolcathost']
+        subject.add_network_alias('lolcathost')
       end
 
       it 'adds --network-alias switches to the command' do
         subject.start
+
         expect(args).to include('--network-alias lolcathost')
       end
     end

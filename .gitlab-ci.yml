@@ -93,3 +93,12 @@ ce:mattermost:
 ee:mattermost:
   script: bin/qa Test::Integration::Mattermost EE
   <<: *test
+
+ee:geo:
+  script: bin/qa Test::Integration::Geo EE
+  allow_failure: true
+  tags:
+    - docker
+    - 7gb
+    - triggered-packages
+  <<: *test
