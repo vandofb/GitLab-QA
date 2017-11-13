@@ -2,7 +2,6 @@ require 'securerandom'
 require 'net/http'
 require 'uri'
 require 'forwardable'
-require 'shellwords'
 
 module Gitlab
   module QA
@@ -28,7 +27,7 @@ module Gitlab
         end
 
         def omnibus_config=(config)
-          @environment['GITLAB_OMNIBUS_CONFIG'] = config
+          @environment['GITLAB_OMNIBUS_CONFIG'] = config.gsub("\n", ' ')
         end
 
         def add_network_alias(name)
@@ -83,8 +82,7 @@ module Gitlab
             end
 
             @environment.to_h.each do |key, value|
-              escaped_value = Shellwords.escape(value)
-              command << "--env #{key}=#{escaped_value}"
+              command << %Q[--env #{key}="#{value}"]
             end
 
             @network_aliases.to_a.each do |network_alias|
