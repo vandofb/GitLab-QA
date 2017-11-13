@@ -5,7 +5,6 @@ stages:
   - check
   - sanity
   - test
-  - notify
 
 variables:
   TEST_IMAGE: registry.gitlab.com/gitlab-org/gitlab-build-images:gitlab-qa
@@ -94,15 +93,3 @@ ce:mattermost:
 ee:mattermost:
   script: bin/qa Test::Integration::Mattermost EE
   <<: *test
-
-notify:slack:
-  before_script:
-    - apk update && apk add git curl bash
-  image: alpine
-  stage: notify
-  script:
-    - bin/slack "#development" "Pipeline on \`$CI_BUILD_REF_NAME\` failed! Commit \`$(git log -1 --oneline | sed 's|\"|\\\\\"|g')\` See <https://gitlab.com/gitlab-org/gitlab-qa/commit/"$CI_BUILD_REF"/pipelines>"
-  when: on_failure
-  only:
-    - master
-    - tags@gitlab-org/gitlab-qa
