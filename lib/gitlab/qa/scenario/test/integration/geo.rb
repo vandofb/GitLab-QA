@@ -4,7 +4,11 @@ module Gitlab
       module Test
         module Integration
           class Geo < Scenario::Template
-            def perform(release) # rubocop:disable Metrics/MethodLength
+            ##
+            # rubocop:disable Metrics/MethodLength
+            # rubocop:disable Metrics/AbcSize
+            #
+            def perform(release)
               release = Release.new(release)
 
               unless release.edition == :ee
@@ -41,6 +45,18 @@ module Gitlab
 
                       # shellout to instance specs
                       puts 'Running Geo primary / secondary specs!'
+
+                      Component::Specs.perform do |specs|
+                        specs.suite = 'Test::Integration::Geo'
+                        specs.release = release
+                        specs.network = 'geo'
+                        specs.args = [
+                          '--primary-address', primary.address,
+                          '--primary-name', primary.name,
+                          '--secondary-address', secondary.address,
+                          '--secondary-name', secondary.name
+                        ]
+                      end
 
                       teardown
                     end
