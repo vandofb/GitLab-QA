@@ -32,8 +32,17 @@ module Gitlab
                       gitlab_rails['db_key_base'] = '4dd58204865eb41bca93bd38131d51cc';
                     OMNIBUS
 
-                    secondary.instance do
-                      puts 'Geo nodes configured!'
+                    secondary.act do
+                      # TODO, we do not wait for secondary to start because of
+                      # https://gitlab.com/gitlab-org/gitlab-ee/issues/3999
+                      #
+                      # rubocop:disable Style/Semicolon
+                      prepare; start; reconfigure
+
+                      # shellout to instance specs
+                      puts 'Running Geo primary / secondary specs!'
+
+                      teardown
                     end
                   end
                 end
