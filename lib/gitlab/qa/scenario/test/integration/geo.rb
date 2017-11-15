@@ -17,6 +17,7 @@ module Gitlab
 
               Component::Gitlab.perform do |primary|
                 primary.release = release
+                primary.name = 'gitlab-primary'
                 primary.network = 'geo'
                 primary.omnibus_config = <<~OMNIBUS
                   geo_primary_role['enable'] = true;
@@ -30,6 +31,7 @@ module Gitlab
                 primary.instance do
                   Component::Gitlab.perform do |secondary|
                     secondary.release = release
+                    secondary.name = 'gitlab-secondary'
                     secondary.network = 'geo'
                     secondary.omnibus_config = <<~OMNIBUS
                       geo_secondary_role['enable'] = true;
