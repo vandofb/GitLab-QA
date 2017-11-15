@@ -49,7 +49,7 @@ module Gitlab
                       puts 'Running Geo primary / secondary specs!'
 
                       Component::Specs.perform do |specs|
-                        specs.suite = 'Test::Integration::Geo'
+                        specs.suite = 'QA::EE::Scenario::Test::Geo'
                         specs.release = release
                         specs.network = 'geo'
                         specs.args = [
