@@ -14,7 +14,7 @@ module Gitlab
 
         attr_reader :release, :docker
         attr_accessor :volumes, :network, :environment
-        attr_writter: :name
+        attr_writer :name
 
         def_delegators :release, :tag, :image, :edition
 
