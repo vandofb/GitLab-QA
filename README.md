@@ -33,9 +33,13 @@ command in your system.
 
     `gitlab-qa Test::Integration::Mattermost CE|EE|<full image address>`
 
-1. Test upgrade process:
+1. Test update process between two CE or EE subsequent versions:
 
-    `gitlab-qa Test::Omnibus::Upgrade CE|EE|<full image address>`
+    `gitlab-qa Test::Omnibus::Update CE|EE|<full image address>`
+
+1. Test upgrade process from CE to EE:
+
+    `gitlab-qa Test::Omnibus::Upgrade CE|<full CE image address>`
 
 1. Run tests against any existing instance:
 

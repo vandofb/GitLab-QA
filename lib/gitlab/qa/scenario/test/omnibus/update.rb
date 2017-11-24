@@ -6,20 +6,20 @@ module Gitlab
     module Scenario
       module Test
         module Omnibus
-          class Upgrade < Scenario::Template
+          class Update < Scenario::Template
             include WithTempVolumes
 
-            def perform(image = 'CE')
-              ce = Release.new(image)
+            def perform(next_release)
+              next_release = Release.new(next_release)
 
               with_temporary_volumes do |volumes|
                 Scenario::Test::Instance::Image
-                  .perform(ce) do |scenario|
+                  .perform(next_release.previous_stable) do |scenario|
                   scenario.volumes = volumes
                 end
 
                 Scenario::Test::Instance::Image
-                  .perform(Release.new('EE')) do |scenario|
+                  .perform(next_release) do |scenario|
                   scenario.volumes = volumes
                 end
               end

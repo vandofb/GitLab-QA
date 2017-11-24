@@ -11,6 +11,7 @@ module Gitlab
     module Scenario
       autoload :Actable, 'qa/scenario/actable'
       autoload :Template, 'qa/scenario/template'
+      autoload :WithTempVolumes, 'qa/scenario/with_temp_volumes'
 
       module Test
         module Instance
@@ -20,8 +21,8 @@ module Gitlab
 
         module Omnibus
           autoload :Image, 'qa/scenario/test/omnibus/image'
+          autoload :Update, 'qa/scenario/test/omnibus/update'
           autoload :Upgrade, 'qa/scenario/test/omnibus/upgrade'
-          autoload :EditionUpgrade, 'qa/scenario/test/omnibus/edition_upgrade'
         end
 
         module Integration

@@ -78,16 +78,16 @@ ee:image:
   script: bin/qa Test::Omnibus::Image EE
   <<: *test
 
-ce:upgrade:
-  script: bin/qa Test::Omnibus::Upgrade CE
+ce:update:
+  script: bin/qa Test::Omnibus::Update CE
   <<: *test
 
-ee:upgrade:
-  script: bin/qa Test::Omnibus::Upgrade EE
+ee:update:
+  script: bin/qa Test::Omnibus::Update EE
   <<: *test
 
 ce-to-ee:upgrade:
-  script: bin/qa Test::Omnibus::EditionUpgrade
+  script: bin/qa Test::Omnibus::Upgrade
   <<: *test
 
 ce:mattermost:
