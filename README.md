@@ -98,6 +98,8 @@ tests against it (see `Test::Instance::Image` above).
 * `EE_LICENSE` - Enterprise Edition license
 * `QA_SCREENSHOTS_DIR` - Path to a directory where screenshots for failing tests
   will be saved (default: `/tmp/gitlab-qa-screenshots`)
+* `QA_LOGS_DIR` - Path to a directory where logs will be saved (default:
+  `/tmp/gitlab-qa-logs`)
 * `DOCKER_HOST` - Docker host to run tests against (default: `http://localhost`)
 
 ## Contributing

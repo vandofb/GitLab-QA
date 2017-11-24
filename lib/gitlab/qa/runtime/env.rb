@@ -13,6 +13,10 @@ module Gitlab
           ENV['QA_SCREENSHOTS_DIR'] || '/tmp/gitlab-qa-screenshots'
         end
 
+        def logs_dir
+          ENV['QA_LOGS_DIR'] || '/tmp/gitlab-qa-logs'
+        end
+
         def delegated
           VARIABLES.select { |name| ENV[name] }
         end
