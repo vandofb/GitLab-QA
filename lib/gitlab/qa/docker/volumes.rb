@@ -8,8 +8,6 @@ module Gitlab
                     'logs' => '/var/log/gitlab',
                     'data' => '/var/opt/gitlab' }.freeze
 
-        attr_reader :volumes
-
         def initialize(volumes = VOLUMES)
           @volumes = volumes
         end
@@ -19,7 +17,7 @@ module Gitlab
           # but Docker on macOS exposes /private and disallow exposing /var/
           # so we need to get the real tmpdir path
           Dir.mktmpdir('gitlab-qa-', File.realpath(Dir.tmpdir)).tap do |dir|
-            yield Hash[volumes.map { |k, v| ["#{dir}/#{k}", v] }]
+            yield Hash[@volumes.map { |k, v| ["#{dir}/#{k}", v] }]
           end
         end
       end

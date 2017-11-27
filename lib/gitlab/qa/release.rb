@@ -38,7 +38,7 @@ module Gitlab
       def to_ee
         return self if ee?
 
-        self.class.new(to_s.sub('ce', 'ee'))
+        self.class.new(to_s.sub('ce:', 'ee:'))
       end
 
       def image

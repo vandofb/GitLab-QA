@@ -272,6 +272,23 @@ describe Gitlab::QA::Release do
         it { expect(subject.to_ee.to_s).to eq subject.to_s }
       end
     end
+
+    context 'when tag includes `ce`' do
+      subject { described_class.new('CE:abcdcef') }
+
+      it { expect(subject.to_ee.to_s).to eq 'gitlab/gitlab-ee:abcdcef' }
+    end
+    context 'when tag includes `ee`' do
+      subject { described_class.new('CE:abcdeef') }
+
+      it { expect(subject.to_ee.to_s).to eq 'gitlab/gitlab-ee:abcdeef' }
+    end
+
+    context 'when release is a full CE address with `ce` in the address outside of the image' do
+      subject { described_class.new('registry.gitlab.com/cef/gitlab/gitlab-ce:latest') }
+
+      it { expect(subject.to_ee.to_s).to eq 'registry.gitlab.com/cef/gitlab/gitlab-ee:latest' }
+    end
   end
 
   describe '#image' do

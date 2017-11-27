@@ -11,7 +11,7 @@ module Gitlab
             def perform(release)
               release = Release.new(release)
 
-              unless release.edition == :ee
+              unless release.edition.ee?
                 raise ArgumentError, 'Geo is EE only!'
               end
 
