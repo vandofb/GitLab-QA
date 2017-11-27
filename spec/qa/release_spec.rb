@@ -39,6 +39,12 @@ describe Gitlab::QA::Release do
     end
 
     context 'when release is a full CE address' do
+      context 'without a tag' do
+        subject { described_class.new(full_ce_address) }
+
+        it { expect(subject.to_s).to eq full_ce_address_with_simple_tag }
+      end
+
       context 'with a simple tag' do
         subject { described_class.new(full_ce_address_with_simple_tag) }
 
@@ -245,6 +251,18 @@ describe Gitlab::QA::Release do
       it { expect(subject.to_ee.to_s).to eq "gitlab/gitlab-ee:#{specific_tag}" }
     end
 
+    context 'when tag includes `ce`' do
+      subject { described_class.new('CE:abcdcef') }
+
+      it { expect(subject.to_ee.to_s).to eq 'gitlab/gitlab-ee:abcdcef' }
+    end
+
+    context 'when tag includes `ee`' do
+      subject { described_class.new('CE:abcdeef') }
+
+      it { expect(subject.to_ee.to_s).to eq 'gitlab/gitlab-ee:abcdeef' }
+    end
+
     context 'when release is a full CE address' do
       context 'with a simple tag' do
         subject { described_class.new(full_ce_address_with_simple_tag) }
@@ -256,6 +274,15 @@ describe Gitlab::QA::Release do
         subject { described_class.new(full_ce_address_with_complex_tag) }
 
         it { expect(subject.to_ee.to_s).to eq full_ee_address_with_complex_tag }
+      end
+
+      context 'and `ce` in the address outside of the image' do
+        let(:ce_image) { 'registry.gitlab.com/cef/gitlab/gitlab-ce:latest' }
+        let(:ee_image) { 'registry.gitlab.com/cef/gitlab/gitlab-ee:latest' }
+
+        subject { described_class.new(ce_image) }
+
+        it { expect(subject.to_ee.to_s).to eq ee_image }
       end
     end
 
@@ -271,23 +298,6 @@ describe Gitlab::QA::Release do
 
         it { expect(subject.to_ee.to_s).to eq subject.to_s }
       end
-    end
-
-    context 'when tag includes `ce`' do
-      subject { described_class.new('CE:abcdcef') }
-
-      it { expect(subject.to_ee.to_s).to eq 'gitlab/gitlab-ee:abcdcef' }
-    end
-    context 'when tag includes `ee`' do
-      subject { described_class.new('CE:abcdeef') }
-
-      it { expect(subject.to_ee.to_s).to eq 'gitlab/gitlab-ee:abcdeef' }
-    end
-
-    context 'when release is a full CE address with `ce` in the address outside of the image' do
-      subject { described_class.new('registry.gitlab.com/cef/gitlab/gitlab-ce:latest') }
-
-      it { expect(subject.to_ee.to_s).to eq 'registry.gitlab.com/cef/gitlab/gitlab-ee:latest' }
     end
   end
 

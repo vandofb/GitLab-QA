@@ -11,9 +11,7 @@ module Gitlab
             def perform(release)
               release = Release.new(release)
 
-              unless release.edition.ee?
-                raise ArgumentError, 'Geo is EE only!'
-              end
+              raise ArgumentError, 'Geo is EE only!' unless release.edition.ee?
 
               Component::Gitlab.perform do |primary|
                 primary.release = release
