@@ -10,7 +10,7 @@ module Gitlab
             def perform(image = 'CE')
               ce_release = Release.new(image)
 
-              unless ce_release.edition.ee?
+              unless ce_release.ee?
                 raise ArgumentError, 'Only CE can be upgraded to EE!'
               end
 
