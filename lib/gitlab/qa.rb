@@ -11,7 +11,6 @@ module Gitlab
     module Scenario
       autoload :Actable, 'qa/scenario/actable'
       autoload :Template, 'qa/scenario/template'
-      autoload :WithTempVolumes, 'qa/scenario/with_temp_volumes'
 
       module Test
         module Instance
@@ -45,6 +44,7 @@ module Gitlab
       autoload :Engine, 'qa/docker/engine'
       autoload :Command, 'qa/docker/command'
       autoload :Shellout, 'qa/docker/shellout'
+      autoload :Volumes, 'qa/docker/volumes'
     end
   end
 end

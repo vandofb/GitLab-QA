@@ -178,6 +178,102 @@ describe Gitlab::QA::Release do
     end
   end
 
+  describe '#ee?' do
+    context 'when release is CE' do
+      subject { described_class.new('CE') }
+
+      it { expect(subject).not_to be_ee }
+    end
+
+    context 'when release is EE' do
+      subject { described_class.new('EE') }
+
+      it { expect(subject).to be_ee }
+    end
+
+    context 'when release is edition:tag' do
+      subject { described_class.new("ce:#{specific_tag}") }
+
+      it { expect(subject).not_to be_ee }
+    end
+
+    context 'when release is a full CE address' do
+      context 'with a simple tag' do
+        subject { described_class.new(full_ce_address_with_simple_tag) }
+
+        it { expect(subject).not_to be_ee }
+      end
+
+      context 'with a complex tag' do
+        subject { described_class.new(full_ce_address_with_complex_tag) }
+
+        it { expect(subject).not_to be_ee }
+      end
+    end
+
+    context 'when release is a full EE address' do
+      context 'with a simple tag' do
+        subject { described_class.new(full_ee_address_with_simple_tag) }
+
+        it { expect(subject).to be_ee }
+      end
+
+      context 'with a complex tag' do
+        subject { described_class.new(full_ee_address_with_complex_tag) }
+
+        it { expect(subject).to be_ee }
+      end
+    end
+  end
+
+  describe '#to_ee' do
+    context 'when release is CE' do
+      subject { described_class.new('CE') }
+
+      it { expect(subject.to_ee.to_s).to eq 'gitlab/gitlab-ee:nightly' }
+    end
+
+    context 'when release is EE' do
+      subject { described_class.new('EE') }
+
+      it { expect(subject.to_ee.to_s).to eq subject.to_s }
+    end
+
+    context 'when release is edition:tag' do
+      subject { described_class.new("ce:#{specific_tag}") }
+
+      it { expect(subject.to_ee.to_s).to eq "gitlab/gitlab-ee:#{specific_tag}" }
+    end
+
+    context 'when release is a full CE address' do
+      context 'with a simple tag' do
+        subject { described_class.new(full_ce_address_with_simple_tag) }
+
+        it { expect(subject.to_ee.to_s).to eq full_ee_address_with_simple_tag }
+      end
+
+      context 'with a complex tag' do
+        subject { described_class.new(full_ce_address_with_complex_tag) }
+
+        it { expect(subject.to_ee.to_s).to eq full_ee_address_with_complex_tag }
+      end
+    end
+
+    context 'when release is a full EE address' do
+      context 'with a simple tag' do
+        subject { described_class.new(full_ee_address_with_simple_tag) }
+
+        it { expect(subject.to_ee.to_s).to eq subject.to_s }
+      end
+
+      context 'with a complex tag' do
+        subject { described_class.new(full_ee_address_with_complex_tag) }
+
+        it { expect(subject.to_ee.to_s).to eq subject.to_s }
+      end
+    end
+  end
+
   describe '#image' do
     context 'when release is CE' do
       subject { described_class.new('CE') }

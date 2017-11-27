@@ -31,6 +31,16 @@ module Gitlab
           end
       end
 
+      def ee?
+        edition == :ee
+      end
+
+      def to_ee
+        return self if ee?
+
+        self.class.new(to_s.sub('ce', 'ee'))
+      end
+
       def image
         @image ||=
           if canonical?
