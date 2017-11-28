@@ -33,9 +33,13 @@ command in your system.
 
     `gitlab-qa Test::Integration::Mattermost CE|EE|<full image address>`
 
-1. Test upgrade process:
+1. Test update process between two CE or EE subsequent versions:
 
-    `gitlab-qa Test::Omnibus::Upgrade CE|EE|<full image address>`
+    `gitlab-qa Test::Omnibus::Update CE|EE|<full image address>`
+
+1. Test upgrade process from CE to EE:
+
+    `gitlab-qa Test::Omnibus::Upgrade CE|<full CE image address>`
 
 1. Run tests against any existing instance:
 
@@ -93,7 +97,9 @@ tests against it (see `Test::Instance::Image` above).
 * `GITLAB_PASSWORD` - password to use when signing in to GitLab
 * `EE_LICENSE` - Enterprise Edition license
 * `QA_SCREENSHOTS_DIR` - Path to a directory where screenshots for failing tests
-  will be saved (default: `/tmp/gitlab-qa-screenshots`)
+  will be saved (default: `/tmp/gitlab-qa/screenshots`)
+* `QA_LOGS_DIR` - Path to a directory where logs will be saved (default:
+  `/tmp/gitlab-qa/logs`)
 * `DOCKER_HOST` - Docker host to run tests against (default: `http://localhost`)
 
 ## Contributing

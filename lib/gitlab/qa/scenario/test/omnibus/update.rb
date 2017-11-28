@@ -6,22 +6,18 @@ module Gitlab
     module Scenario
       module Test
         module Omnibus
-          class Upgrade < Scenario::Template
-            def perform(image = 'CE')
-              ce_release = Release.new(image)
-
-              if ce_release.ee?
-                raise ArgumentError, 'Only CE can be upgraded to EE!'
-              end
+          class Update < Scenario::Template
+            def perform(next_release)
+              next_release = Release.new(next_release)
 
               Docker::Volumes.new.with_temporary_volumes do |volumes|
                 Scenario::Test::Instance::Image
-                  .perform(ce_release) do |scenario|
+                  .perform(next_release.previous_stable) do |scenario|
                   scenario.volumes = volumes
                 end
 
                 Scenario::Test::Instance::Image
-                  .perform(ce_release.to_ee) do |scenario|
+                  .perform(next_release) do |scenario|
                   scenario.volumes = volumes
                 end
               end

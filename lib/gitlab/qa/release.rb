@@ -3,7 +3,8 @@ module Gitlab
     class Release
       CANONICAL_REGEX = /\A(?<edition>ce|ee):?(?<tag>.+)?/i
       CUSTOM_GITLAB_IMAGE_REGEX = %r{/gitlab-(?<edition>[ce]e):(?<tag>.+)\z}
-      DEFAULT_TAG = 'nightly'.freeze
+      DEFAULT_TAG = 'latest'.freeze
+      DEFAULT_CANONICAL_TAG = 'nightly'.freeze
 
       attr_reader :release
       attr_writer :tag
@@ -31,6 +32,16 @@ module Gitlab
           end
       end
 
+      def ee?
+        edition == :ee
+      end
+
+      def to_ee
+        return self if ee?
+
+        self.class.new(to_s.sub('ce:', 'ee:'))
+      end
+
       def image
         @image ||=
           if canonical?
@@ -47,9 +58,9 @@ module Gitlab
       def tag
         @tag ||=
           if canonical?
-            release.match(CANONICAL_REGEX)[:tag] || DEFAULT_TAG
+            release.match(CANONICAL_REGEX)[:tag] || DEFAULT_CANONICAL_TAG
           else
-            release.match(CUSTOM_GITLAB_IMAGE_REGEX)[:tag]
+            release.match(CUSTOM_GITLAB_IMAGE_REGEX)&.[](:tag) || DEFAULT_TAG
           end
       end
 

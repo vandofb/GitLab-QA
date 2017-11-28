@@ -20,6 +20,7 @@ module Gitlab
 
         module Omnibus
           autoload :Image, 'qa/scenario/test/omnibus/image'
+          autoload :Update, 'qa/scenario/test/omnibus/update'
           autoload :Upgrade, 'qa/scenario/test/omnibus/upgrade'
         end
 
@@ -43,6 +44,7 @@ module Gitlab
       autoload :Engine, 'qa/docker/engine'
       autoload :Command, 'qa/docker/command'
       autoload :Shellout, 'qa/docker/shellout'
+      autoload :Volumes, 'qa/docker/volumes'
     end
   end
 end

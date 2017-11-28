@@ -11,6 +11,7 @@ variables:
   DOCKER_DRIVER: overlay
   DOCKER_HOST: tcp://docker:2375
   QA_SCREENSHOTS_DIR: $CI_PROJECT_DIR/screenshots
+  QA_LOGS_DIR: $CI_PROJECT_DIR/logs
 
 before_script:
   - bundle install
@@ -61,6 +62,7 @@ ee:version:
     expire_in: 30d
     paths:
       - screenshots/*.png
+      - logs/*.log
 
 ce:instance:
   script: bin/qa Test::Instance::Image CE
@@ -78,12 +80,16 @@ ee:image:
   script: bin/qa Test::Omnibus::Image EE
   <<: *test
 
-ce:upgrade:
-  script: bin/qa Test::Omnibus::Upgrade CE
+ce:update:
+  script: bin/qa Test::Omnibus::Update CE
   <<: *test
 
-ee:upgrade:
-  script: bin/qa Test::Omnibus::Upgrade EE
+ee:update:
+  script: bin/qa Test::Omnibus::Update EE
+  <<: *test
+
+ce:upgrade:
+  script: bin/qa Test::Omnibus::Upgrade
   <<: *test
 
 ce:mattermost:
