@@ -15,6 +15,9 @@ variables:
 
 before_script:
   - bundle install
+  # Detecting CE/EE from job name. Sets to an array and read $1
+  - set -- $CI_JOB_NAME
+  - if [ -z "$GITLAB_IMAGE" ]; then GITLAB_IMAGE=$1; fi
 
 check:rubocop:
   stage: check
@@ -37,20 +40,15 @@ check:rspec:
 .sanity: &sanity
   stage: sanity
   image: $TEST_IMAGE
+  allow_failure: true
+  script: bin/qa Test::Sanity::Version $GITLAB_IMAGE
   except:
     - triggers
   tags:
     - docker
 
-ce:version:
-  script: bin/qa Test::Sanity::Version CE
-  allow_failure: true
-  <<: *sanity
-
-ee:version:
-  script: bin/qa Test::Sanity::Version EE
-  allow_failure: true
-  <<: *sanity
+ce version: *sanity
+ee version: *sanity
 
 .test: &test
   stage: test
@@ -64,43 +62,39 @@ ee:version:
       - screenshots/*.png
       - logs/*.log
 
-ce:instance:
-  script: bin/qa Test::Instance::Image CE
+.instance: &instance
+  script: bin/qa Test::Instance::Image $GITLAB_IMAGE
   <<: *test
 
-ee:instance:
-  script: bin/qa Test::Instance::Image EE
+.image: &image
+  script: bin/qa Test::Omnibus::Image $GITLAB_IMAGE
   <<: *test
 
-ce:image:
-  script: bin/qa Test::Omnibus::Image CE
+.update: &update
+  script: bin/qa Test::Omnibus::Update $GITLAB_IMAGE
   <<: *test
 
-ee:image:
-  script: bin/qa Test::Omnibus::Image EE
+.mattermost: &mattermost
+  script: bin/qa Test::Integration::Mattermost $GITLAB_IMAGE
   <<: *test
 
-ce:update:
-  script: bin/qa Test::Omnibus::Update CE
-  <<: *test
+ce instance: *instance
+ee instance: *instance
 
-ee:update:
-  script: bin/qa Test::Omnibus::Update EE
-  <<: *test
+ce image: *image
+ee image: *image
 
-ce:upgrade:
+ce update: *update
+ee update: *update
+
+ce mattermost: *mattermost
+ee mattermost: *mattermost
+
+ce upgrade:
   script: bin/qa Test::Omnibus::Upgrade
   <<: *test
 
-ce:mattermost:
-  script: bin/qa Test::Integration::Mattermost CE
-  <<: *test
-
-ee:mattermost:
-  script: bin/qa Test::Integration::Mattermost EE
-  <<: *test
-
-ee:geo:
+ee geo:
   script: bin/qa Test::Integration::Geo EE
   <<: *test
   allow_failure: true
