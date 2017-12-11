@@ -43,12 +43,12 @@ check:rspec:
     - docker
 
 ce:version:
-  script: bin/qa Test::Sanity::Version ${RELEASE:=CE}
+  script: bin/qa Test::Sanity::Version CE
   allow_failure: true
   <<: *sanity
 
 ee:version:
-  script: bin/qa Test::Sanity::Version ${RELEASE:=EE}
+  script: bin/qa Test::Sanity::Version EE
   allow_failure: true
   <<: *sanity
 
@@ -101,7 +101,7 @@ ee:mattermost:
   <<: *test
 
 ee:geo:
-  script: bin/qa Test::Integration::Geo EE
+  script: bin/qa Test::Integration::Geo ${RELEASE:=EE}
   <<: *test
   tags:
     - docker
