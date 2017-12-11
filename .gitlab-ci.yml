@@ -43,12 +43,12 @@ check:rspec:
     - docker
 
 ce:version:
-  script: bin/qa Test::Sanity::Version CE
+  script: bin/qa Test::Sanity::Version ${RELEASE:=CE}
   allow_failure: true
   <<: *sanity
 
 ee:version:
-  script: bin/qa Test::Sanity::Version EE
+  script: bin/qa Test::Sanity::Version ${RELEASE:=EE}
   allow_failure: true
   <<: *sanity
 
@@ -65,27 +65,27 @@ ee:version:
       - logs/*.log
 
 ce:instance:
-  script: bin/qa Test::Instance::Image CE
+  script: bin/qa Test::Instance::Image ${RELEASE:=CE}
   <<: *test
 
 ee:instance:
-  script: bin/qa Test::Instance::Image EE
+  script: bin/qa Test::Instance::Image ${RELEASE:=EE}
   <<: *test
 
 ce:image:
-  script: bin/qa Test::Omnibus::Image CE
+  script: bin/qa Test::Omnibus::Image ${RELEASE:=CE}
   <<: *test
 
 ee:image:
-  script: bin/qa Test::Omnibus::Image EE
+  script: bin/qa Test::Omnibus::Image ${RELEASE:=EE}
   <<: *test
 
 ce:update:
-  script: bin/qa Test::Omnibus::Update CE
+  script: bin/qa Test::Omnibus::Update ${RELEASE:=CE}
   <<: *test
 
 ee:update:
-  script: bin/qa Test::Omnibus::Update EE
+  script: bin/qa Test::Omnibus::Update ${RELEASE:=EE}
   <<: *test
 
 ce:upgrade:
@@ -93,11 +93,11 @@ ce:upgrade:
   <<: *test
 
 ce:mattermost:
-  script: bin/qa Test::Integration::Mattermost CE
+  script: bin/qa Test::Integration::Mattermost ${RELEASE:=CE}
   <<: *test
 
 ee:mattermost:
-  script: bin/qa Test::Integration::Mattermost EE
+  script: bin/qa Test::Integration::Mattermost ${RELEASE:=EE}
   <<: *test
 
 ee:geo:
