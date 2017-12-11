@@ -51,6 +51,10 @@ module Gitlab
           end
       end
 
+      def qa_image
+        "#{image}-qa"
+      end
+
       def project_name
         @project_name ||= image.sub(%r{^gitlab\/}, '')
       end

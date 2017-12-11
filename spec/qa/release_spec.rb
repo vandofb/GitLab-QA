@@ -349,6 +349,48 @@ describe Gitlab::QA::Release do
     end
   end
 
+  describe '#qa_image' do
+    context 'when release is CE' do
+      subject { described_class.new('CE') }
+
+      it { expect(subject.qa_image).to eq 'gitlab/gitlab-ce-qa' }
+    end
+
+    context 'when release is EE' do
+      subject { described_class.new('EE') }
+
+      it { expect(subject.qa_image).to eq 'gitlab/gitlab-ee-qa' }
+    end
+
+    context 'when release is a full CE address' do
+      context 'with a simple tag' do
+        subject { described_class.new(full_ce_address_with_simple_tag) }
+
+        it { expect(subject.qa_image).to eq "#{full_ce_address}-qa" }
+      end
+
+      context 'with a complex tag' do
+        subject { described_class.new(full_ce_address_with_complex_tag) }
+
+        it { expect(subject.qa_image).to eq "#{full_ce_address}-qa" }
+      end
+    end
+
+    context 'when release is a full EE address' do
+      context 'with a simple tag' do
+        subject { described_class.new(full_ee_address_with_simple_tag) }
+
+        it { expect(subject.qa_image).to eq "#{full_ee_address}-qa" }
+      end
+
+      context 'with a complex tag' do
+        subject { described_class.new(full_ee_address_with_complex_tag) }
+
+        it { expect(subject.qa_image).to eq "#{full_ee_address}-qa" }
+      end
+    end
+  end
+
   describe '#project_name' do
     context 'when release is CE' do
       subject { described_class.new('CE') }
