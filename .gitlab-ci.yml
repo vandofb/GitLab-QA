@@ -103,7 +103,6 @@ ee:mattermost:
 ee:geo:
   script: bin/qa Test::Integration::Geo EE
   <<: *test
-  allow_failure: true
   tags:
     - docker
     - 7gb
