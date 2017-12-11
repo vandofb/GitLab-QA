@@ -101,7 +101,7 @@ ee:mattermost:
   <<: *test
 
 ee:geo:
-  script: bin/qa Test::Integration::Geo EE
+  script: bin/qa Test::Integration::Geo ${RELEASE:=EE}
   <<: *test
   tags:
     - docker
