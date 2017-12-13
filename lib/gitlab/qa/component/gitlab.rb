@@ -10,8 +10,6 @@ module Gitlab
         extend Forwardable
         include Scenario::Actable
 
-        # rubocop:disable Style/Semicolon
-
         attr_reader :release, :docker
         attr_accessor :volumes, :network, :environment
         attr_writer :name
@@ -54,7 +52,10 @@ module Gitlab
         def instance
           raise 'Please provide a block!' unless block_given?
 
-          prepare; start; reconfigure; wait
+          prepare
+          start
+          reconfigure
+          wait
 
           yield self
 
@@ -65,11 +66,11 @@ module Gitlab
           @docker.pull(image, tag)
 
           return if @docker.network_exists?(network)
+
           @docker.network_create(network)
         end
 
-        # rubocop:disable Metrics/AbcSize
-        def start
+        def start # rubocop:disable Metrics/AbcSize
           ensure_configured!
 
           docker.run(image, tag) do |command|
@@ -137,11 +138,8 @@ module Gitlab
 
         private
 
-        # rubocop:disable Style/GuardClause
         def ensure_configured!
-          unless [name, release, network].all?
-            raise 'Please configure an instance first!'
-          end
+          raise 'Please configure an instance first!' unless [name, release, network].all?
         end
 
         class Availability

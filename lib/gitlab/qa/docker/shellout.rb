@@ -4,7 +4,7 @@ module Gitlab
   module QA
     module Docker
       class Shellout
-        class StatusError < StandardError; end
+        StatusError = Class.new(StandardError)
 
         def initialize(command)
           @command = command

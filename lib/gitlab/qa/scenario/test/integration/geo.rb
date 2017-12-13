@@ -5,6 +5,7 @@ module Gitlab
         module Integration
           class Geo < Scenario::Template
             ##
+            # rubocop:disable Lint/MissingCopEnableDirective
             # rubocop:disable Metrics/MethodLength
             # rubocop:disable Metrics/AbcSize
             #

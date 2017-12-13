@@ -15,11 +15,13 @@ module Gitlab
             HOURS_AGO = 24
             COMMITS = 10_000
 
-            # rubocop:disable Style/Semicolon
             def perform(release)
               version = Component::Gitlab.perform do |gitlab|
                 gitlab.release = release
-                gitlab.act { pull; sha_version }
+                gitlab.act do
+                  pull
+                  sha_version
+                end
               end
 
               project = "gitlab-org/#{Release.new(release).project_name}"
