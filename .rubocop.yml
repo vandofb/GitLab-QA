@@ -24,3 +24,9 @@ Metrics/MethodLength:
 
 Metrics/AbcSize:
   Max: 18
+
+Style/ExtendSelf:
+  Enabled: false
+
+Lint/MissingCopEnableDirective:
+  Enabled: false
