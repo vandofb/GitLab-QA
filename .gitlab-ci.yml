@@ -65,43 +65,66 @@ ee:version:
       - logs/*.log
 
 ce:instance:
-  script: bin/qa Test::Instance::Image ${RELEASE:=CE}
+    # Checking if the build is triggered for a EE image. In that case, we need
+    # not run CE specific tests. This doesn't apply to nightly/regular branch
+    # builds as RELEASE will not match gitlab-ce in those cases.
+  script:
+    - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
+    - bin/qa Test::Instance::Image ${RELEASE:=CE}
   <<: *test
 
 ee:instance:
-  script: bin/qa Test::Instance::Image ${RELEASE:=EE}
+  script:
+    - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
+    - bin/qa Test::Instance::Image ${RELEASE:=EE}
   <<: *test
 
 ce:image:
-  script: bin/qa Test::Omnibus::Image ${RELEASE:=CE}
+  script:
+    - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
+    - bin/qa Test::Omnibus::Image ${RELEASE:=CE}
   <<: *test
 
 ee:image:
-  script: bin/qa Test::Omnibus::Image ${RELEASE:=EE}
+  script:
+    - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
+    - bin/qa Test::Omnibus::Image ${RELEASE:=EE}
   <<: *test
 
 ce:update:
-  script: bin/qa Test::Omnibus::Update ${RELEASE:=CE}
+  script:
+    - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
+    - bin/qa Test::Omnibus::Update ${RELEASE:=CE}
   <<: *test
 
 ee:update:
-  script: bin/qa Test::Omnibus::Update ${RELEASE:=EE}
+  script:
+    - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
+    - bin/qa Test::Omnibus::Update ${RELEASE:=EE}
   <<: *test
 
 ce:upgrade:
-  script: bin/qa Test::Omnibus::Upgrade
+  script:
+    - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
+    - bin/qa Test::Omnibus::Upgrade
   <<: *test
 
 ce:mattermost:
-  script: bin/qa Test::Integration::Mattermost ${RELEASE:=CE}
+  script:
+    - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
+    - bin/qa Test::Integration::Mattermost ${RELEASE:=CE}
   <<: *test
 
 ee:mattermost:
-  script: bin/qa Test::Integration::Mattermost ${RELEASE:=EE}
+  script:
+    - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
+    - bin/qa Test::Integration::Mattermost ${RELEASE:=EE}
   <<: *test
 
 ee:geo:
-  script: bin/qa Test::Integration::Geo ${RELEASE:=EE}
+  script:
+    - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
+    - bin/qa Test::Integration::Geo ${RELEASE:=EE}
   <<: *test
   tags:
     - docker
