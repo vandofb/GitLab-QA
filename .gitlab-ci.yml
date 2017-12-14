@@ -64,6 +64,12 @@ ee:version:
       - screenshots/*.png
       - logs/*.log
 
+.high-capacity: &high-capacity
+  tags:
+    - docker
+    - 7gb
+    - triggered-packages
+
 ce:instance:
     # Checking if the build is triggered for a EE image. In that case, we need
     # not run CE specific tests. This doesn't apply to nightly/regular branch
@@ -96,37 +102,39 @@ ce:update:
     - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
     - bin/qa Test::Omnibus::Update ${RELEASE:=CE}
   <<: *test
+  <<: *high-capacity
 
 ee:update:
   script:
     - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
     - bin/qa Test::Omnibus::Update ${RELEASE:=EE}
   <<: *test
+  <<: *high-capacity
 
 ce:upgrade:
   script:
     - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
     - bin/qa Test::Omnibus::Upgrade
   <<: *test
+  <<: *high-capacity
 
 ce:mattermost:
   script:
     - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
     - bin/qa Test::Integration::Mattermost ${RELEASE:=CE}
   <<: *test
+  <<: *high-capacity
 
 ee:mattermost:
   script:
     - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
     - bin/qa Test::Integration::Mattermost ${RELEASE:=EE}
   <<: *test
+  <<: *high-capacity
 
 ee:geo:
   script:
     - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
     - bin/qa Test::Integration::Geo ${RELEASE:=EE}
   <<: *test
-  tags:
-    - docker
-    - 7gb
-    - triggered-packages
+  <<: *high-capacity
