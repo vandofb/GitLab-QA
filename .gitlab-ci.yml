@@ -61,8 +61,14 @@ ee:version:
     when: on_failure
     expire_in: 30d
     paths:
-      - screenshots/*.png
-      - logs/*.log
+      - screenshots/
+      - logs/
+
+.high-capacity: &high-capacity
+  tags:
+    - docker
+    - 7gb
+    - triggered-packages
 
 ce:instance:
     # Checking if the build is triggered for a EE image. In that case, we need
@@ -114,19 +120,18 @@ ce:mattermost:
     - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
     - bin/qa Test::Integration::Mattermost ${RELEASE:=CE}
   <<: *test
+  <<: *high-capacity
 
 ee:mattermost:
   script:
     - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
     - bin/qa Test::Integration::Mattermost ${RELEASE:=EE}
   <<: *test
+  <<: *high-capacity
 
 ee:geo:
   script:
     - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
     - bin/qa Test::Integration::Geo ${RELEASE:=EE}
   <<: *test
-  tags:
-    - docker
-    - 7gb
-    - triggered-packages
+  <<: *high-capacity
