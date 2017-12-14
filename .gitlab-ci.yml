@@ -37,8 +37,8 @@ check:rspec:
 .sanity: &sanity
   stage: sanity
   image: $TEST_IMAGE
-  except:
-    - triggers
+  only:
+    - schedules
   tags:
     - docker
 
