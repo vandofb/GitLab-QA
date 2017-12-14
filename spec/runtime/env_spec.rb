@@ -1,7 +1,9 @@
 describe Gitlab::QA::Runtime::Env do
   describe '.screenshots_dir' do
     context 'when there is an env variable set' do
-      before { stub_env('QA_SCREENSHOTS_DIR', '/tmp') }
+      before do
+        stub_env('QA_SCREENSHOTS_DIR', '/tmp')
+      end
 
       it 'returns directory defined in environment variable' do
         expect(described_class.screenshots_dir).to eq '/tmp'
@@ -9,7 +11,9 @@ describe Gitlab::QA::Runtime::Env do
     end
 
     context 'when there is no env variable set' do
-      before { stub_env('QA_SCREENSHOTS_DIR', nil) }
+      before do
+        stub_env('QA_SCREENSHOTS_DIR', nil)
+      end
 
       it 'returns a default screenshots directory' do
         expect(described_class.screenshots_dir)
@@ -20,7 +24,9 @@ describe Gitlab::QA::Runtime::Env do
 
   describe '.logs_dir' do
     context 'when there is an env variable set' do
-      before { stub_env('QA_LOGS_DIR', '/tmp') }
+      before do
+        stub_env('QA_LOGS_DIR', '/tmp')
+      end
 
       it 'returns directory defined in environment variable' do
         expect(described_class.logs_dir).to eq '/tmp'
@@ -28,7 +34,9 @@ describe Gitlab::QA::Runtime::Env do
     end
 
     context 'when there is no env variable set' do
-      before { stub_env('QA_LOGS_DIR', nil) }
+      before do
+        stub_env('QA_LOGS_DIR', nil)
+      end
 
       it 'returns a default screenshots directory' do
         expect(described_class.logs_dir)

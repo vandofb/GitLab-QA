@@ -276,7 +276,7 @@ describe Gitlab::QA::Release do
         it { expect(subject.to_ee.to_s).to eq full_ee_address_with_complex_tag }
       end
 
-      context 'and `ce` in the address outside of the image' do
+      context 'with `ce` in the address outside of the image' do
         let(:ce_image) { 'registry.gitlab.com/cef/gitlab/gitlab-ce:latest' }
         let(:ee_image) { 'registry.gitlab.com/cef/gitlab/gitlab-ee:latest' }
 

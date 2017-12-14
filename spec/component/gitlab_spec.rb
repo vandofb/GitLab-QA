@@ -16,7 +16,7 @@ describe Gitlab::QA::Component::Gitlab do
   end
 
   describe '#release' do
-    context 'whith no release' do
+    context 'with no release' do
       it 'defaults to CE' do
         expect(subject.release.to_s).to eq 'gitlab/gitlab-ce:nightly'
       end
