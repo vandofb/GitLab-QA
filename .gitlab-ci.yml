@@ -61,8 +61,8 @@ ee:version:
     when: on_failure
     expire_in: 30d
     paths:
-      - screenshots/*.png
-      - logs/*.log
+      - screenshots/
+      - logs/
 
 ce:instance:
     # Checking if the build is triggered for a EE image. In that case, we need
