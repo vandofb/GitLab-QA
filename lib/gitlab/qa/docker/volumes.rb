@@ -5,7 +5,6 @@ module Gitlab
     module Docker
       class Volumes
         VOLUMES = { 'config' => '/etc/gitlab',
-                    'logs' => '/var/log/gitlab',
                     'data' => '/var/opt/gitlab' }.freeze
 
         def initialize(volumes = VOLUMES)

@@ -82,6 +82,7 @@ module Gitlab
             @volumes.to_h.each do |to, from|
               command << "--volume #{to}:#{from}:Z"
             end
+            command.volume(Runtime::Env.logs_dir, '/var/log/gitlab')
 
             @environment.to_h.each do |key, value|
               command << %(--env #{key}="#{value}")
