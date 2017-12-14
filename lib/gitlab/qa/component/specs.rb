@@ -25,7 +25,6 @@ module Gitlab
             end
 
             command.volume('/var/run/docker.sock', '/var/run/docker.sock')
-            command.volume(Runtime::Env.logs_dir, '/var/log/gitlab')
             command.volume(Runtime::Env.screenshots_dir, '/home/qa/tmp')
             command.name("gitlab-specs-#{Time.now.to_i}")
           end
