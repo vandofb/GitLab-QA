@@ -15,6 +15,9 @@ variables:
 
 before_script:
   - bundle install
+  - if [ -n "$TRIGGERED_USER" ] && [ -n "$TRIGGER_SOURCE" ]; then
+      echo "Pipeline triggered by $TRIGGERED_USER at $TRIGGER_SOURCE";
+    fi
 
 check:rubocop:
   stage: check
