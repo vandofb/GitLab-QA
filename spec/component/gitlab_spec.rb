@@ -85,36 +85,51 @@ describe Gitlab::QA::Component::Gitlab do
   end
 
   describe '#start' do
-    let(:args) { [] }
-    let(:command) { spy('docker command') }
-    let(:docker) { spy('docker engine') }
+    let(:docker) { spy('docker command') }
 
     before do
-      allow(subject).to receive(:ensure_configured!)
+      stub_const('Gitlab::QA::Docker::Command', docker)
 
-      allow(subject).to receive(:docker) { docker }
-      allow(docker).to receive(:run) { |&blk| blk.call command }
-      allow(command).to receive(:<<) { |*argv| args.concat(argv) }
+      allow(subject).to receive(:ensure_configured!)
     end
 
-    it 'should call Gitlab::QA::Docker::Engine#run' do
-      expect(docker).to receive(:run)
+    it 'runs a docker command' do
       subject.start
+
+      expect(docker).to have_received(:execute!)
     end
 
     it 'should dynamically bind HTTP port' do
       subject.start
-      expect(args).to include('-d -p 80')
+
+      expect(docker).to have_received(:<<).with('-d -p 80')
     end
 
     it 'should specify the name' do
       subject.start
-      expect(args).to include("--name #{subject.name}")
+
+      expect(docker).to have_received(:<<)
+        .with("--name #{subject.name}")
     end
 
     it 'should specify the hostname' do
       subject.start
-      expect(args).to include("--hostname #{subject.hostname}")
+
+      expect(docker).to have_received(:<<)
+        .with("--hostname #{subject.hostname}")
+    end
+
+    it 'bind-mounds volume with logs in an appropriate directory' do
+      allow(Gitlab::QA::Runtime::Env)
+        .to receive(:logs_dir)
+        .and_return('/tmp/gitlab-qa/logs')
+
+      subject.name = 'my-gitlab'
+
+      subject.start
+
+      expect(docker).to have_received(:volume)
+        .with('/tmp/gitlab-qa/logs/my-gitlab', '/var/log/gitlab', 'Z')
     end
 
     context 'with a network' do
@@ -124,7 +139,9 @@ describe Gitlab::QA::Component::Gitlab do
 
       it 'should specify the network' do
         subject.start
-        expect(args).to include('--net testing-network')
+
+        expect(docker).to have_received(:<<)
+          .with('--net testing-network')
       end
     end
 
@@ -136,19 +153,21 @@ describe Gitlab::QA::Component::Gitlab do
       it 'adds --volume switches to the command' do
         subject.start
 
-        expect(args).to include('--volume /from:/to:Z')
+        expect(docker).to have_received(:volume)
+          .with('/from', '/to', 'Z')
       end
     end
 
     context 'with environment' do
       before do
-        subject.environment = { 'TEST' => 'a value with spaces' }
+        subject.environment = { 'TEST' => 'some value' }
       end
 
-      it 'adds quotes around env' do
+      it 'adds environment variables to the command' do
         subject.start
 
-        expect(args).to include('--env TEST="a value with spaces"')
+        expect(docker).to have_received(:env)
+          .with('TEST', 'some value')
       end
     end
 
@@ -160,7 +179,8 @@ describe Gitlab::QA::Component::Gitlab do
       it 'adds --network-alias switches to the command' do
         subject.start
 
-        expect(args).to include('--network-alias lolcathost')
+        expect(docker).to have_received(:<<)
+          .with('--network-alias lolcathost')
       end
     end
   end

@@ -80,12 +80,15 @@ module Gitlab
             command << "--hostname #{hostname}"
 
             @volumes.to_h.each do |to, from|
-              command << "--volume #{to}:#{from}:Z"
+              command.volume(to, from, 'Z')
             end
-            command.volume(Runtime::Env.logs_dir, '/var/log/gitlab')
+
+            File.join(Runtime::Env.logs_dir, name).tap do |logs_dir|
+              command.volume(logs_dir, '/var/log/gitlab', 'Z')
+            end
 
             @environment.to_h.each do |key, value|
-              command << %(--env #{key}="#{value}")
+              command.env(key, value)
             end
 
             @network_aliases.to_a.each do |network_alias|

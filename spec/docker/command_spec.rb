@@ -17,6 +17,22 @@ describe Gitlab::QA::Docker::Command do
     end
   end
 
+  describe '#volume' do
+    it 'appends volume arguments' do
+      subject.volume('/from', '/to', 'Z')
+
+      expect(subject.to_s).to include '--volume /from:/to:Z'
+    end
+  end
+
+  describe '#env' do
+    it 'appends env arguments with quotes' do
+      subject.env('TEST', 'some value')
+
+      expect(subject.to_s).to include '--env TEST="some value"'
+    end
+  end
+
   describe 'execute!' do
     it 'calls docker engine shellout' do
       expect(docker).to receive(:execute!)
