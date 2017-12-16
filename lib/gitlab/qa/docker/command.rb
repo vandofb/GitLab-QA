@@ -12,16 +12,16 @@ module Gitlab
           tap { @args.concat(args) }
         end
 
-        def volume(from, to)
-          tap { @args << "-v #{from}:#{to}" }
+        def volume(from, to, opt = :z)
+          tap { @args.push("--volume #{from}:#{to}:#{opt}") }
         end
 
         def name(identity)
-          tap { @args << "--name #{identity}" }
+          tap { @args.push("--name #{identity}") }
         end
 
         def env(name, value)
-          tap { @args << %(-e #{name}="#{value}") }
+          tap { @args.push(%(--env #{name}="#{value}")) }
         end
 
         def to_s

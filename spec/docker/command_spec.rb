@@ -17,6 +17,14 @@ describe Gitlab::QA::Docker::Command do
     end
   end
 
+  describe '#volume' do
+    pending
+  end
+
+  describe '#env' do
+    pending
+  end
+
   describe 'execute!' do
     it 'calls docker engine shellout' do
       expect(docker).to receive(:execute!)
