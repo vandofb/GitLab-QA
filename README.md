@@ -49,6 +49,13 @@ command in your system.
 
     `GITLAB_USERNAME=your_username GITLAB_PASSWORD=your_password gitlab-qa Test::Instance::Any EE latest https://staging.gitlab.com`
 
+### How to add new scenarios
+
+Scenarios (test cases) and scripts to run them are located in
+(CE)[https://gitlab.com/gitlab-org/gitlab-ce/tree/master/qa] and
+(EE)[https://gitlab.com/gitlab-org/gitlab-ee/tree/master/qa]
+repositories under qa/ directory, so please also check the documents there.
+
 ## How does it work?
 
 GitLab QA handles a few scenarios:
