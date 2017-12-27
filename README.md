@@ -25,8 +25,8 @@ GitLab QA tool is published as a [Ruby Gem](https://rubygems.org/gems/gitlab-qa)
 You can install it with `gem install gitlab-qa`. It will expose a `gitlab-qa`
 command in your system.
 
-When using OS X Docker, you need to go to Preferences > Advanced and allocate at least **5.0 GB**,
-otherwise some steps may fail to execute the `chrome-webdriver`.
+If you want to run the scenarios or develop them on Mac OS, please read [Mac OS specific documentation](/docs/macos.md)
+as there are caveats and things that may work differently.
 
 1. Run tests against a Docker image with GitLab:
 
