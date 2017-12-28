@@ -45,7 +45,15 @@ To see if this limitation is still present, check the [documentation](Docker Net
 One possible workaround to connect to a multi-node environment like Geo, is to run a reverse proxy on your
 development machine that maps the VHOST to `localhost:port`, changing to the ports listed in `docker ps`.
 
-Here is an example using a `Caddyfile` (you can install caddy with `brew install caddy`):
+You first need to map the hostnames to the local ip:
+
+Edit the `/etc/hosts` file
+```
+127.0.0.1 gitlab-primary.geo gitlab-secondary.geo
+```
+We are going to use [caddyserver](https://caddyserver.com/) in this example. You can install caddy with `brew install caddy`.
+
+After booting-up your containers, list the assigned ports:
 
 ```bash
 $ docker ps
@@ -55,7 +63,7 @@ d28cc97870b4        gitlab/gitlab-ee:nightly   "/assets/wrapper"   1 second ago 
 41f86bb951c5        gitlab/gitlab-ee:nightly   "/assets/wrapper"   2 minutes ago       Up 2 minutes (healthy)                     22/tcp, 443/tcp, 0.0.0.0:32774->80/tcp   gitlab-primary
 ```
 
-Caddyfile:
+Create a Caddyfile, mapping the VHOSTs with the `localhost:port` combination:
 
 ```
 http://gitlab-primary.geo {
@@ -71,11 +79,13 @@ http://gitlab-secondary.geo {
 }
 ```
 
-To execute it:
+And run caddy:
 
 ```bash
 caddy -conf Caddyfile
 ```
+
+You should be able to use your navigator and point it to `http://gitlab-primary.geo` or `http://gitlab-secondary.geo`.
 
 [Docker Route]: https://forums.docker.com/t/access-container-from-dev-machine-by-ip-dns-name/24631/5
 [Docker Networking]: https://docs.docker.com/docker-for-mac/networking/#known-limitations-use-cases-and-workarounds
