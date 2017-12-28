@@ -13,6 +13,10 @@ module Gitlab
               release = Release.new(release)
 
               raise ArgumentError, 'Geo is EE only!' unless release.ee?
+              
+              unless license_available?
+                raise ArgumentError, 'GitLab License is not available. Please load a license into EE_LICENSE env variable.'
+              end
 
               Component::Gitlab.perform do |primary|
                 primary.release = release
@@ -68,6 +72,12 @@ module Gitlab
                   end
                 end
               end
+            end
+            
+            private
+            
+            def license_available?
+              ENV.include?('EE_LICENSE')
             end
           end
         end
