@@ -25,6 +25,9 @@ GitLab QA tool is published as a [Ruby Gem](https://rubygems.org/gems/gitlab-qa)
 You can install it with `gem install gitlab-qa`. It will expose a `gitlab-qa`
 command in your system.
 
+If you want to run the scenarios or develop them on Mac OS, please read [Mac OS specific documentation](/docs/macos.md)
+as there are caveats and things that may work differently.
+
 1. Run tests against a Docker image with GitLab:
 
     `gitlab-qa Test::Instance::Image CE|EE|<full image address>`
@@ -32,6 +35,11 @@ command in your system.
 1. Run tests against a Docker image with GitLab and Mattermost:
 
     `gitlab-qa Test::Integration::Mattermost CE|EE|<full image address>`
+
+1. Run tests agains a Docker image with GitLab Geo:
+
+    `export EE_LICENSE=$(cat /path/to/Geo.gitlab_license)`
+    `gitlab-qa Test::Integration::Geo EE`
 
 1. Test update process between two CE or EE subsequent versions:
 

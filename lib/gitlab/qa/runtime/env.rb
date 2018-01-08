@@ -20,6 +20,12 @@ module Gitlab
         def delegated
           VARIABLES.select { |name| ENV[name] }
         end
+
+        def require_license!
+          return if ENV.include?('EE_LICENSE')
+
+          raise ArgumentError, 'GitLab License is not available. Please load a license into EE_LICENSE env variable.'
+        end
       end
     end
   end
