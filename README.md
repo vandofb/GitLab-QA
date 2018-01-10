@@ -116,6 +116,7 @@ tests against it (see `Test::Instance::Image` above).
 * `QA_LOGS_DIR` - Path to a directory where logs will be saved (default:
   `/tmp/gitlab-qa/logs`)
 * `DOCKER_HOST` - Docker host to run tests against (default: `http://localhost`)
+* `CHROME_HEADLESS` - when running locally, set to `false` to allow Chrome tests to be visible - watch your tests being run
 
 ## Contributing
 
