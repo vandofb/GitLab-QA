@@ -114,7 +114,7 @@ ee:update:
 
 ce:upgrade:
   script:
-    - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
+    - if [[ $RELEASE ]]; then exit 0; fi
     - bin/qa Test::Omnibus::Upgrade
   <<: *test
 
