@@ -1,3 +1,15 @@
+# Run Geo QA tests against your Geo GDK setup
+
+Run from the `gdk-ee/gitlab/qa` directory with GDK primary and secondary running:
+
+```
+# Run in the background
+bin/qa QA::EE::Scenario::Test::Geo --primary-address http://localhost:3001 --secondary-address http://localhost:3002 --primary-name primary --secondary-name secondary --without-setup
+
+# Run in visible Chrome browser
+CHROME_HEADLESS=false bin/qa QA::EE::Scenario::Test::Geo --primary-address http://localhost:3001 --secondary-address http://localhost:3002 --primary-name primary --secondary-name secondary --without-setup
+```
+
 # QA Tool support on Mac OS
 
 Most of our development for GitLab is done on Mac OS. This brings some challenges as Docker on
