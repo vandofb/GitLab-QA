@@ -14,8 +14,9 @@ module Gitlab
 
       module Test
         module Instance
-          autoload :Image, 'qa/scenario/test/instance/image'
           autoload :Any, 'qa/scenario/test/instance/any'
+          autoload :Image, 'qa/scenario/test/instance/image'
+          autoload :Staging, 'qa/scenario/test/instance/staging'
         end
 
         module Omnibus
@@ -25,8 +26,8 @@ module Gitlab
         end
 
         module Integration
-          autoload :Mattermost, 'qa/scenario/test/integration/mattermost'
           autoload :Geo, 'qa/scenario/test/integration/geo'
+          autoload :Mattermost, 'qa/scenario/test/integration/mattermost'
         end
 
         module Sanity
@@ -38,11 +39,12 @@ module Gitlab
     module Component
       autoload :Gitlab, 'qa/component/gitlab'
       autoload :Specs, 'qa/component/specs'
+      autoload :Staging, 'qa/component/staging'
     end
 
     module Docker
-      autoload :Engine, 'qa/docker/engine'
       autoload :Command, 'qa/docker/command'
+      autoload :Engine, 'qa/docker/engine'
       autoload :Shellout, 'qa/docker/shellout'
       autoload :Volumes, 'qa/docker/volumes'
     end
