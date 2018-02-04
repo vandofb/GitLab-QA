@@ -1,0 +1,16 @@
+dn: uid=tanuki,dc=example,dc=org
+changetype: add
+uid: tanuki
+cn: tanuki
+sn: 3
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+loginShell: /bin/bash
+homeDirectory: /home/tanuki
+uidNumber: 14583102
+gidNumber: 14564100
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+mail: tanuki@example.org
+gecos: Tanuki User

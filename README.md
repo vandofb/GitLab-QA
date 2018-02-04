@@ -102,6 +102,17 @@ This scenario tests that GitLab instance works as expected when
 enabling the embedded Mattermost server (see `Test::Instance::Image`
 above).
 
+### `Test::Integration::LDAP CE|EE|<full image address>`
+
+This scenario tests that GitLab instance works as expected with an external
+LDAP server. The scenario spins up an OpenLDAP server, seeds users, and
+attempts to LDAP-related tests against a GitLab instance.
+
+In EE, both the GitLab standard and LDAP credentials are needed:
+
+1. The first is used to login as an Admin to enter in the EE license.
+2. The second is used to conduct LDAP-related tasks
+
 ### `Test::Instance::Any CE|EE|<full image address>`
 
 This scenario tests that the any GitLab instance works as expected by running
@@ -109,8 +120,11 @@ tests against it (see `Test::Instance::Image` above).
 
 ## Supported environment variables
 
-* `GITLAB_USERNAME` - username to use when signing in to GitLab
-* `GITLAB_PASSWORD` - password to use when signing in to GitLab
+* `GITLAB_USERNAME` - username to use when signing into GitLab
+* `GITLAB_PASSWORD` - password to use when signing into GitLab
+* `GITLAB_USER_TYPE` - type of user to use when signing into GitLab: standard (default), ldap
+* `GITLAB_LDAP_USERNAME` - LDAP username to use when signing into GitLab
+* `GITLAB_LDAP_PASSWORD` - LDAP password to use when signing into GitLab
 * `GITLAB_SANDBOX_NAME` - The sandbox group name test suite is going to use (default: `gitlab-qa-sandbox`)
 * `EE_LICENSE` - Enterprise Edition license
 * `QA_SCREENSHOTS_DIR` - Path to a directory where screenshots for failing tests

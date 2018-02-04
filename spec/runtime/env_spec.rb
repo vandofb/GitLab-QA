@@ -45,23 +45,49 @@ describe Gitlab::QA::Runtime::Env do
     end
   end
 
-  describe '.delegated' do
+  describe '.variables' do
     before do
-      stub_env('GITLAB_USERNAME', 'root')
-    end
-
-    it 'returns a list of envs delegated to tests component' do
-      expect(described_class.delegated).not_to be_empty
+      stub_env_values({ 'GITLAB_USERNAME' => 'root',
+                        'EE_LICENSE' => nil })
+      described_class.user_username = nil
+      described_class.user_password = nil
+      described_class.user_type = nil
+      described_class.gitlab_url = nil
+      described_class.ee_license = nil
     end
 
     it 'returns only these delegated variables that are set' do
-      expect(described_class.delegated).to include('GITLAB_USERNAME')
-      expect(described_class.delegated).not_to include('GITLAB_PASSWORD')
+      expect(described_class.variables).to eq({ 'GITLAB_USERNAME' => '$GITLAB_USERNAME' })
+    end
+
+    it 'prefers environment variables to defined values' do
+      described_class.user_username = 'tanuki'
+
+      expect(described_class.variables).to eq({ 'GITLAB_USERNAME' => '$GITLAB_USERNAME' })
+    end
+
+    it 'returns values that have been overriden' do
+      described_class.user_password = 'tanuki'
+      described_class.user_type = 'ldap'
+      described_class.gitlab_url = 'http://localhost:9999'
+
+      expect(described_class.variables).to eq({ 'GITLAB_USERNAME' => '$GITLAB_USERNAME',
+                                                'GITLAB_PASSWORD' => 'tanuki',
+                                                'GITLAB_USER_TYPE' => 'ldap',
+                                                'GITLAB_URL' => 'http://localhost:9999' })
     end
   end
 
   def stub_env(name, value)
     allow(ENV).to receive(:[]).and_call_original
     allow(ENV).to receive(:[]).with(name).and_return(value)
+  end
+
+  def stub_env_values(pairs)
+    allow(ENV).to receive(:[]).and_call_original
+
+    pairs.each do |key, value|
+      allow(ENV).to receive(:[]).with(key).and_return(value)
+    end
   end
 end

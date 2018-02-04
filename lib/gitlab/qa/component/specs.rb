@@ -20,8 +20,9 @@ module Gitlab
           @docker.run(release.qa_image, release.tag, suite, *args) do |command|
             command << "-t --rm --net=#{network || 'bridge'}"
 
-            Runtime::Env.delegated.each do |env|
-              command.env(env, "$#{env}")
+            variables = Runtime::Env.variables
+            variables.each do |key, value|
+              command.env(key, value)
             end
 
             command.volume('/var/run/docker.sock', '/var/run/docker.sock')
