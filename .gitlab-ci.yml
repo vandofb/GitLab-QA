@@ -5,6 +5,7 @@ stages:
   - check
   - sanity
   - test
+  - qa
 
 variables:
   TEST_IMAGE: registry.gitlab.com/gitlab-org/gitlab-build-images:gitlab-qa
@@ -150,3 +151,18 @@ ee:ldap:
     - bin/qa Test::Integration::LDAP ${RELEASE:=EE}
   <<: *test
   <<: *high-capacity
+
+qa:staging:
+  stage: qa
+  image: $TEST_IMAGE
+  when: manual
+  variables:
+    TEST_IMAGE: registry.gitlab.com/gitlab-org/gitlab-build-images:gitlab-qa
+    DOCKER_DRIVER: overlay
+    DOCKER_HOST: tcp://docker:2375
+    QA_SCREENSHOTS_DIR: $CI_PROJECT_DIR/screenshots
+    QA_LOGS_DIR: $CI_PROJECT_DIR/logs
+    GITLAB_USERNAME: gitlab-qa
+    GITLAB_PASSWORD: $GITLAB_QA_PASSWORD
+  script:
+    - bin/qa Test::Instance::Staging
