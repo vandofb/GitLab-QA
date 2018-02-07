@@ -7,6 +7,7 @@ module Gitlab
     module Component
       class Staging
         ADDRESS = 'https://staging.gitlab.com'.freeze
+        TOKEN_VAR = 'GITLAB_QA_ACCESS_TOKEN'.freeze
 
         def self.release
           version = Version.new(ADDRESS).fetch!
@@ -50,8 +51,10 @@ module Gitlab
           private
 
           def request
+            raise "must provide #{TOKEN_VAR}" if ENV[TOKEN_VAR].to_s.strip == ''
+
             @request ||= Net::HTTP::Get.new(@uri.path).tap do |req|
-              req['PRIVATE-TOKEN'] = ENV['GITLAB_QA_ACCESS_TOKEN']
+              req['PRIVATE-TOKEN'] = ENV[TOKEN_VAR]
             end
           end
         end
