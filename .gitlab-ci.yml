@@ -165,4 +165,5 @@ qa:staging:
     GITLAB_USERNAME: gitlab-qa
     GITLAB_PASSWORD: $GITLAB_QA_PASSWORD
   script:
+    - unset EE_LICENSE
     - bin/qa Test::Instance::Staging
