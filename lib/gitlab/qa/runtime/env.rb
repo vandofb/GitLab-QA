@@ -6,6 +6,7 @@ module Gitlab
 
         VARIABLES = %w[GITLAB_USERNAME
                        GITLAB_PASSWORD
+                       GITLAB_SANDBOX_NAME
                        GITLAB_URL
                        EE_LICENSE].freeze
 
