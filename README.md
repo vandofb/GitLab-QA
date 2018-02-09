@@ -39,7 +39,7 @@ as there are caveats and things that may work differently.
 1. Run tests agains a Docker image with GitLab Geo:
 
     `export EE_LICENSE=$(cat /path/to/Geo.gitlab_license)`
-    
+
     `gitlab-qa Test::Integration::Geo EE`
 
 1. Test update process between two CE or EE subsequent versions:
@@ -111,6 +111,7 @@ tests against it (see `Test::Instance::Image` above).
 
 * `GITLAB_USERNAME` - username to use when signing in to GitLab
 * `GITLAB_PASSWORD` - password to use when signing in to GitLab
+* `GITLAB_SANDBOX_NAME` - The sandbox group name test suite is going to use (default: `gitlab-qa-sandbox`)
 * `EE_LICENSE` - Enterprise Edition license
 * `QA_SCREENSHOTS_DIR` - Path to a directory where screenshots for failing tests
   will be saved (default: `/tmp/gitlab-qa/screenshots`)
