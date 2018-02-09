@@ -14,9 +14,61 @@ The purpose of this test suite is to verify that all pieces do integrate well to
 
 See the [GitLab QA architecture](/docs/architecture.md).
 
+## Goals and objectives
+
+### GitLab QA tests running in the CI/CD environment
+
+GitLab QA is an automated end-to-end testing framework, which means that no
+manual steps should be needed to run GitLab QA test suite. This framework is
+CI/CD environment native, which means that we should design new features and
+tests that we can comfortable run in the CI/CD environment.
+
+### GitLab QA test failure are reproducible locally
+
+Despite the fact GitLab QA has been built to run in the CI/CD environment, it
+is really important to make it easy for developers to reproduce GitLab QA test
+failure locally. It is much easier to debug things locally, than in the CI/CD.
+
+To make it easier to reproduce test failures locally we have published
+`gitlab-qa` gem [on rubygems.org](https://rubygems.org/gems/gitlab-qa) and we
+are using the same code to run tests in the CI/CD environment.
+
+It means that using `gitlab-qa` CLI tool that orchestrates test environment and
+runs GitLab QA test suite is a reproducible way of running tests.
+
+It also means that we can not have a custom code in `.gitlab-ci.yml` to, for
+example, start new containers.
+
+### Test installation / deployment process too
+
+We distribute GitLab as a package (like Debian package or a Docker image) and
+we want to test installation process, to ensure that our package is not broken.
+
+But we are also working on making GitLab a cloud native product. This means
+using Helm becomes yet another installation / deployment process that we want
+to test with GitLab QA.
+
+Keeping in mind that we want to test our Kubernetes deployments is especially
+important with consideration of the need of testing changes in merge requests.
+
+### Testing changes in merge requests before the merge
+
+The ultimate goal of GitLab QA was to make it possible to test changes in
+merge requests, even before merging a code into the stable / master branch.
+
+### We can run tests against any instance of GitLab
+
+GitLab QA is a click-driven, black-box testing tool. We also use it to run
+tests against the staging, and we strive for making to useful for our users
+as well.
+
 ## How do we use it
 
-Currently we trigger test suite against GitLab Docker images created by Omnibus nightly.
+Currently we trigger test suite against GitLab Docker images created by Omnibus
+nightly.
+
+We also trigger GitLab QA pipelines whenever someone clicks `package-qa` manual
+action in a merge request.
 
 ## How can you use it
 
@@ -25,8 +77,9 @@ GitLab QA tool is published as a [Ruby Gem](https://rubygems.org/gems/gitlab-qa)
 You can install it with `gem install gitlab-qa`. It will expose a `gitlab-qa`
 command in your system.
 
-If you want to run the scenarios or develop them on Mac OS, please read [Mac OS specific documentation](/docs/macos.md)
-as there are caveats and things that may work differently.
+If you want to run the scenarios or develop them on Mac OS, please read
+[Mac OS specific documentation](/docs/macos.md) as there are caveats and things
+that may work differently.
 
 1. Run tests against a Docker image with GitLab:
 
@@ -39,7 +92,7 @@ as there are caveats and things that may work differently.
 1. Run tests agains a Docker image with GitLab Geo:
 
     `export EE_LICENSE=$(cat /path/to/Geo.gitlab_license)`
-    
+
     `gitlab-qa Test::Integration::Geo EE`
 
 1. Test update process between two CE or EE subsequent versions:
