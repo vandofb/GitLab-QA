@@ -18,48 +18,50 @@ See the [GitLab QA architecture](/docs/architecture.md).
 
 ### GitLab QA tests running in the CI/CD environment
 
-GitLab QA is an automated end-to-end testing framework, which means that no
-manual steps should be needed to run GitLab QA test suite. This framework is
-CI/CD environment native, which means that we should design new features and
-tests that we can comfortable run in the CI/CD environment.
+GitLab QA is an automated end-to-end testing framework, which means that manual
+steps should not be needed to run GitLab QA test suite. This framework is
+CI/CD environment native, which means that we should add new features and tests
+when we are comfortable with running new code in the CI/CD environment.
 
 ### GitLab QA test failure are reproducible locally
 
-Despite the fact GitLab QA has been built to run in the CI/CD environment, it
-is really important to make it easy for developers to reproduce GitLab QA test
-failure locally. It is much easier to debug things locally, than in the CI/CD.
+Despite the fact that GitLab QA has been built to run in the CI/CD environment,
+it is really important to make it easy for developers to reproduce GitLab QA
+test failures locally. It is much easier to debug things locally, than in the
+CI/CD.
 
 To make it easier to reproduce test failures locally we have published
 `gitlab-qa` gem [on rubygems.org](https://rubygems.org/gems/gitlab-qa) and we
-are using the same code to run tests in the CI/CD environment.
+are using exactly the same approach to run tests in the CI/CD environment.
 
-It means that using `gitlab-qa` CLI tool that orchestrates test environment and
-runs GitLab QA test suite is a reproducible way of running tests.
+It means that using `gitlab-qa` CLI tool, that orchestrates test environment and
+runs GitLab QA test suite, is a reproducible way of running tests locally and
+in the CI/CD.
 
 It also means that we can not have a custom code in `.gitlab-ci.yml` to, for
-example, start new containers.
+example, start new containers / services.
 
 ### Test installation / deployment process too
 
-We distribute GitLab as a package (like Debian package or a Docker image) and
-we want to test installation process, to ensure that our package is not broken.
+We distribute GitLab in a package (like Debian package or a Docker image) so
+we want to test installation process to ensure that our package is not broken.
 
-But we are also working on making GitLab a cloud native product. This means
-using Helm becomes yet another installation / deployment process that we want
-to test with GitLab QA.
+But we are also working on making GitLab be a cloud native product. This means
+that using Helm becomes a yet another installation / deployment process that we
+want to test with GitLab QA.
 
 Keeping in mind that we want to test our Kubernetes deployments is especially
 important with consideration of the need of testing changes in merge requests.
 
 ### Testing changes in merge requests before the merge
 
-The ultimate goal of GitLab QA was to make it possible to test changes in
+The ultimate goal of GitLab QA is to make it possible to test changes in
 merge requests, even before merging a code into the stable / master branch.
 
 ### We can run tests against any instance of GitLab
 
 GitLab QA is a click-driven, black-box testing tool. We also use it to run
-tests against the staging, and we strive for making to useful for our users
+tests against the staging, and we strive for making it useful for our users
 as well.
 
 ## How do we use it
