@@ -39,6 +39,7 @@ as there are caveats and things that may work differently.
 1. Run tests agains a Docker image with GitLab Geo:
 
     `export EE_LICENSE=$(cat /path/to/Geo.gitlab_license)`
+    
     `gitlab-qa Test::Integration::Geo EE`
 
 1. Test update process between two CE or EE subsequent versions:
