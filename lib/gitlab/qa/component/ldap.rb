@@ -141,6 +141,8 @@ module Gitlab
               user_filter: ''
               group_base: #{GROUP_BASE}
               admin_group: #{ADMIN_GROUP}
+              external_groups: ''
+              sync_ssh_keys: false
           CFG
 
           # Quotes get eaten up when the string is set in the environment
