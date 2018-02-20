@@ -138,3 +138,15 @@ ee:geo:
     - bin/qa Test::Integration::Geo ${RELEASE:=EE}
   <<: *test
   <<: *high-capacity
+
+ce:ldap:
+  script:
+    - bin/qa Test::Integration::LDAP ${RELEASE:=CE}
+  <<: *test
+  <<: *high-capacity
+
+ee:ldap:
+  script:
+    - bin/qa Test::Integration::LDAP ${RELEASE:=EE}
+  <<: *test
+  <<: *high-capacity

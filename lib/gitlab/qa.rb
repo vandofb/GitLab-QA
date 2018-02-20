@@ -27,6 +27,7 @@ module Gitlab
 
         module Integration
           autoload :Geo, 'qa/scenario/test/integration/geo'
+          autoload :LDAP, 'qa/scenario/test/integration/ldap'
           autoload :Mattermost, 'qa/scenario/test/integration/mattermost'
         end
 
@@ -38,6 +39,7 @@ module Gitlab
 
     module Component
       autoload :Gitlab, 'qa/component/gitlab'
+      autoload :LDAP, 'qa/component/ldap'
       autoload :Specs, 'qa/component/specs'
       autoload :Staging, 'qa/component/staging'
     end
