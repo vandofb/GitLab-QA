@@ -11,12 +11,17 @@ module Gitlab
           'GITLAB_LDAP_PASSWORD' => :ldap_password,
           'GITLAB_USER_TYPE' => :user_type,
           'GITLAB_SANDBOX_NAME' => :gitlab_sandbox_name,
+          'GITLAB_QA_ACCESS_TOKEN' => :qa_access_token,
           'GITLAB_URL' => :gitlab_url,
           'EE_LICENSE' => :ee_license
         }.freeze
 
         ENV_VARIABLES.each_value do |accessor|
           send(:attr_accessor, accessor) # rubocop:disable GitlabSecurity/PublicSend
+        end
+
+        def qa_access_token
+          ENV['GITLAB_QA_ACCESS_TOKEN']
         end
 
         def screenshots_dir
@@ -44,6 +49,12 @@ module Gitlab
           return if ENV.include?('EE_LICENSE')
 
           raise ArgumentError, 'GitLab License is not available. Please load a license into EE_LICENSE env variable.'
+        end
+
+        def require_qa_access_token!
+          return unless ENV['GITLAB_QA_ACCESS_TOKEN'].to_s.strip.empty?
+
+          raise ArgumentError, "Please provide GITLAB_QA_ACCESS_TOKEN"
         end
 
         private
