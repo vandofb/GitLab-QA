@@ -51,6 +51,12 @@ module Gitlab
           raise ArgumentError, 'GitLab License is not available. Please load a license into EE_LICENSE env variable.'
         end
 
+        def require_no_license!
+          return unless ENV.include?('EE_LICENSE')
+
+          raise ArgumentError, "Unexpected EE_LICENSE provided. Please unset it to continue."
+        end
+
         def require_qa_access_token!
           return unless ENV['GITLAB_QA_ACCESS_TOKEN'].to_s.strip.empty?
 
