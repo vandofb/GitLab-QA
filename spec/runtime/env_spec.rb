@@ -48,6 +48,7 @@ describe Gitlab::QA::Runtime::Env do
   describe '.variables' do
     before do
       stub_env_values({ 'GITLAB_USERNAME' => 'root',
+                        'GITLAB_QA_ACCESS_TOKEN' => nil,
                         'EE_LICENSE' => nil })
       described_class.user_username = nil
       described_class.user_password = nil

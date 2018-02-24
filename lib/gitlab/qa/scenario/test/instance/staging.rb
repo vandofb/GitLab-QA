@@ -8,6 +8,8 @@ module Gitlab
           #
           class Staging < Scenario::Template
             def perform(*)
+              Runtime::Env.require_no_license!
+
               release = Component::Staging.release
 
               Component::Specs.perform do |specs|

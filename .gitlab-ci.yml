@@ -5,6 +5,7 @@ stages:
   - check
   - sanity
   - test
+  - qa
 
 variables:
   TEST_IMAGE: registry.gitlab.com/gitlab-org/gitlab-build-images:gitlab-qa
@@ -150,3 +151,13 @@ ee:ldap:
     - bin/qa Test::Integration::LDAP ${RELEASE:=EE}
   <<: *test
   <<: *high-capacity
+
+qa:staging:
+  stage: qa
+  image: $TEST_IMAGE
+  when: manual
+  script:
+    - export GITLAB_USERNAME="gitlab-qa"
+    - export GITLAB_PASSWORD="$GITLAB_QA_PASSWORD"
+    - unset EE_LICENSE
+    - bin/qa Test::Instance::Staging
