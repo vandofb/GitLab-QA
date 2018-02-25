@@ -167,3 +167,5 @@ qa:staging:
   <<: *test
   stage: qa
   when: manual
+  except:
+    - triggers
