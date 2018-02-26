@@ -82,12 +82,14 @@ ce:instance:
     - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
     - bin/qa Test::Instance::Image ${RELEASE:=CE}
   <<: *test
+  <<: *high-capacity
 
 ee:instance:
   script:
     - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
     - bin/qa Test::Instance::Image ${RELEASE:=EE}
   <<: *test
+  <<: *high-capacity
 
 ce:image:
   script:
@@ -106,18 +108,21 @@ ce:update:
     - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
     - bin/qa Test::Omnibus::Update ${RELEASE:=CE}
   <<: *test
+  <<: *high-capacity
 
 ee:update:
   script:
     - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
     - bin/qa Test::Omnibus::Update ${RELEASE:=EE}
   <<: *test
+  <<: *high-capacity
 
 ce:upgrade:
   script:
     - if [[ $RELEASE ]]; then exit 0; fi
     - bin/qa Test::Omnibus::Upgrade
   <<: *test
+  <<: *high-capacity
 
 ce:mattermost:
   script:
@@ -153,11 +158,14 @@ ee:ldap:
   <<: *high-capacity
 
 qa:staging:
-  stage: qa
-  image: $TEST_IMAGE
-  when: manual
   script:
+    - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
     - export GITLAB_USERNAME="gitlab-qa"
     - export GITLAB_PASSWORD="$GITLAB_QA_PASSWORD"
     - unset EE_LICENSE
     - bin/qa Test::Instance::Staging
+  <<: *test
+  stage: qa
+  when: manual
+  except:
+    - triggers
