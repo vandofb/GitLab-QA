@@ -20,9 +20,6 @@ Metrics/MethodLength:
 Rails:
   Enabled: false
 
-RSpec/FilePath:
-  Enabled: false
-
 Style/ExtendSelf:
   Enabled: false
 
