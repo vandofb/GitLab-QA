@@ -59,6 +59,7 @@ ee:version:
 .test: &test
   stage: test
   image: $TEST_IMAGE
+  retry: 1
   tags:
     - docker
   artifacts:
@@ -165,6 +166,7 @@ qa:staging:
     - unset EE_LICENSE
     - bin/qa Test::Instance::Staging
   <<: *test
+  retry: 0
   stage: qa
   when: manual
   except:
