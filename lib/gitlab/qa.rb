@@ -29,6 +29,7 @@ module Gitlab
           autoload :Geo, 'qa/scenario/test/integration/geo'
           autoload :LDAP, 'qa/scenario/test/integration/ldap'
           autoload :Mattermost, 'qa/scenario/test/integration/mattermost'
+          autoload :Kubernetes, 'qa/scenario/test/integration/kubernetes'
         end
 
         module Sanity
@@ -39,6 +40,8 @@ module Gitlab
 
     module Component
       autoload :Gitlab, 'qa/component/gitlab'
+      autoload :Ngrok, 'qa/component/ngrok'
+      autoload :KubernetesCluster, 'qa/component/kubernetes_cluster'
       autoload :LDAP, 'qa/component/ldap'
       autoload :Specs, 'qa/component/specs'
       autoload :Staging, 'qa/component/staging'
