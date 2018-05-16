@@ -3,6 +3,7 @@ require 'net/http'
 require 'uri'
 require 'forwardable'
 require 'ngrok/tunnel'
+require 'base64'
 
 module Gitlab
   module QA
