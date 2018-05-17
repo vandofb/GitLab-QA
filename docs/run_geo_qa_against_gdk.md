@@ -25,10 +25,10 @@ docker-machine and possibly customizing network settings in the virtualization p
 
 Native Docker bundles it's own lightweight virtualization technology that works just like VirtualBox,
 but without requiring manual intervention. This provides less opportunity to customize network between
-docker containers and the host machine, but works out of the box when mapping container ports to ports 
+docker containers and the host machine, but works out of the box when mapping container ports to ports
 on localhost.
 
-The major difference is that it never exposes the network as `bridge` to macOS, and so `--hostname` 
+The major difference is that it never exposes the network as `bridge` to macOS, and so `--hostname`
 and `--network` only work inside docker, it has no effect when trying to access the containers from macOS.
 
 There are people in Docker's forum that claim to be able to [expose the network][Docker Route]
@@ -43,11 +43,10 @@ your DNS and point to the IP/port of `dnsdock` application.
 When using OS X Docker, you need to go to Preferences > Advanced and allocate at least **5.0 GB**,
 otherwise some steps may fail to execute the `chrome-webdriver`.
 
-When using docker-machine, see [this StackOverflow link for increasing memory]
-(https://stackoverflow.com/questions/32834082/how-to-increase-docker-machine-memory-mac/36982696#36982696).
+When using docker-machine, see [this StackOverflow link for increasing memory](https://stackoverflow.com/questions/32834082/how-to-increase-docker-machine-memory-mac/36982696#36982696).
 
 This is required because chrome-webdriver makes use of `/dev/shm` shared memory. The VM will normally use
-~ 3Gb but unless you allocate 5.0 or more some magic numbers may not enable a bigger /dev/shm in the
+~3GB but unless you allocate 5GB or more some magic numbers may not enable a bigger `/dev/shm` in the
 'host' VM that "native" docker runs on.
 
 Please note that while it's possible to run multi-node tests like Geo Primary and Secondary, you can't
@@ -55,7 +54,7 @@ access the machines from your host machine, as they are all exposed as `0.0.0.0:
 of that they don't match the configured VHOSTs in your GitLab installation, so the redirect login
 fails.
 
-It has to do with the lack of `bridge` support from Docker on macOS, also this is also something 
+It has to do with the lack of `bridge` support from Docker on macOS, also this is also something
 Docker Inc [doesn't want to fix][Docker bridge issue].
 
 To see if this limitation is still present, check the [documentation][Docker Networking].
@@ -112,3 +111,6 @@ You should be able to use your navigator and point it to `http://gitlab-primary.
 [Docker bridge issue]: https://github.com/moby/moby/issues/22753#issuecomment-253534261
 [dnsdock]: https://github.com/aacebedo/dnsdock
 
+----
+
+[Back to README.md](../README.md)
