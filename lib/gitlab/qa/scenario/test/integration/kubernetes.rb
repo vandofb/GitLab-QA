@@ -10,46 +10,48 @@ module Gitlab
 
             # rubocop:disable Metrics/AbcSize
             def perform(release)
-              #external_domain = ENV['EXTERNAL_DOMAIN_NAME'] || raise("misconfigured")
-              #ssl_certificate = $ENV["REGISTRY_SSL_CERTIFICATE"] || raise("misconfigured")
-              #ssl_certificate_key = $ENV["REGISTRY_SSL_CERTIFICATE_KEY"] || raise("misconfigured")
-
               Component::KubernetesCluster.perform do |cluster|
                 cluster.instance do
 
-                  require 'pry'; binding.pry
+                  Component::Gitlab.perform do |gitlab|
+                    gitlab.release = release
+                    gitlab.network = 'test'
 
+                    Component::Ngrok.perform do |ngrok_gitlab|
+                      ngrok_gitlab.gitlab = gitlab
 
-           #       Component::Gitlab.perform do |gitlab|
-           #         gitlab.release = release
-           #         gitlab.network = 'test'
+                      ngrok_gitlab.instance do
+                        Component::Ngrok.perform do |ngrok_registry|
+                          ngrok_registry.gitlab = gitlab
 
-           #         Component::Ngrok.perform do |ngrok_gitlab|
-           #           ngrok_gitlab.gitlab = gitlab
+                          ngrok_registry.instance do
+                            gitlab.omnibus_config = <<~OMNIBUS
+                              #external_url '#{ngrok_gitlab.url}';
+                              #nginx['listen_port'] = 80;
+                              #nginx['listen_https'] = false;
 
-           #           ngrok_gitlab.instance do
-           #             Component::Ngrok.perform do |ngrok_registry|
-           #               ngrok_registry.gitlab = gitlab
+                              registry_external_url '#{ngrok_registry.url}';
+                              registry_nginx['listen_port'] = 80;
+                              registry_nginx['listen_https'] = false;
+                            OMNIBUS
 
-           #               ngrok_registry.instance do
-           #                 gitlab.omnibus_config = <<~OMNIBUS
-           #                 #external_url '#{ngrok_gitlab.url}';
-           #                 #nginx['listen_port'] = 80;
-           #                 #nginx['listen_https'] = false;
+                            gitlab.instance do
+                              require 'pry'; binding.pry
 
-           #                 registry_external_url '#{ngrok_registry.url}';
-           #                 registry_nginx['listen_port'] = 80;
-           #                 registry_nginx['listen_https'] = false;
-           #                 OMNIBUS
+                              #puts 'Running Kubernetes specs!'
 
-           #                 gitlab.instance do
-           #                   require 'pry'; binding.pry
-           #                 end
-           #               end
-           #             end
-           #           end
-           #         end
-           #       end
+                              Component::Specs.perform do |specs|
+                                specs.suite = 'Test::Integration::Kubernetes'
+                                specs.release = gitlab.release
+                                specs.network = gitlab.network
+                                specs.args = [gitlab.address]
+                              end
+                            end
+                          end
+                        end
+                      end
+                    end
+                  end
                 end
               end
             end
