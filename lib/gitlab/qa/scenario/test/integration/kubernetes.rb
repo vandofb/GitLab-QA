@@ -18,17 +18,17 @@ module Gitlab
                     gitlab.network = 'test'
 
                     Component::Ngrok.perform do |ngrok_gitlab|
-                      ngrok_gitlab.gitlab = gitlab
+                      ngrok_gitlab.port = gitlab.port
 
                       ngrok_gitlab.instance do
                         Component::Ngrok.perform do |ngrok_registry|
-                          ngrok_registry.gitlab = gitlab
+                          ngrok_registry.port = gitlab.port
 
                           ngrok_registry.instance do
                             gitlab.omnibus_config = <<~OMNIBUS
-                              #external_url '#{ngrok_gitlab.url}';
-                              #nginx['listen_port'] = 80;
-                              #nginx['listen_https'] = false;
+                              external_url '#{ngrok_gitlab.url}';
+                              nginx['listen_port'] = 80;
+                              nginx['listen_https'] = false;
 
                               registry_external_url '#{ngrok_registry.url}';
                               registry_nginx['listen_port'] = 80;
@@ -40,12 +40,12 @@ module Gitlab
 
                               #puts 'Running Kubernetes specs!'
 
-                              Component::Specs.perform do |specs|
-                                specs.suite = 'Test::Integration::Kubernetes'
-                                specs.release = gitlab.release
-                                specs.network = gitlab.network
-                                specs.args = [gitlab.address]
-                              end
+                              #Component::Specs.perform do |specs|
+                              #  specs.suite = 'Test::Integration::Kubernetes'
+                              #  specs.release = gitlab.release
+                              #  specs.network = gitlab.network
+                              #  specs.args = [gitlab.address]
+                              #end
                             end
                           end
                         end

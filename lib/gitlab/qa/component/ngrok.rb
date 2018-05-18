@@ -10,14 +10,9 @@ module Gitlab
       class Ngrok
         include Scenario::Actable
 
-        attr_writer :gitlab
+        attr_writer :port
 
-        def initialize
-        end
-
-        def url
-          ::Ngrok::Tunnel.ngrok_url_https
-        end
+        attr_reader :url
 
         def instance
           raise 'Please provide a block!' unless block_given?
@@ -26,22 +21,46 @@ module Gitlab
 
           yield self
 
-          teardown
-        end
-
-        def url
-          ::Ngrok::Tunnel.ngrok_url_https
+          stop
         end
 
         private
 
         def start
-          raise "Must set gitlab and gitlab.port" unless @gitlab&.port
-          ::Ngrok::Tunnel.start(port: @gitlab.port)
+          raise "Must set port" unless @port
+
+          @log_file = Tempfile.new('localtunnel')
+          @pid = spawn("exec lt --port #{@port} > #{@log_file.path}")
+          at_exit { stop }
+          load_url
+          #ensure_running
         end
 
-        def teardown
-          ::Ngrok::Tunnel.stop
+        def stop
+          Process.kill(9, @pid)
+        end
+
+        def load_url
+          10.times do
+            content = @log_file.read
+            match = content.match(/your url is: (?<url>.+)$/)
+            if match
+              @url = match['url']
+              return
+            end
+
+            sleep 1
+            @log_file.rewind
+          end
+          raise "Url not found in localtunnel output: #{@log_file.read}"
+        end
+
+        def ensure_running
+          sleep 10
+          Process.getpgid(@pid)
+          true
+        rescue Errno::ESRCH
+          raise "Something went wrong with localtunnel"
         end
       end
     end
