@@ -29,8 +29,8 @@ module Gitlab
         def start
           raise "Must set port" unless @port
 
-          @log_file = Tempfile.new('localtunnel')
-          @pid = spawn("exec lt --port #{@port} > #{@log_file.path}")
+          @log_file = Tempfile.new('tunnel')
+          @pid = spawn("exec ngrok http #{@port} -log=stdout -log-level=debug > #{@log_file.path}")
           at_exit { stop }
           load_url
           #ensure_running
@@ -43,16 +43,21 @@ module Gitlab
         def load_url
           10.times do
             content = @log_file.read
-            match = content.match(/your url is: (?<url>.+)$/)
+            match = content.match(/URL:(?<url>.+)\sProto:https\s/)
             if match
               @url = match['url']
               return
             end
 
+            match = content.match(/msg="command failed" err="(?<error>[^"]+)"/)
+            if match
+              raise match['error']
+            end
+
             sleep 1
             @log_file.rewind
           end
-          raise "Url not found in localtunnel output: #{@log_file.read}"
+          raise "Unable to fetch external url"
         end
 
         def ensure_running
@@ -60,7 +65,7 @@ module Gitlab
           Process.getpgid(@pid)
           true
         rescue Errno::ESRCH
-          raise "Something went wrong with localtunnel"
+          raise "Something went wrong with tunnel"
         end
       end
     end
