@@ -6,7 +6,7 @@ module Gitlab
           ##
           # Run test suite against staging.gitlab.com
           #
-          class Staging < Scenario::Template
+          class Staging < Framework::Scenario::Template
             def perform(*)
               Runtime::Env.require_no_license!
 

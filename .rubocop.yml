@@ -28,3 +28,6 @@ Style/ModuleFunction:
 
 Style/SignalException:
   Enabled: false
+
+GitlabSecurity/PublicSend:
+  Enabled: false

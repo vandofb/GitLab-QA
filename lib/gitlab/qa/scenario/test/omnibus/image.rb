@@ -3,7 +3,7 @@ module Gitlab
     module Scenario
       module Test
         module Omnibus
-          class Image < Scenario::Template
+          class Image < Framework::Scenario::Template
             def perform(release)
               Component::Gitlab.perform do |gitlab|
                 gitlab.release = release

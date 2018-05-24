@@ -6,7 +6,7 @@ module Gitlab
     module Scenario
       module Test
         module Omnibus
-          class Update < Scenario::Template
+          class Update < Framework::Scenario::Template
             def perform(next_release)
               next_release = Release.new(next_release)
 

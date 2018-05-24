@@ -3,7 +3,7 @@ module Gitlab
     module Scenario
       module Test
         module Instance
-          class Image < Scenario::Template
+          class Image < Framework::Scenario::Template
             attr_writer :volumes
 
             def initialize

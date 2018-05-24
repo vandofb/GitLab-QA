@@ -1,7 +1,7 @@
-describe Gitlab::QA::Scenario::Actable do
+describe Gitlab::QA::Framework::Scenario::Actable do
   subject do
     Class.new do
-      include Gitlab::QA::Scenario::Actable
+      include Gitlab::QA::Framework::Scenario::Actable
 
       attr_accessor :something
 

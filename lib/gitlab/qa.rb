@@ -1,8 +1,21 @@
-$LOAD_PATH << File.expand_path(__dir__)
+lib = File.expand_path(__dir__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 module Gitlab
   module QA
-    autoload :Release, 'qa/release'
+    module Component
+      autoload :Gitlab, 'qa/component/gitlab'
+      autoload :LDAP, 'qa/component/ldap'
+      autoload :Specs, 'qa/component/specs'
+      autoload :Staging, 'qa/component/staging'
+    end
+
+    module Docker
+      autoload :Command, 'qa/docker/command'
+      autoload :Engine, 'qa/docker/engine'
+      autoload :Shellout, 'qa/docker/shellout'
+      autoload :Volumes, 'qa/docker/volumes'
+    end
 
     module Runtime
       autoload :Env, 'qa/runtime/env'
@@ -37,18 +50,8 @@ module Gitlab
       end
     end
 
-    module Component
-      autoload :Gitlab, 'qa/component/gitlab'
-      autoload :LDAP, 'qa/component/ldap'
-      autoload :Specs, 'qa/component/specs'
-      autoload :Staging, 'qa/component/staging'
-    end
-
-    module Docker
-      autoload :Command, 'qa/docker/command'
-      autoload :Engine, 'qa/docker/engine'
-      autoload :Shellout, 'qa/docker/shellout'
-      autoload :Volumes, 'qa/docker/volumes'
-    end
+    autoload :Release, 'qa/release'
   end
 end
+
+require 'qa/framework'

@@ -8,7 +8,7 @@ module Gitlab
     module Component
       class Gitlab
         extend Forwardable
-        include Scenario::Actable
+        include Framework::Scenario::Actable
 
         attr_reader :release, :docker
         attr_accessor :volumes, :network, :environment

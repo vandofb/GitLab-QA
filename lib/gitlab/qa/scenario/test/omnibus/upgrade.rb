@@ -6,7 +6,7 @@ module Gitlab
     module Scenario
       module Test
         module Omnibus
-          class Upgrade < Scenario::Template
+          class Upgrade < Framework::Scenario::Template
             def perform(image = 'CE')
               ce_release = Release.new(image)
 

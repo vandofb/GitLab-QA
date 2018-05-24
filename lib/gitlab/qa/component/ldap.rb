@@ -16,7 +16,7 @@ module Gitlab
   module QA
     module Component
       class LDAP
-        include Scenario::Actable
+        include Framework::Scenario::Actable
 
         LDAP_IMAGE = 'osixia/openldap'.freeze
         LDAP_IMAGE_TAG = 'latest'.freeze
