@@ -30,10 +30,9 @@ module Gitlab
           raise "Must set port" unless @port
 
           @log_file = Tempfile.new('tunnel')
-          @pid = spawn("exec ngrok http #{@port} -log=stdout -log-level=debug > #{@log_file.path}")
+          @pid = spawn("exec ngrok -log=stdout #{@port} > #{@log_file.path}")
           at_exit { stop }
           load_url
-          #ensure_running
         end
 
         def stop
@@ -43,7 +42,7 @@ module Gitlab
         def load_url
           10.times do
             content = @log_file.read
-            match = content.match(/URL:(?<url>.+)\sProto:https\s/)
+            match = content.match(/Tunnel established at (?<url>https:\/\/[^\s]+)/)
             if match
               @url = match['url']
               return
