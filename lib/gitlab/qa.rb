@@ -13,7 +13,6 @@ module Gitlab
     module Docker
       autoload :Command, 'qa/docker/command'
       autoload :Engine, 'qa/docker/engine'
-      autoload :Shellout, 'qa/docker/shellout'
       autoload :Volumes, 'qa/docker/volumes'
     end
 

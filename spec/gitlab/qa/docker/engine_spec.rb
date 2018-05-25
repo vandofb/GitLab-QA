@@ -2,7 +2,7 @@ describe Gitlab::QA::Docker::Engine do
   let(:docker) { spy('docker') }
 
   before do
-    stub_const('Gitlab::QA::Docker::Shellout', docker)
+    stub_const('Gitlab::QA::Framework::Docker::Shellout', docker)
   end
 
   describe '#pull' do

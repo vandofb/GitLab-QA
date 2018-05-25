@@ -4,6 +4,10 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 module Gitlab
   module QA
     module Framework
+      module Docker
+        autoload :Shellout, 'qa/framework/docker/shellout'
+      end
+
       module Factory
         autoload :Base, 'qa/framework/factory/base'
         autoload :Dependency, 'qa/framework/factory/dependency'

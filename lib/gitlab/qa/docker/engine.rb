@@ -46,7 +46,7 @@ module Gitlab
 
         def network_exists?(name)
           Docker::Command.execute("network inspect #{name}")
-        rescue Docker::Shellout::StatusError
+        rescue Framework::Docker::Shellout::StatusError
           false
         else
           true
