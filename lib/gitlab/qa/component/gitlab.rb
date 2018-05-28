@@ -10,7 +10,7 @@ module Gitlab
         extend Forwardable
         include Scenario::Actable
 
-        attr_reader :release, :docker, :port
+        attr_reader :release, :docker
         attr_accessor :volumes, :network, :environment
         attr_writer :name
 
@@ -21,7 +21,6 @@ module Gitlab
           @environment = {}
           @volumes = {}
           @network_aliases = []
-          @port = rand(10_000) + 30_000
 
           self.release = 'CE'
         end
@@ -75,9 +74,7 @@ module Gitlab
           ensure_configured!
 
           docker.run(image, tag) do |command|
-            puts "*********************************** random_port=#{@port}"
-            command << '-d'
-            command << "-p #{@port}:80"
+            command << '-d -p 80'
             command << "--name #{name}"
             command << "--net #{network}"
             command << "--hostname #{hostname}"

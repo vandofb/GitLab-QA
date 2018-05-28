@@ -10,61 +10,83 @@ module Gitlab
       class Ngrok
         include Scenario::Actable
 
-        attr_writer :port
+        DOCKER_IMAGE = 'dylangriffith/ngrok-v1'.freeze
+        DOCKER_IMAGE_TAG = 'latest'.freeze
 
-        attr_reader :url
+        attr_writer :gitlab_hostname, :name
+        attr_accessor :network
+
+        def initialize
+          @docker = Docker::Engine.new
+          @volumes = {}
+
+          @ngrok_config = Tempfile.new('ngrok_config')
+          @ngrok_config.write("server_addr: #{ngrok_server_hostname}:4443\ntrust_host_root_certs: true")
+          @ngrok_config.close
+          @volumes[@ngrok_config.path] = '/root/.ngrok'
+        end
 
         def instance
           raise 'Please provide a block!' unless block_given?
 
+          prepare
           start
 
           yield self
 
-          stop
+          teardown
+        end
+
+        def url
+          "https://#{subdomain}.#{ngrok_server_hostname}"
         end
 
         private
 
+        def name
+          @name ||= "ngrok-#{SecureRandom.hex(4)}"
+        end
+
+        def prepare
+          @docker.pull(DOCKER_IMAGE, DOCKER_IMAGE_TAG)
+
+          return if @docker.network_exists?(network)
+
+          @docker.network_create(network)
+        end
+
+        def ngrok_server_hostname
+          ENV.fetch("NGROK_SERVER_HOSTNAME")
+        end
+
+        def subdomain
+          @subdomain ||= SecureRandom.hex(8)
+        end
+
         def start
-          raise "Must set port" unless @port
+          raise "Must set gitlab_hostname" unless @gitlab_hostname
 
-          @log_file = Tempfile.new('tunnel')
-          @pid = spawn("exec ngrok -log=stdout #{@port} > #{@log_file.path}")
-          at_exit { stop }
-          load_url
-        end
+          @docker.run(DOCKER_IMAGE, DOCKER_IMAGE_TAG, "-log stdout -subdomain #{subdomain} #{@gitlab_hostname}:80") do |command|
+            command << '-d '
+            command << "--name #{name}"
+            command << "--net #{network}"
 
-        def stop
-          Process.kill(9, @pid)
-        end
-
-        def load_url
-          10.times do
-            content = @log_file.read
-            match = content.match(/Tunnel established at (?<url>https:\/\/[^\s]+)/)
-            if match
-              @url = match['url']
-              return
+            @volumes.to_h.each do |to, from|
+              command.volume(to, from, 'Z')
             end
-
-            match = content.match(/msg="command failed" err="(?<error>[^"]+)"/)
-            if match
-              raise match['error']
-            end
-
-            sleep 1
-            @log_file.rewind
           end
-          raise "Unable to fetch external url"
         end
 
-        def ensure_running
-          sleep 10
-          Process.getpgid(@pid)
-          true
-        rescue Errno::ESRCH
-          raise "Something went wrong with tunnel"
+        def restart
+          @docker.restart(name)
+        end
+
+        def teardown
+          raise 'Invalid instance name!' unless name
+
+          @docker.stop(name)
+          @docker.remove(name)
+          @ngrok_config.unlink
         end
       end
     end

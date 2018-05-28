@@ -15,22 +15,24 @@ module Gitlab
                 gitlab.network = 'test'
 
                 Component::Ngrok.perform do |ngrok_gitlab|
-                  ngrok_gitlab.port = gitlab.port
+                  Component::Ngrok.perform do |ngrok_registry|
+                    ngrok_gitlab.gitlab_hostname = gitlab.hostname
+                    ngrok_gitlab.network = 'test'
+                    ngrok_registry.gitlab_hostname = gitlab.hostname
+                    ngrok_registry.network = 'test'
 
-                  ngrok_gitlab.instance do
-                    Component::Ngrok.perform do |ngrok_registry|
-                      ngrok_registry.port = gitlab.port
+                    gitlab.omnibus_config = <<~OMNIBUS
+                      external_url '#{ngrok_gitlab.url}';
+                      nginx['listen_port'] = 80;
+                      nginx['listen_https'] = false;
 
+                      registry_external_url '#{ngrok_registry.url}';
+                      registry_nginx['listen_port'] = 80;
+                      registry_nginx['listen_https'] = false;
+                    OMNIBUS
+
+                    ngrok_gitlab.instance do
                       ngrok_registry.instance do
-                        gitlab.omnibus_config = <<~OMNIBUS
-                          external_url '#{ngrok_gitlab.url}';
-                          nginx['listen_port'] = 80;
-                          nginx['listen_https'] = false;
-
-                          registry_external_url '#{ngrok_registry.url}';
-                          registry_nginx['listen_port'] = 80;
-                          registry_nginx['listen_https'] = false;
-                        OMNIBUS
 
                         gitlab.instance do
                           require 'pry'; binding.pry
