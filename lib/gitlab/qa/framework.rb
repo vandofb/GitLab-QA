@@ -21,8 +21,13 @@ module Gitlab
         autoload :View, 'qa/framework/page/view'
       end
 
+      module Runtime
+        autoload :Scenario, 'qa/framework/runtime/scenario'
+      end
+
       module Scenario
         autoload :Actable, 'qa/framework/scenario/actable'
+        autoload :Bootable, 'qa/framework/scenario/bootable'
         autoload :Template, 'qa/framework/scenario/template'
       end
     end

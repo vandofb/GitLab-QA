@@ -16,4 +16,8 @@ RSpec.configure do |config|
   config.profile_examples = 10
   config.order = :random
   Kernel.srand config.seed
+
+  config.before do
+    Gitlab::QA::Framework::Runtime::Scenario.clear_attributes
+  end
 end

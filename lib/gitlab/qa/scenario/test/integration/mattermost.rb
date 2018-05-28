@@ -3,8 +3,10 @@ module Gitlab
     module Scenario
       module Test
         module Integration
-          class Mattermost < Framework::Scenario::Template
-            def perform(release)
+          class Mattermost
+            include Gitlab::QA::Framework::Scenario::Template
+
+            def perform(options, release)
               Component::Gitlab.perform do |gitlab|
                 gitlab.release = release
                 gitlab.network = 'test'

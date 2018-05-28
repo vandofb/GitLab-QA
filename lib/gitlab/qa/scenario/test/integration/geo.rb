@@ -3,13 +3,15 @@ module Gitlab
     module Scenario
       module Test
         module Integration
-          class Geo < Framework::Scenario::Template
+          class Geo
+            include Gitlab::QA::Framework::Scenario::Template
+
             ##
             # rubocop:disable Lint/MissingCopEnableDirective
             # rubocop:disable Metrics/MethodLength
             # rubocop:disable Metrics/AbcSize
             #
-            def perform(release)
+            def perform(options, release)
               release = Release.new(release)
 
               raise ArgumentError, 'Geo is EE only!' unless release.ee?

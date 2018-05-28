@@ -6,8 +6,10 @@ module Gitlab
     module Scenario
       module Test
         module Omnibus
-          class Upgrade < Framework::Scenario::Template
-            def perform(image = 'CE')
+          class Upgrade
+            include Gitlab::QA::Framework::Scenario::Template
+
+            def perform(options, image = 'CE')
               ce_release = Release.new(image)
 
               if ce_release.ee?

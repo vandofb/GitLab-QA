@@ -6,8 +6,10 @@ module Gitlab
           ##
           # Run test suite against staging.gitlab.com
           #
-          class Staging < Framework::Scenario::Template
-            def perform(*)
+          class Staging
+            include Gitlab::QA::Framework::Scenario::Template
+
+            def perform(options)
               Runtime::Env.require_no_license!
 
               release = Component::Staging.release

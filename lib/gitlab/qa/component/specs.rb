@@ -5,7 +5,9 @@ module Gitlab
       # This class represents GitLab QA specs image that is implemented in
       # the `qa/` directory located in GitLab CE / EE repositories.
       #
-      class Specs < Framework::Scenario::Template
+      class Specs
+        include Framework::Scenario::Actable
+
         attr_accessor :suite, :release, :network, :args
 
         def initialize

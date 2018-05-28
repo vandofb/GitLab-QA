@@ -2,6 +2,8 @@ module Gitlab
   module QA
     module Docker
       class Engine
+        include Gitlab::QA::Framework::Scenario::Bootable
+
         DOCKER_HOST = ENV['DOCKER_HOST'] || 'http://localhost'
 
         def hostname

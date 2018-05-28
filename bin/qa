@@ -5,4 +5,4 @@ require 'gitlab/qa'
 
 Gitlab::QA::Scenario
   .const_get(ARGV.shift)
-  .perform(*ARGV)
+  .launch!(ARGV)

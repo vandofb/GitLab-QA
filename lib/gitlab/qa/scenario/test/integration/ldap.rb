@@ -5,9 +5,11 @@ module Gitlab
     module Scenario
       module Test
         module Integration
-          class LDAP < Framework::Scenario::Template
+          class LDAP
+            include Gitlab::QA::Framework::Scenario::Template
+
             # rubocop:disable Metrics/AbcSize
-            def perform(release)
+            def perform(options, release)
               Component::Gitlab.perform do |gitlab|
                 gitlab.release = release
                 gitlab.name = 'gitlab-ldap'

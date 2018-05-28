@@ -2,16 +2,12 @@ module Gitlab
   module QA
     module Framework
       module Scenario
-        class Template
-          def self.perform(*args)
-            new.tap do |scenario|
-              yield scenario if block_given?
-              return scenario.perform(*args)
-            end
-          end
+        module Template
+          def self.included(base)
+            base.include Gitlab::QA::Framework::Scenario::Actable
+            base.include Gitlab::QA::Framework::Scenario::Bootable
 
-          def perform(*_args)
-            raise NotImplementedError
+            base.attribute :skip_pull?, '--skip-pull', type: :flag, default: false
           end
         end
       end

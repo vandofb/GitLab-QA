@@ -18,10 +18,12 @@ module Gitlab
 
     module Runtime
       autoload :Env, 'qa/runtime/env'
+      autoload :Scenario, 'qa/runtime/scenario'
     end
 
     module Scenario
       autoload :Actable, 'qa/scenario/actable'
+      autoload :Bootable, 'qa/scenario/bootable'
       autoload :Template, 'qa/scenario/template'
 
       module Test

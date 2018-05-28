@@ -3,17 +3,21 @@ module Gitlab
     module Framework
       module Scenario
         module Actable
-          def act(*args, &block)
-            instance_exec(*args, &block)
-          end
-
           def self.included(base)
             base.extend(ClassMethods)
           end
 
+          def act(*args, &block)
+            instance_exec(*args, &block)
+          end
+
           module ClassMethods
-            def perform
-              yield new if block_given?
+            def perform(*args)
+              new.tap do |actor|
+                block_result = yield actor if block_given?
+                actor.perform(*args) if actor.respond_to?(:perform)
+                return block_result
+              end
             end
 
             def act(*args, &block)

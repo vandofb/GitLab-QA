@@ -7,8 +7,10 @@ module Gitlab
           # Run test suite against any GitLab instance,
           # including staging and on-premises installation.
           #
-          class Any < Framework::Scenario::Template
-            def perform(edition, tag, address)
+          class Any
+            include Gitlab::QA::Framework::Scenario::Template
+
+            def perform(options, edition, tag, address)
               release = Release.new(edition).tap do |r|
                 r.tag = tag
               end

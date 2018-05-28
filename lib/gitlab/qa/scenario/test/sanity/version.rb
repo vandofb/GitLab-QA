@@ -11,11 +11,13 @@ module Gitlab
           # the window defined by `HOURS_AGO`.  We perform a single API call,
           # so `COMMITS` needs to be a large enough value that we expect all
           # the commits in the time window will fit.
-          class Version < Framework::Scenario::Template
+          class Version
+            include Gitlab::QA::Framework::Scenario::Template
+
             HOURS_AGO = 24
             COMMITS = 10_000
 
-            def perform(release)
+            def perform(options, release)
               version = Component::Gitlab.perform do |gitlab|
                 gitlab.release = release
                 gitlab.act do

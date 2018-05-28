@@ -3,14 +3,16 @@ module Gitlab
     module Scenario
       module Test
         module Instance
-          class Image < Framework::Scenario::Template
+          class Image
+            include Gitlab::QA::Framework::Scenario::Template
+
             attr_writer :volumes
 
             def initialize
               @volumes = {}
             end
 
-            def perform(release)
+            def perform(options, release)
               Component::Gitlab.perform do |gitlab|
                 gitlab.release = release
                 gitlab.volumes = @volumes
