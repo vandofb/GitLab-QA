@@ -11,6 +11,8 @@ module Gitlab
         end
 
         def pull(image, tag)
+          return if Gitlab::QA::Framework::Runtime::Scenario.skip_pull? { false }
+
           Docker::Command.execute("pull #{image}:#{tag}")
         end
 

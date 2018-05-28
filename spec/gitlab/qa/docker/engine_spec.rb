@@ -12,6 +12,18 @@ describe Gitlab::QA::Docker::Engine do
       expect(docker).to have_received(:new)
         .with(eq('docker pull gitlab/gitlab-ce:nightly'))
     end
+
+    context 'when Gitlab::QA::Framework::Runtime::Scenario.skip_pull? is true' do
+      before do
+        Gitlab::QA::Framework::Runtime::Scenario.define(:skip_pull?, true)
+      end
+
+      it 'does not pull doicker image' do
+        subject.pull('gitlab/gitlab-ce', 'nightly')
+
+        expect(docker).not_to have_received(:new)
+      end
+    end
   end
 
   describe '#run' do
