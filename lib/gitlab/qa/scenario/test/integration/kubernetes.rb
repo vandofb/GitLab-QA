@@ -35,16 +35,12 @@ module Gitlab
                       ngrok_registry.instance do
 
                         gitlab.instance do
-                          require 'pry'; binding.pry
-
-                          #puts 'Running Kubernetes specs!'
-
-                          #Component::Specs.perform do |specs|
-                          #  specs.suite = 'Test::Integration::Kubernetes'
-                          #  specs.release = gitlab.release
-                          #  specs.network = gitlab.network
-                          #  specs.args = [gitlab.address]
-                          #end
+                          Component::Specs.perform do |specs|
+                            specs.suite = 'Test::Integration::Kubernetes'
+                            specs.release = gitlab.release
+                            specs.network = gitlab.network
+                            specs.args = [ngrok_gitlab.url]
+                          end
                         end
                       end
                     end

@@ -41,7 +41,6 @@ module Gitlab
     module Component
       autoload :Gitlab, 'qa/component/gitlab'
       autoload :Ngrok, 'qa/component/ngrok'
-      autoload :KubernetesCluster, 'qa/component/kubernetes_cluster'
       autoload :LDAP, 'qa/component/ldap'
       autoload :Specs, 'qa/component/specs'
       autoload :Staging, 'qa/component/staging'
