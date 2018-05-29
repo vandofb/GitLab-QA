@@ -8,7 +8,7 @@ module Gitlab
           # including staging and on-premises installation.
           #
           class Any
-            include Gitlab::QA::Framework::Scenario::Template
+            include Template
 
             def perform(options, edition, tag, address)
               release = Release.new(edition).tap do |r|

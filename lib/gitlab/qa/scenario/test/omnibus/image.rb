@@ -4,7 +4,7 @@ module Gitlab
       module Test
         module Omnibus
           class Image
-            include Gitlab::QA::Framework::Scenario::Template
+            include Template
 
             def perform(options, release)
               Component::Gitlab.perform do |gitlab|

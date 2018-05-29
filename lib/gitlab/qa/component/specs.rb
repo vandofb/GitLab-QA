@@ -11,7 +11,7 @@ module Gitlab
         attr_accessor :suite, :release, :network, :args
 
         def initialize
-          @docker = Docker::Engine.new
+          @docker = Framework::Docker::Engine.new
         end
 
         def perform # rubocop:disable Metrics/AbcSize

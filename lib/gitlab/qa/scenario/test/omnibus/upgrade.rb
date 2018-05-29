@@ -7,7 +7,7 @@ module Gitlab
       module Test
         module Omnibus
           class Upgrade
-            include Gitlab::QA::Framework::Scenario::Template
+            include Template
 
             def perform(options, image = 'CE')
               ce_release = Release.new(image)
@@ -16,7 +16,9 @@ module Gitlab
                 raise ArgumentError, 'Only CE can be upgraded to EE!'
               end
 
-              Docker::Volumes.new.with_temporary_volumes do |volumes|
+              volumes = Framework::Docker::Volumes.new(Component::Gitlab::VOLUMES)
+
+              volumes.with_temporary_volumes do |volumes|
                 Scenario::Test::Instance::Image
                   .perform(ce_release) do |scenario|
                   scenario.volumes = volumes

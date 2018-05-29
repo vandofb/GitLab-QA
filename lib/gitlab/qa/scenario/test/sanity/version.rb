@@ -13,6 +13,7 @@ module Gitlab
           # the commits in the time window will fit.
           class Version
             include Gitlab::QA::Framework::Scenario::Template
+            include Scenario::CommonOptions
 
             HOURS_AGO = 24
             COMMITS = 10_000

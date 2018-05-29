@@ -5,7 +5,10 @@ module Gitlab
   module QA
     module Framework
       module Docker
+        autoload :Command, 'qa/framework/docker/command'
+        autoload :Engine, 'qa/framework/docker/engine'
         autoload :Shellout, 'qa/framework/docker/shellout'
+        autoload :Volumes, 'qa/framework/docker/volumes'
       end
 
       module Factory

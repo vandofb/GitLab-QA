@@ -2,7 +2,7 @@ describe Gitlab::QA::Component::Specs do
   let(:docker) { spy('docker command') }
 
   before do
-    stub_const('Gitlab::QA::Docker::Command', docker)
+    stub_const('Gitlab::QA::Framework::Docker::Command', docker)
   end
 
   describe '#perform' do

@@ -4,7 +4,7 @@ module Gitlab
       module Test
         module Instance
           class Image
-            include Gitlab::QA::Framework::Scenario::Template
+            include Template
 
             attr_writer :volumes
 

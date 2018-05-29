@@ -38,7 +38,7 @@ module Gitlab
         attr_writer :name
 
         def initialize
-          @docker = Docker::Engine.new
+          @docker = Framework::Docker::Engine.new
           @environment = {}
           @volumes = {}
           @network_aliases = []

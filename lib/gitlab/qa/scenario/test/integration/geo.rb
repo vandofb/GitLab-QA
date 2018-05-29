@@ -4,7 +4,7 @@ module Gitlab
       module Test
         module Integration
           class Geo
-            include Gitlab::QA::Framework::Scenario::Template
+            include Template
 
             ##
             # rubocop:disable Lint/MissingCopEnableDirective

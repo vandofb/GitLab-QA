@@ -14,10 +14,15 @@ module Gitlab
         attr_accessor :volumes, :network, :environment
         attr_writer :name
 
+        VOLUMES = {
+          'config' => '/etc/gitlab',
+          'data' => '/var/opt/gitlab'
+        }.freeze
+
         def_delegators :release, :tag, :image, :edition
 
         def initialize
-          @docker = Docker::Engine.new
+          @docker = Framework::Docker::Engine.new
           @environment = {}
           @volumes = {}
           @network_aliases = []
@@ -148,7 +153,7 @@ module Gitlab
 
         class Availability
           def initialize(name)
-            @docker = Docker::Engine.new
+            @docker = Framework::Docker::Engine.new
 
             host = @docker.hostname
             port = @docker.port(name, 80).split(':').last

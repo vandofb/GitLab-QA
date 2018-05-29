@@ -6,7 +6,7 @@ module Gitlab
       module Test
         module Integration
           class LDAP
-            include Gitlab::QA::Framework::Scenario::Template
+            include Template
 
             # rubocop:disable Metrics/AbcSize
             def perform(options, release)

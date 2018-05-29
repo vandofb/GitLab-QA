@@ -88,7 +88,7 @@ describe Gitlab::QA::Component::Gitlab do
     let(:docker) { spy('docker command') }
 
     before do
-      stub_const('Gitlab::QA::Docker::Command', docker)
+      stub_const('Gitlab::QA::Framework::Docker::Command', docker)
 
       allow(subject).to receive(:ensure_configured!)
     end
