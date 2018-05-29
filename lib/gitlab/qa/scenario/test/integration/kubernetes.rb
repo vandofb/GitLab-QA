@@ -33,7 +33,6 @@ module Gitlab
 
                     ngrok_gitlab.instance do
                       ngrok_registry.instance do
-
                         gitlab.instance do
                           Component::Specs.perform do |specs|
                             specs.suite = 'Test::Integration::Kubernetes'
