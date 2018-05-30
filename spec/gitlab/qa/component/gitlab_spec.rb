@@ -120,7 +120,7 @@ describe Gitlab::QA::Component::Gitlab do
     end
 
     it 'bind-mounds volume with logs in an appropriate directory' do
-      allow(Gitlab::QA::Runtime::Env)
+      allow(Gitlab::QA::Runtime::Settings)
         .to receive(:logs_dir)
         .and_return('/tmp/gitlab-qa/logs')
 

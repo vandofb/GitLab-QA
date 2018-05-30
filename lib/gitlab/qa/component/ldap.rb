@@ -150,8 +150,8 @@ module Gitlab
         end
 
         def set_gitlab_credentials
-          ::Gitlab::QA::Runtime::Env.ldap_username = username
-          ::Gitlab::QA::Runtime::Env.ldap_password = password
+          ::Gitlab::QA::Runtime::Settings.ldap_username = username
+          ::Gitlab::QA::Runtime::Settings.ldap_password = password
         end
       end
     end

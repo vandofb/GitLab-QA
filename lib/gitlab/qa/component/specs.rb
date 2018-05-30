@@ -22,13 +22,13 @@ module Gitlab
           @docker.run(release.qa_image, release.tag, suite, *args) do |command|
             command << "-t --rm --net=#{network || 'bridge'}"
 
-            variables = Runtime::Env.variables
+            variables = Runtime::Settings.variables
             variables.each do |key, value|
               command.env(key, value)
             end
 
             command.volume('/var/run/docker.sock', '/var/run/docker.sock')
-            command.volume(Runtime::Env.screenshots_dir, '/home/qa/tmp')
+            command.volume(Runtime::Settings.screenshots_dir, '/home/qa/tmp')
             command.name("gitlab-specs-#{Time.now.to_i}")
           end
         end

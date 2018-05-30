@@ -10,7 +10,7 @@ module Gitlab
             include Template
 
             def perform(options)
-              Runtime::Env.require_no_license!
+              Runtime::Settings.require_no_license!
 
               release = Component::Staging.release
 

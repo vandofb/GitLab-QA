@@ -50,10 +50,10 @@ module Gitlab
           private
 
           def request
-            Runtime::Env.require_qa_access_token!
+            Runtime::Settings.require_qa_access_token!
 
             @request ||= Net::HTTP::Get.new(@uri.path).tap do |req|
-              req['PRIVATE-TOKEN'] = Runtime::Env.qa_access_token
+              req['PRIVATE-TOKEN'] = Runtime::Settings.qa_access_token
             end
           end
         end

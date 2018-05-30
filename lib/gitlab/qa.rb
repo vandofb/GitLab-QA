@@ -10,8 +10,8 @@ module Gitlab
     end
 
     module Runtime
-      autoload :Env, 'qa/runtime/env'
       autoload :Scenario, 'qa/runtime/scenario'
+      autoload :Settings, 'qa/runtime/settings'
     end
 
     module Scenario

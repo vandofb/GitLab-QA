@@ -1,4 +1,4 @@
-describe Gitlab::QA::Runtime::Env do
+describe Gitlab::QA::Runtime::Settings do
   describe '.screenshots_dir' do
     context 'when there is an env variable set' do
       before do

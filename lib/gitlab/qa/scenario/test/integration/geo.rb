@@ -16,7 +16,7 @@ module Gitlab
 
               raise ArgumentError, 'Geo is EE only!' unless release.ee?
 
-              Runtime::Env.require_license!
+              Runtime::Settings.require_license!
 
               Component::Gitlab.perform do |primary|
                 primary.release = release

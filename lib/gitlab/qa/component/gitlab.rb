@@ -88,7 +88,7 @@ module Gitlab
               command.volume(to, from, 'Z')
             end
 
-            File.join(Runtime::Env.logs_dir, name).tap do |logs_dir|
+            File.join(Runtime::Settings.logs_dir, name).tap do |logs_dir|
               command.volume(logs_dir, '/var/log/gitlab', 'Z')
             end
 

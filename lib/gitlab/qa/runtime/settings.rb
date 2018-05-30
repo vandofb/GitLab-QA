@@ -1,7 +1,7 @@
 module Gitlab
   module QA
     module Runtime
-      module Env
+      module Settings
         extend self
 
         ENV_VARIABLES = {
