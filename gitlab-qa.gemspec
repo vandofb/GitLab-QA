@@ -1,5 +1,4 @@
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+$LOAD_PATH.unshift(File.expand_path('../lib', __FILE__)).uniq!
 require 'gitlab/qa/version'
 
 Gem::Specification.new do |spec|
@@ -19,6 +18,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'capybara', '~> 2.16'
+  spec.add_runtime_dependency 'capybara-screenshot', '~> 1.0.18'
+  spec.add_runtime_dependency 'selenium-webdriver', '~> 3.8.0'
 
   # Some dependencies are pinned, to prevent new cops from breaking the CI pipelines
   spec.add_development_dependency 'gitlab-styles', '2.2.0'

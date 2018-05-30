@@ -2,7 +2,7 @@ describe Gitlab::QA::Framework::Docker::Command do
   let(:docker) { spy('docker') }
 
   before do
-    stub_const('Gitlab::QA::Framework::Docker::Shellout', docker)
+    stub_const('Gitlab::QA::Framework::Utils::Shellout', docker)
   end
 
   describe '#<<' do

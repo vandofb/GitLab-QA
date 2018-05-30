@@ -26,9 +26,4 @@ describe Gitlab::QA::Framework::Runtime::Scenario do
     expect { subject.empty_attribute }
       .to raise_error ArgumentError, /empty_attribute/
   end
-
-  it 'fallbacks to given block return value when attribute is not known' do
-    expect(subject.invalid_accessor { 'hello world' })
-      .to eq('hello world')
-  end
 end

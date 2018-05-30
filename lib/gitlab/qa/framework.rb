@@ -1,5 +1,4 @@
-lib = File.expand_path('../', __dir__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+$LOAD_PATH.unshift(File.expand_path('../', __dir__)).uniq!
 
 module Gitlab
   module QA
@@ -7,7 +6,6 @@ module Gitlab
       module Docker
         autoload :Command, 'qa/framework/docker/command'
         autoload :Engine, 'qa/framework/docker/engine'
-        autoload :Shellout, 'qa/framework/docker/shellout'
         autoload :Volumes, 'qa/framework/docker/volumes'
       end
 
@@ -25,13 +23,23 @@ module Gitlab
       end
 
       module Runtime
+        autoload :Address, 'qa/framework/runtime/address'
+        autoload :Browser, 'qa/framework/runtime/browser'
+        autoload :Env, 'qa/framework/runtime/env'
         autoload :Scenario, 'qa/framework/runtime/scenario'
+        autoload :Session, 'qa/framework/runtime/session'
       end
 
       module Scenario
         autoload :Actable, 'qa/framework/scenario/actable'
         autoload :Bootable, 'qa/framework/scenario/bootable'
+        autoload :Runner, 'qa/framework/scenario/runner'
+        autoload :Taggable, 'qa/framework/scenario/taggable'
         autoload :Template, 'qa/framework/scenario/template'
+      end
+
+      module Utils
+        autoload :Shellout, 'qa/framework/utils/shellout'
       end
     end
   end

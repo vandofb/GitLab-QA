@@ -34,7 +34,7 @@ module Gitlab
           end
 
           def execute!(&block)
-            Shellout.new(self).execute!(&block)
+            Framework::Utils::Shellout.new(self).execute!(&block)
           end
 
           def self.execute(cmd, &block)

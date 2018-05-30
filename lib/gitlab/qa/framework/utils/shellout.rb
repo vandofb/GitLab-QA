@@ -3,7 +3,7 @@ require 'open3'
 module Gitlab
   module QA
     module Framework
-      module Docker
+      module Utils
         class Shellout
           StatusError = Class.new(StandardError)
 
@@ -11,7 +11,7 @@ module Gitlab
             @command = command
             @output = []
 
-            puts "Docker shell command: `#{@command}`"
+            puts "Command: `#{@command}`"
           end
 
           def execute!
@@ -29,7 +29,7 @@ module Gitlab
               end
 
               if wait.value.exited? && wait.value.exitstatus.nonzero?
-                raise StatusError, "Docker command `#{@command}` failed!"
+                raise StatusError, "Command `#{@command}` failed!"
               end
             end
 

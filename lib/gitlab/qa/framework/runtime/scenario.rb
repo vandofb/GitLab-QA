@@ -31,9 +31,11 @@ module Gitlab
             @attributes = {}
           end
 
-          def method_missing(name, *args)
-            return yield if block_given?
+          def respond_to_missing?(name, *)
+            super
+          end
 
+          def method_missing(name, *) # rubocop:disable Style/MethodMissing
             raise ArgumentError, "Scenario attribute `#{name}` not defined!"
           end
         end
