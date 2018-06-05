@@ -1,8 +1,4 @@
-require 'securerandom'
-require 'net/http'
-require 'uri'
-require 'forwardable'
-require 'ngrok/tunnel'
+require 'tempfile'
 
 module Gitlab
   module QA
@@ -10,7 +6,7 @@ module Gitlab
       class Ngrok
         include Scenario::Actable
 
-        DOCKER_IMAGE = 'dylangriffith/ngrok-v1'.freeze
+        DOCKER_IMAGE = 'dylangriffith/ssh'.freeze
         DOCKER_IMAGE_TAG = 'latest'.freeze
 
         attr_writer :gitlab_hostname, :name
@@ -20,10 +16,10 @@ module Gitlab
           @docker = Docker::Engine.new
           @volumes = {}
 
-          @ngrok_config = Tempfile.new('ngrok_config')
-          @ngrok_config.write("server_addr: #{ngrok_server_hostname}:4443\ntrust_host_root_certs: true")
+          @ngrok_config = Tempfile.new('tunnel-ssh-private-key')
+          @ngrok_config.write(ENV.fetch("TUNNEL_SSH_PRIVATE_KEY"))
           @ngrok_config.close
-          @volumes[@ngrok_config.path] = '/root/.ngrok'
+          @volumes[@ngrok_config.path] = '/root/.ssh/id_rsa'
         end
 
         def instance
@@ -38,13 +34,13 @@ module Gitlab
         end
 
         def url
-          "https://#{subdomain}.#{ngrok_server_hostname}"
+          "https://#{subdomain}.#{tunnel_server_hostname}"
         end
 
         private
 
         def name
-          @name ||= "ngrok-#{SecureRandom.hex(4)}"
+          @name ||= "ssh-tunnel-#{SecureRandom.hex(4)}"
         end
 
         def prepare
@@ -55,18 +51,18 @@ module Gitlab
           @docker.network_create(network)
         end
 
-        def ngrok_server_hostname
-          ENV.fetch("NGROK_SERVER_HOSTNAME")
+        def tunnel_server_hostname
+          ENV.fetch("TUNNEL_SERVER_HOSTNAME")
         end
 
         def subdomain
-          @subdomain ||= SecureRandom.hex(8)
+          @subdomain ||= 20_000 + rand(10_000)
         end
 
         def start
           raise "Must set gitlab_hostname" unless @gitlab_hostname
 
-          @docker.run(DOCKER_IMAGE, DOCKER_IMAGE_TAG, "-log stdout -subdomain #{subdomain} #{@gitlab_hostname}:80") do |command|
+          @docker.run(DOCKER_IMAGE, DOCKER_IMAGE_TAG, "-o StrictHostKeyChecking=no -N -R #{subdomain}:#{@gitlab_hostname}:80 #{ENV.fetch("TUNNEL_SSH_USER")}@#{tunnel_server_hostname}") do |command|
             command << '-d '
             command << "--name #{name}"
             command << "--net #{network}"
