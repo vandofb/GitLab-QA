@@ -40,7 +40,7 @@ module Gitlab
 
     module Component
       autoload :Gitlab, 'qa/component/gitlab'
-      autoload :Ngrok, 'qa/component/ngrok'
+      autoload :InternetTunnel, 'qa/component/internet_tunnel'
       autoload :LDAP, 'qa/component/ldap'
       autoload :Specs, 'qa/component/specs'
       autoload :Staging, 'qa/component/staging'

@@ -3,7 +3,7 @@ require 'tempfile'
 module Gitlab
   module QA
     module Component
-      class Ngrok
+      class InternetTunnel
         include Scenario::Actable
 
         DOCKER_IMAGE = 'dylangriffith/ssh'.freeze
@@ -16,10 +16,10 @@ module Gitlab
           @docker = Docker::Engine.new
           @volumes = {}
 
-          @ngrok_config = Tempfile.new('tunnel-ssh-private-key')
-          @ngrok_config.write(ENV.fetch("TUNNEL_SSH_PRIVATE_KEY"))
-          @ngrok_config.close
-          @volumes[@ngrok_config.path] = '/root/.ssh/id_rsa'
+          @ssh_key = Tempfile.new('tunnel-ssh-private-key')
+          @ssh_key.write(ENV.fetch("TUNNEL_SSH_PRIVATE_KEY"))
+          @ssh_key.close
+          @volumes[@ssh_key.path] = '/root/.ssh/id_rsa'
         end
 
         def instance
@@ -82,7 +82,7 @@ module Gitlab
 
           @docker.stop(name)
           @docker.remove(name)
-          @ngrok_config.unlink
+          @ssh_key.unlink
         end
       end
     end

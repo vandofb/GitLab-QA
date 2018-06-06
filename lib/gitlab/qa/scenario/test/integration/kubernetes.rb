@@ -14,31 +14,32 @@ module Gitlab
                 gitlab.release = release
                 gitlab.network = 'test'
 
-                Component::Ngrok.perform do |ngrok_gitlab|
-                  Component::Ngrok.perform do |ngrok_registry|
-                    ngrok_gitlab.gitlab_hostname = gitlab.hostname
-                    ngrok_gitlab.network = 'test'
-                    ngrok_registry.gitlab_hostname = gitlab.hostname
-                    ngrok_registry.network = 'test'
+                Component::InternetTunnel.perform do |tunnel_gitlab|
+                  Component::InternetTunnel.perform do |tunnel_registry|
+                    tunnel_gitlab.gitlab_hostname = gitlab.hostname
+                    tunnel_gitlab.network = 'test'
+                    tunnel_registry.gitlab_hostname = gitlab.hostname
+                    tunnel_registry.network = 'test'
 
                     gitlab.omnibus_config = <<~OMNIBUS
-                      external_url '#{ngrok_gitlab.url}';
+                      external_url '#{tunnel_gitlab.url}';
                       nginx['listen_port'] = 80;
                       nginx['listen_https'] = false;
 
-                      registry_external_url '#{ngrok_registry.url}';
+                      registry_external_url '#{tunnel_registry.url}';
                       registry_nginx['listen_port'] = 80;
                       registry_nginx['listen_https'] = false;
                     OMNIBUS
 
-                    ngrok_gitlab.instance do
-                      ngrok_registry.instance do
+                    tunnel_gitlab.instance do
+                      tunnel_registry.instance do
+
                         gitlab.instance do
                           Component::Specs.perform do |specs|
                             specs.suite = 'Test::Integration::Kubernetes'
                             specs.release = gitlab.release
                             specs.network = gitlab.network
-                            specs.args = [ngrok_gitlab.url]
+                            specs.args = [tunnel_gitlab.url]
                           end
                         end
                       end
