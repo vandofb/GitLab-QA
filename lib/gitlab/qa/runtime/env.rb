@@ -14,7 +14,10 @@ module Gitlab
           'GITLAB_QA_ACCESS_TOKEN' => :qa_access_token,
           'GITHUB_ACCESS_TOKEN' => :github_access_token,
           'GITLAB_URL' => :gitlab_url,
-          'EE_LICENSE' => :ee_license
+          'EE_LICENSE' => :ee_license,
+          'GCLOUD_ACCOUNT_EMAIL' => :gcloud_account_email,
+          'GCLOUD_ACCOUNT_KEY' => :gcloud_account_key,
+          'CLOUDSDK_CORE_PROJECT' => :cloudsdk_core_project
         }.freeze
 
         ENV_VARIABLES.each_value do |accessor|
