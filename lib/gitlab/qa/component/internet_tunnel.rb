@@ -62,7 +62,7 @@ module Gitlab
         def start
           raise "Must set gitlab_hostname" unless @gitlab_hostname
 
-          @docker.run(DOCKER_IMAGE, DOCKER_IMAGE_TAG, "-o StrictHostKeyChecking=no -N -R #{subdomain}:#{@gitlab_hostname}:80 #{ENV.fetch("TUNNEL_SSH_USER")}@#{tunnel_server_hostname}") do |command|
+          @docker.run(DOCKER_IMAGE, DOCKER_IMAGE_TAG, "-o StrictHostKeyChecking=no -N -R #{subdomain}:#{@gitlab_hostname}:80 #{ENV.fetch('TUNNEL_SSH_USER')}@#{tunnel_server_hostname}") do |command|
             command << '-d '
             command << "--name #{name}"
             command << "--net #{network}"
