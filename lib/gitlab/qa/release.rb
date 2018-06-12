@@ -68,8 +68,8 @@ module Gitlab
           end
       end
 
-      def edition_tag
-        @edition_tag ||= "#{edition}-#{tag}"
+      def qa_tag
+        tag.sub(/\.([ce]e)/, '-\1').sub(/\.(\d+)\z/, '')
       end
 
       private

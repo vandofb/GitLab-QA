@@ -17,7 +17,7 @@ module Gitlab
 
           puts "Running test suite `#{suite}` for #{release.project_name}"
 
-          @docker.run(release.qa_image, release.tag, suite, *args) do |command|
+          @docker.run(release.qa_image, release.qa_tag, suite, *args) do |command|
             command << "-t --rm --net=#{network || 'bridge'}"
 
             variables = Runtime::Env.variables
