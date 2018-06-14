@@ -118,9 +118,9 @@ ee:update:
   <<: *test
   <<: *high-capacity
 
-ee-to-ce-next:update:
+ee-previous-to-ce-next:update:
   script:
-     - bin/qa Test::Omnibus::CustomUpdate EE CE
+     - bin/qa Test::Omnibus::Update EE CE
   <<: *test
   <<: *high-capacity
 
