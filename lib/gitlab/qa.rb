@@ -20,6 +20,7 @@ module Gitlab
         end
 
         module Omnibus
+          autoload :CustomUpdate, 'qa/scenario/test/omnibus/custom_update'
           autoload :Image, 'qa/scenario/test/omnibus/image'
           autoload :Update, 'qa/scenario/test/omnibus/update'
           autoload :Upgrade, 'qa/scenario/test/omnibus/upgrade'

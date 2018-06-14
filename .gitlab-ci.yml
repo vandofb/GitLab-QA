@@ -118,6 +118,12 @@ ee:update:
   <<: *test
   <<: *high-capacity
 
+ee-to-ce-next:update:
+  script:
+     - bin/qa Test::Omnibus::CustomUpdate EE CE
+  <<: *test
+  <<: *high-capacity
+
 ce:upgrade:
   script:
     - if [[ $RELEASE ]]; then exit 0; fi
