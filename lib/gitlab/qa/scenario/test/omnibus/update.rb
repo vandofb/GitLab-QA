@@ -7,12 +7,15 @@ module Gitlab
       module Test
         module Omnibus
           class Update < Scenario::Template
-            def perform(next_release)
-              next_release = Release.new(next_release)
+            def perform(previous_edition, next_edition = nil)
+              next_edition ||= previous_edition
+
+              previous_release = Release.new(previous_edition).previous_stable
+              next_release = Release.new(next_edition)
 
               Docker::Volumes.new.with_temporary_volumes do |volumes|
                 Scenario::Test::Instance::Image
-                  .perform(next_release.previous_stable) do |scenario|
+                  .perform(previous_release) do |scenario|
                   scenario.volumes = volumes
                 end
 
