@@ -1,11 +1,14 @@
 describe Gitlab::QA::Release do
+  let(:specific_ce_tag) { '10.8.4-ce.0' }
+  let(:specific_ce_qa_tag) { '10.8.4-ce' }
+  let(:specific_ee_tag) { '11.0.0-rc5.ee.1' }
+  let(:specific_ee_qa_tag) { '11.0.0-rc5-ee' }
   let(:full_ce_address) { 'registry.gitlab.com/foo/gitlab/gitlab-ce' }
   let(:full_ce_address_with_simple_tag) { "#{full_ce_address}:latest" }
-  let(:full_ce_address_with_complex_tag) { "#{full_ce_address}:omnibus-7263a2" }
+  let(:full_ce_address_with_complex_tag) { "#{full_ce_address}:#{specific_ce_tag}" }
   let(:full_ee_address) { 'registry.gitlab.com/foo/gitlab/gitlab-ee' }
   let(:full_ee_address_with_simple_tag) { "#{full_ee_address}:latest" }
-  let(:full_ee_address_with_complex_tag) { "#{full_ee_address}:omnibus-7263a2" }
-  let(:specific_tag) { '10.1.3-ce.0' }
+  let(:full_ee_address_with_complex_tag) { "#{full_ee_address}:#{specific_ee_tag}" }
 
   describe '#to_s' do
     context 'when release is ce' do
@@ -27,15 +30,15 @@ describe Gitlab::QA::Release do
     end
 
     context 'when release is EDITION:tag' do
-      subject { described_class.new("CE:#{specific_tag}") }
+      subject { described_class.new("CE:#{specific_ce_tag}") }
 
-      it { expect(subject.to_s).to eq 'gitlab/gitlab-ce:10.1.3-ce.0' }
+      it { expect(subject.to_s).to eq "gitlab/gitlab-ce:#{specific_ce_tag}" }
     end
 
     context 'when release is edition:tag' do
-      subject { described_class.new("ce:#{specific_tag}") }
+      subject { described_class.new("ce:#{specific_ce_tag}") }
 
-      it { expect(subject.to_s).to eq 'gitlab/gitlab-ce:10.1.3-ce.0' }
+      it { expect(subject.to_s).to eq "gitlab/gitlab-ce:#{specific_ce_tag}" }
     end
 
     context 'when release is a full CE address' do
@@ -89,10 +92,10 @@ describe Gitlab::QA::Release do
     end
 
     context 'when release is edition:tag' do
-      subject { described_class.new("ce:#{specific_tag}") }
+      subject { described_class.new("ce:#{specific_ce_tag}") }
 
       it { expect(subject.image).to eq 'gitlab/gitlab-ce' }
-      it { expect(subject.tag).to eq specific_tag }
+      it { expect(subject.tag).to eq specific_ce_tag }
     end
 
     context 'when release is a full CE address' do
@@ -150,7 +153,7 @@ describe Gitlab::QA::Release do
     end
 
     context 'when release is edition:tag' do
-      subject { described_class.new("ce:#{specific_tag}") }
+      subject { described_class.new("ce:#{specific_ce_tag}") }
 
       it { expect(subject.edition).to eq :ce }
     end
@@ -198,7 +201,7 @@ describe Gitlab::QA::Release do
     end
 
     context 'when release is edition:tag' do
-      subject { described_class.new("ce:#{specific_tag}") }
+      subject { described_class.new("ce:#{specific_ce_tag}") }
 
       it { expect(subject).not_to be_ee }
     end
@@ -246,9 +249,9 @@ describe Gitlab::QA::Release do
     end
 
     context 'when release is edition:tag' do
-      subject { described_class.new("ce:#{specific_tag}") }
+      subject { described_class.new("ce:#{specific_ce_tag}") }
 
-      it { expect(subject.to_ee.to_s).to eq "gitlab/gitlab-ee:#{specific_tag}" }
+      it { expect(subject.to_ee.to_s).to eq "gitlab/gitlab-ee:#{specific_ce_tag}" }
     end
 
     context 'when tag includes `ce`' do
@@ -273,7 +276,7 @@ describe Gitlab::QA::Release do
       context 'with a complex tag' do
         subject { described_class.new(full_ce_address_with_complex_tag) }
 
-        it { expect(subject.to_ee.to_s).to eq full_ee_address_with_complex_tag }
+        it { expect(subject.to_ee.to_s).to eq "#{full_ee_address}:#{specific_ce_tag}" }
       end
 
       context 'with `ce` in the address outside of the image' do
@@ -315,7 +318,7 @@ describe Gitlab::QA::Release do
     end
 
     context 'when release is edition:tag' do
-      subject { described_class.new("ce:#{specific_tag}") }
+      subject { described_class.new("ce:#{specific_ce_tag}") }
 
       it { expect(subject.image).to eq 'gitlab/gitlab-ce' }
     end
@@ -405,7 +408,7 @@ describe Gitlab::QA::Release do
     end
 
     context 'when release is edition:tag' do
-      subject { described_class.new("ce:#{specific_tag}") }
+      subject { described_class.new("ce:#{specific_ce_tag}") }
 
       it { expect(subject.project_name).to eq 'gitlab-ce' }
     end
@@ -425,9 +428,9 @@ describe Gitlab::QA::Release do
     end
 
     context 'when release is edition:tag' do
-      subject { described_class.new("ce:#{specific_tag}") }
+      subject { described_class.new("ce:#{specific_ce_tag}") }
 
-      it { expect(subject.tag).to eq specific_tag }
+      it { expect(subject.tag).to eq specific_ce_tag }
     end
 
     context 'when release is a full CE address' do
@@ -440,7 +443,7 @@ describe Gitlab::QA::Release do
       context 'with a complex tag' do
         subject { described_class.new(full_ce_address_with_complex_tag) }
 
-        it { expect(subject.tag).to eq 'omnibus-7263a2' }
+        it { expect(subject.tag).to eq specific_ce_tag }
       end
     end
 
@@ -454,41 +457,35 @@ describe Gitlab::QA::Release do
       context 'with a complex tag' do
         subject { described_class.new(full_ee_address_with_complex_tag) }
 
-        it { expect(subject.tag).to eq 'omnibus-7263a2' }
+        it { expect(subject.tag).to eq specific_ee_tag }
       end
     end
   end
 
-  describe '#edition_tag' do
+  describe '#qa_tag' do
     context 'when release is CE' do
       subject { described_class.new('CE') }
 
-      it { expect(subject.edition_tag).to eq 'ce-nightly' }
+      it { expect(subject.qa_tag).to eq 'nightly' }
     end
 
     context 'when release is EE' do
       subject { described_class.new('EE') }
 
-      it { expect(subject.edition_tag).to eq 'ee-nightly' }
-    end
-
-    context 'when release is edition:tag' do
-      subject { described_class.new("ce:#{specific_tag}") }
-
-      it { expect(subject.edition_tag).to eq "ce-#{specific_tag}" }
+      it { expect(subject.qa_tag).to eq 'nightly' }
     end
 
     context 'when release is a full CE address' do
       context 'with a simple tag' do
         subject { described_class.new(full_ce_address_with_simple_tag) }
 
-        it { expect(subject.edition_tag).to eq 'ce-latest' }
+        it { expect(subject.qa_tag).to eq 'latest' }
       end
 
       context 'with a complex tag' do
         subject { described_class.new(full_ce_address_with_complex_tag) }
 
-        it { expect(subject.edition_tag).to eq 'ce-omnibus-7263a2' }
+        it { expect(subject.qa_tag).to eq specific_ce_qa_tag }
       end
     end
 
@@ -496,13 +493,21 @@ describe Gitlab::QA::Release do
       context 'with a simple tag' do
         subject { described_class.new(full_ee_address_with_simple_tag) }
 
-        it { expect(subject.edition_tag).to eq 'ee-latest' }
+        it { expect(subject.qa_tag).to eq 'latest' }
       end
 
       context 'with a complex tag' do
         subject { described_class.new(full_ee_address_with_complex_tag) }
 
-        it { expect(subject.edition_tag).to eq 'ee-omnibus-7263a2' }
+        it { expect(subject.qa_tag).to eq specific_ee_qa_tag }
+      end
+    end
+
+    context 'when tag is already in the good form' do
+      context 'with a simple tag' do
+        subject { described_class.new('ce:11.0.8-rc8-ee') }
+
+        it { expect(subject.qa_tag).to eq '11.0.8-rc8-ee' }
       end
     end
   end
