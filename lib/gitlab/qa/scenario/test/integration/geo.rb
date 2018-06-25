@@ -27,6 +27,7 @@ module Gitlab
                   postgresql['md5_auth_cidr_addresses'] = ['0.0.0.0/0'];
                   postgresql['max_replication_slots'] = 1;
                   gitlab_rails['db_key_base'] = '4dd58204865eb41bca93bd38131d51cc';
+                  gitlab_rails['monitoring_whitelist'] = ['0.0.0.0/0'];
                   sidekiq['concurrency'] = 2;
                   unicorn['worker_processes'] = 2;
                 OMNIBUS
@@ -41,6 +42,7 @@ module Gitlab
                       gitlab_rails['db_key_base'] = '4dd58204865eb41bca93bd38131d51cc';
                       sidekiq['concurrency'] = 2;
                       unicorn['worker_processes'] = 2;
+                      gitlab_rails['monitoring_whitelist'] = ['0.0.0.0/0'];
                     OMNIBUS
 
                     secondary.act do
