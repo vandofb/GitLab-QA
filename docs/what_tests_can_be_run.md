@@ -209,7 +209,7 @@ $ gitlab-qa Test::Integration::Mattermost EE
 
 [test-integration-mattermost]: https://gitlab.com/gitlab-org/gitlab-ce/blob/master/qa/qa/scenario/test/integration/mattermost.rb
 
-### `Test::Instance::Any CE|EE|<full image address> nightly|latest|any_tag http://your.instance.gitlab`
+### `Test::Instance::Any CE|EE|<full image address>:nightly|latest|any_tag http://your.instance.gitlab`
 
 This tests that a live GitLab instance works as expected by running tests
 against it.
@@ -227,10 +227,10 @@ $ export GITLAB_USERNAME=your_username
 $ export GITLAB_PASSWORD=your_password
 
 # Runs the QA suite for an instance running GitLab CE 10.8.1
-$ gitlab-qa Test::Instance::Any EE 10.8.1-ce https://your.instance.gitlab
+$ gitlab-qa Test::Instance::Any EE:10.8.1-ce https://your.instance.gitlab
 
 # Runs the QA suite for an instance running GitLab EE 10.7.3
-$ gitlab-qa Test::Instance::Any EE 10.7.3-ee https://your.instance.gitlab
+$ gitlab-qa Test::Instance::Any EE:10.7.3-ee https://your.instance.gitlab
 ```
 
 ### `Test::Instance::Staging`
