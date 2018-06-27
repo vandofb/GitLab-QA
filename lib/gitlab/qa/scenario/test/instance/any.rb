@@ -8,7 +8,7 @@ module Gitlab
           # including staging and on-premises installation.
           #
           class Any < Scenario::Template
-            def perform(edition, tag, address)
+            def perform(edition, tag, address, *rspec_args)
               release = Release.new(edition).tap do |r|
                 r.tag = tag
               end
@@ -16,7 +16,7 @@ module Gitlab
               Component::Specs.perform do |specs|
                 specs.suite = 'Test::Instance'
                 specs.release = release
-                specs.args = [address]
+                specs.args = [address, *rspec_args]
               end
             end
           end
