@@ -33,7 +33,6 @@ module Gitlab
 
                     tunnel_gitlab.instance do
                       tunnel_registry.instance do
-
                         gitlab.instance do
                           Component::Specs.perform do |specs|
                             specs.suite = 'Test::Integration::Kubernetes'
