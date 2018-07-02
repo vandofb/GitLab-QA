@@ -16,10 +16,13 @@ module Gitlab
           @docker = Docker::Engine.new
           @volumes = {}
 
-          @ssh_key = Tempfile.new('tunnel-ssh-private-key')
-          @ssh_key.write(ENV.fetch("TUNNEL_SSH_PRIVATE_KEY"))
+          @ssh_key = Tempfile.new('tunnel-ssh-private-key', ENV.fetch('CI_PROJECT_DIR'))
+          @ssh_key.write(ENV.fetch('TUNNEL_SSH_PRIVATE_KEY'))
           @ssh_key.close
-          @volumes[@ssh_key.path] = '/root/.ssh/id_rsa'
+
+          File.chmod(0o600, @ssh_key.path)
+
+          @volumes['/root/.ssh/id_rsa'] = @ssh_key.path
         end
 
         def instance
@@ -68,7 +71,7 @@ module Gitlab
             command << "--net #{network}"
 
             @volumes.to_h.each do |to, from|
-              command.volume(to, from, 'Z')
+              command.volume(from, to, 'Z')
             end
           end
         end
