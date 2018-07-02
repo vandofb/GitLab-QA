@@ -6,8 +6,6 @@ module Gitlab
       module Test
         module Integration
           class Kubernetes < Scenario::Template
-            CERT_PATH = File.expand_path('../../../../../../fixtures/cert'.freeze, __dir__)
-
             # rubocop:disable Metrics/AbcSize
             def perform(release)
               Component::Gitlab.perform do |gitlab|
