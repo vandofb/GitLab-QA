@@ -164,6 +164,18 @@ ee:ldap:
   <<: *test
   <<: *high-capacity
 
+ce:kubernetes:
+  script:
+    - bin/qa Test::Integration::Kubernetes ${RELEASE:=CE}
+  <<: *test
+  <<: *high-capacity
+
+ee:kubernetes:
+  script:
+    - bin/qa Test::Integration::Kubernetes ${RELEASE:=EE}
+  <<: *test
+  <<: *high-capacity
+
 qa:staging:
   script:
     - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
