@@ -1,8 +1,15 @@
 describe Gitlab::QA::Runtime::Env do
+  around do |example|
+    # Reset any already defined env variables (e.g. on CI)
+    ClimateControl.modify Hash[described_class::ENV_VARIABLES.keys.zip([nil])] do
+      example.run
+    end
+  end
+
   describe '.screenshots_dir' do
     context 'when there is an env variable set' do
-      before do
-        stub_env('QA_SCREENSHOTS_DIR', '/tmp')
+      around do |example|
+        ClimateControl.modify(QA_SCREENSHOTS_DIR: '/tmp') { example.run }
       end
 
       it 'returns directory defined in environment variable' do
@@ -11,8 +18,8 @@ describe Gitlab::QA::Runtime::Env do
     end
 
     context 'when there is no env variable set' do
-      before do
-        stub_env('QA_SCREENSHOTS_DIR', nil)
+      around do |example|
+        ClimateControl.modify(QA_SCREENSHOTS_DIR: nil) { example.run }
       end
 
       it 'returns a default screenshots directory' do
@@ -24,8 +31,8 @@ describe Gitlab::QA::Runtime::Env do
 
   describe '.logs_dir' do
     context 'when there is an env variable set' do
-      before do
-        stub_env('QA_LOGS_DIR', '/tmp')
+      around do |example|
+        ClimateControl.modify(QA_LOGS_DIR: '/tmp') { example.run }
       end
 
       it 'returns directory defined in environment variable' do
@@ -34,8 +41,8 @@ describe Gitlab::QA::Runtime::Env do
     end
 
     context 'when there is no env variable set' do
-      before do
-        stub_env('QA_LOGS_DIR', nil)
+      around do |example|
+        ClimateControl.modify(QA_LOGS_DIR: nil) { example.run }
       end
 
       it 'returns a default screenshots directory' do
@@ -46,10 +53,14 @@ describe Gitlab::QA::Runtime::Env do
   end
 
   describe '.variables' do
+    around do |example|
+      ClimateControl.modify(
+        GITLAB_USERNAME: 'root',
+        GITLAB_QA_ACCESS_TOKEN: nil,
+        EE_LICENSE: nil) { example.run }
+    end
+
     before do
-      stub_env_values({ 'GITLAB_USERNAME' => 'root',
-                        'GITLAB_QA_ACCESS_TOKEN' => nil,
-                        'EE_LICENSE' => nil })
       described_class.user_username = nil
       described_class.user_password = nil
       described_class.user_type = nil
@@ -76,19 +87,6 @@ describe Gitlab::QA::Runtime::Env do
                                                 'GITLAB_PASSWORD' => 'tanuki',
                                                 'GITLAB_USER_TYPE' => 'ldap',
                                                 'GITLAB_URL' => 'http://localhost:9999' })
-    end
-  end
-
-  def stub_env(name, value)
-    allow(ENV).to receive(:[]).and_call_original
-    allow(ENV).to receive(:[]).with(name).and_return(value)
-  end
-
-  def stub_env_values(pairs)
-    allow(ENV).to receive(:[]).and_call_original
-
-    pairs.each do |key, value|
-      allow(ENV).to receive(:[]).with(key).and_return(value)
     end
   end
 end

@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # Some dependencies are pinned, to prevent new cops from breaking the CI pipelines
+  spec.add_development_dependency 'climate_control', '~> 0.2'
   spec.add_development_dependency 'gitlab-styles', '2.2.0'
   spec.add_development_dependency 'pry', '~> 0.11'
   spec.add_development_dependency 'rake', '~> 12.2'
