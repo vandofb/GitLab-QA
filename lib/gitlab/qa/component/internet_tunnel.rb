@@ -16,7 +16,11 @@ module Gitlab
           @docker = Docker::Engine.new
           @volumes = {}
 
-          @ssh_key = Tempfile.new('tunnel-ssh-private-key', ENV.fetch('CI_PROJECT_DIR'))
+          @ssh_key = if ENV.key?('CI_PROJECT_DIR')
+                       Tempfile.new('tunnel-ssh-private-key', ENV.fetch('CI_PROJECT_DIR'))
+                     else
+                       Tempfile.new('tunnel-ssh-private-key')
+                     end
           @ssh_key.write(ENV.fetch('TUNNEL_SSH_PRIVATE_KEY'))
           @ssh_key.close
 
