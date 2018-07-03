@@ -16,11 +16,9 @@ module Gitlab
           @docker = Docker::Engine.new
           @volumes = {}
 
-          @ssh_key = if ENV.key?('CI_PROJECT_DIR')
-                       Tempfile.new('tunnel-ssh-private-key', ENV.fetch('CI_PROJECT_DIR'))
-                     else
-                       Tempfile.new('tunnel-ssh-private-key')
-                     end
+
+          key_dir = ENV.fetch('CI_PROJECT_DIR', Dir.tmpdir)
+          @ssh_key = Tempfile.new('tunnel-ssh-private-key', key_dir)
           @ssh_key.write(ENV.fetch('TUNNEL_SSH_PRIVATE_KEY'))
           @ssh_key.close
 
@@ -30,7 +28,7 @@ module Gitlab
         end
 
         def instance
-          raise 'Please provide a block!' unless block_given?
+          raise ArgumentError, 'Please provide a block!' unless block_given?
 
           prepare
           start
