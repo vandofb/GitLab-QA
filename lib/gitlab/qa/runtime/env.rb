@@ -68,6 +68,12 @@ module Gitlab
           raise ArgumentError, "Please provide GITLAB_QA_ACCESS_TOKEN"
         end
 
+        def require_kubernetes_environment!
+          ['GCLOUD_ACCOUNT_EMAIL', 'GCLOUD_ACCOUNT_KEY','CLOUDSDK_CORE_PROJECT','GCLOUD_ZONE'].each do |env_key|
+            raise ArgumentError, "Environment variable #{env_key} must be set to run kubernetes specs" unless ENV.key?(env_key)
+          end
+        end
+
         private
 
         def env_value_if_defined(variable)

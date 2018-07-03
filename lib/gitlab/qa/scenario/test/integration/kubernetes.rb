@@ -8,6 +8,8 @@ module Gitlab
           class Kubernetes < Scenario::Template
             # rubocop:disable Metrics/AbcSize
             def perform(release)
+              Runtime::Env.require_kubernetes_environment!
+
               Component::Gitlab.perform do |gitlab|
                 gitlab.release = release
                 gitlab.network = 'test'
