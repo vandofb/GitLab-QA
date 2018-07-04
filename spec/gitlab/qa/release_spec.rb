@@ -3,10 +3,10 @@ describe Gitlab::QA::Release do
   let(:specific_ce_qa_tag) { '10.8.4-ce' }
   let(:specific_ee_tag) { '11.0.0-rc5.ee.1' }
   let(:specific_ee_qa_tag) { '11.0.0-rc5-ee' }
-  let(:full_ce_address) { 'registry.gitlab.com/foo/gitlab/gitlab-ce' }
+  let(:full_ce_address) { 'registry.gitlab.com:5000/foo/gitlab/gitlab-ce' }
   let(:full_ce_address_with_simple_tag) { "#{full_ce_address}:latest" }
   let(:full_ce_address_with_complex_tag) { "#{full_ce_address}:#{specific_ce_tag}" }
-  let(:full_ee_address) { 'registry.gitlab.com/foo/gitlab/gitlab-ee' }
+  let(:full_ee_address) { 'registry.gitlab.com:5000/foo/gitlab/gitlab-ee' }
   let(:full_ee_address_with_simple_tag) { "#{full_ee_address}:latest" }
   let(:full_ee_address_with_complex_tag) { "#{full_ee_address}:#{specific_ee_tag}" }
 

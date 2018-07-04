@@ -47,7 +47,7 @@ module Gitlab
           if canonical?
             "gitlab/gitlab-#{edition}"
           else
-            release.sub(/:.+\z/, '')
+            release.sub(%r{(?<image_without_tag>.+(?<port>:\d+)?/.+)(?<tag>:.+)\z}, '\k<image_without_tag>')
           end
       end
 
