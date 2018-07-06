@@ -118,11 +118,14 @@ ee:update:
   <<: *test
   <<: *high-capacity
 
-ee-previous-to-ce-next:update:
+ee-previous-to-ce:update:
   script:
      - bin/qa Test::Omnibus::Update EE CE
   <<: *test
   <<: *high-capacity
+  except:
+    variables:
+      - $RELEASE
 
 ce:upgrade:
   script:
