@@ -154,13 +154,29 @@ ee:geo:
 
 ce:ldap:
   script:
+    - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
     - bin/qa Test::Integration::LDAP ${RELEASE:=CE}
   <<: *test
   <<: *high-capacity
 
 ee:ldap:
   script:
+    - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
     - bin/qa Test::Integration::LDAP ${RELEASE:=EE}
+  <<: *test
+  <<: *high-capacity
+
+ce:kubernetes:
+  script:
+    - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
+    - bin/qa Test::Integration::Kubernetes ${RELEASE:=CE}
+  <<: *test
+  <<: *high-capacity
+
+ee:kubernetes:
+  script:
+    - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
+    - bin/qa Test::Integration::Kubernetes ${RELEASE:=EE}
   <<: *test
   <<: *high-capacity
 

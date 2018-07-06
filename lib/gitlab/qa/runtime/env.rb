@@ -14,7 +14,11 @@ module Gitlab
           'GITLAB_QA_ACCESS_TOKEN' => :qa_access_token,
           'GITHUB_ACCESS_TOKEN' => :github_access_token,
           'GITLAB_URL' => :gitlab_url,
-          'EE_LICENSE' => :ee_license
+          'EE_LICENSE' => :ee_license,
+          'GCLOUD_ACCOUNT_EMAIL' => :gcloud_account_email,
+          'GCLOUD_ACCOUNT_KEY' => :gcloud_account_key,
+          'CLOUDSDK_CORE_PROJECT' => :cloudsdk_core_project,
+          'GCLOUD_ZONE' => :gcloud_zone
         }.freeze
 
         ENV_VARIABLES.each_value do |accessor|
@@ -62,6 +66,12 @@ module Gitlab
           return unless ENV['GITLAB_QA_ACCESS_TOKEN'].to_s.strip.empty?
 
           raise ArgumentError, "Please provide GITLAB_QA_ACCESS_TOKEN"
+        end
+
+        def require_kubernetes_environment!
+          %w[GCLOUD_ACCOUNT_EMAIL GCLOUD_ACCOUNT_KEY CLOUDSDK_CORE_PROJECT GCLOUD_ZONE].each do |env_key|
+            raise ArgumentError, "Environment variable #{env_key} must be set to run kubernetes specs" unless ENV.key?(env_key)
+          end
         end
 
         private
