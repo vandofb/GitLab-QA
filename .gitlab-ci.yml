@@ -69,6 +69,23 @@ ee:version:
       - screenshots/
       - logs/
 
+.ce-qa: &ce-qa
+  only:
+    variables:
+      - $RELEASE == null
+      - $RELEASE =~ /gitlab-ce/
+
+.ee-qa: &ee-qa
+  only:
+    variables:
+      - $RELEASE == null
+      - $RELEASE =~ /gitlab-ee/
+
+.only-qa: &only-qa
+  except:
+    variables:
+      - $RELEASE
+
 .high-capacity: &high-capacity
   tags:
     - docker
@@ -76,116 +93,110 @@ ee:version:
     - triggered-packages
 
 ce:instance:
-    # Checking if the build is triggered for a EE image. In that case, we need
-    # not run CE specific tests. This doesn't apply to nightly/regular branch
-    # builds as RELEASE will not match gitlab-ce in those cases.
   script:
-    - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
     - bin/qa Test::Instance::Image ${RELEASE:=CE}
   <<: *test
   <<: *high-capacity
+  <<: *ce-qa
 
 ee:instance:
   script:
-    - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
     - bin/qa Test::Instance::Image ${RELEASE:=EE}
   <<: *test
   <<: *high-capacity
+  <<: *ee-qa
 
 ce:image:
   script:
-    - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
     - bin/qa Test::Omnibus::Image ${RELEASE:=CE}
   <<: *test
+  <<: *ce-qa
 
 ee:image:
   script:
-    - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
     - bin/qa Test::Omnibus::Image ${RELEASE:=EE}
   <<: *test
+  <<: *ee-qa
 
 ce:update:
   script:
-    - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
     - bin/qa Test::Omnibus::Update ${RELEASE:=CE}
   <<: *test
   <<: *high-capacity
+  <<: *ce-qa
 
 ee:update:
   script:
-    - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
     - bin/qa Test::Omnibus::Update ${RELEASE:=EE}
   <<: *test
   <<: *high-capacity
+  <<: *ee-qa
+
+ce:upgrade:
+  script:
+    - bin/qa Test::Omnibus::Upgrade
+  <<: *test
+  <<: *high-capacity
+  <<: *only-qa
 
 ee-previous-to-ce:update:
   script:
      - bin/qa Test::Omnibus::Update EE CE
   <<: *test
   <<: *high-capacity
-  except:
-    variables:
-      - $RELEASE
-
-ce:upgrade:
-  script:
-    - if [[ $RELEASE ]]; then exit 0; fi
-    - bin/qa Test::Omnibus::Upgrade
-  <<: *test
-  <<: *high-capacity
+  <<: *only-qa
 
 ce:mattermost:
   script:
-    - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
     - bin/qa Test::Integration::Mattermost ${RELEASE:=CE}
   <<: *test
   <<: *high-capacity
+  <<: *ce-qa
 
 ee:mattermost:
   script:
-    - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
     - bin/qa Test::Integration::Mattermost ${RELEASE:=EE}
   <<: *test
   <<: *high-capacity
+  <<: *ee-qa
 
 ee:geo:
   script:
-    - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
     - bin/qa Test::Integration::Geo ${RELEASE:=EE}
   <<: *test
   <<: *high-capacity
+  <<: *ee-qa
 
 ce:ldap:
   script:
-    - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
     - bin/qa Test::Integration::LDAP ${RELEASE:=CE}
   <<: *test
   <<: *high-capacity
+  <<: *ce-qa
 
 ee:ldap:
   script:
-    - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
     - bin/qa Test::Integration::LDAP ${RELEASE:=EE}
   <<: *test
   <<: *high-capacity
+  <<: *ee-qa
 
 ce:kubernetes:
   script:
-    - if $(echo ${RELEASE} | grep -q gitlab-ee); then exit 0; fi
     - bin/qa Test::Integration::Kubernetes ${RELEASE:=CE}
   <<: *test
   <<: *high-capacity
+  <<: *ce-qa
 
 ee:kubernetes:
   script:
-    - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
     - bin/qa Test::Integration::Kubernetes ${RELEASE:=EE}
   <<: *test
   <<: *high-capacity
+  <<: *ee-qa
 
 qa:staging:
   script:
-    - if $(echo ${RELEASE} | grep -q gitlab-ce); then exit 0; fi
     - export GITLAB_USERNAME="gitlab-qa"
     - export GITLAB_PASSWORD="$GITLAB_QA_PASSWORD"
     - unset EE_LICENSE
