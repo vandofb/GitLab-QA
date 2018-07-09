@@ -29,12 +29,13 @@ module Gitlab
           ENV['GITLAB_QA_ACCESS_TOKEN']
         end
 
-        def screenshots_dir
-          ENV['QA_SCREENSHOTS_DIR'] || '/tmp/gitlab-qa/screenshots'
+        def artifacts_dir
+          ENV.fetch('QA_ARTIFACTS_DIR') { '/tmp/gitlab-qa' }
         end
 
+        # Deprecated: Use artifacts_dir instead
         def logs_dir
-          ENV['QA_LOGS_DIR'] || '/tmp/gitlab-qa/logs'
+          ENV['QA_LOGS_DIR']
         end
 
         def variables

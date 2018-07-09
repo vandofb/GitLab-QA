@@ -1,3 +1,5 @@
+require 'securerandom'
+
 module Gitlab
   module QA
     module Component
@@ -15,7 +17,8 @@ module Gitlab
         def perform # rubocop:disable Metrics/AbcSize
           raise ArgumentError unless [suite, release].all?
 
-          puts "Running test suite `#{suite}` for #{release.project_name}"
+          qa_run_name = "gitlab-#{release.edition}-qa-#{SecureRandom.hex(4)}"
+          puts "Running test suite `#{suite}` (#{qa_run_name}) for #{release.project_name}"
 
           @docker.run(release.qa_image, release.qa_tag, suite, *args) do |command|
             command << "-t --rm --net=#{network || 'bridge'}"
@@ -26,8 +29,11 @@ module Gitlab
             end
 
             command.volume('/var/run/docker.sock', '/var/run/docker.sock')
-            command.volume(Runtime::Env.screenshots_dir, '/home/qa/tmp')
-            command.name("gitlab-specs-#{Time.now.to_i}")
+
+            host_artifacts_dir = File.join(Runtime::Env.artifacts_dir, qa_run_name)
+            command.volume(host_artifacts_dir, '/home/qa/tmp')
+
+            command.name(qa_run_name)
           end
         end
       end

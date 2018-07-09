@@ -35,10 +35,11 @@ For more details on the internals, please read the
 * `GITLAB_LDAP_PASSWORD` - LDAP password to use when signing into GitLab
 * `GITLAB_SANDBOX_NAME` - The sandbox group name the test suite is going to use (default: `gitlab-qa-sandbox`)
 * `EE_LICENSE` - Enterprise Edition license
-* `QA_SCREENSHOTS_DIR` - Path to a directory where screenshots for failing tests
-  will be saved (default: `/tmp/gitlab-qa/screenshots`)
-* `QA_LOGS_DIR` - Path to a directory where logs will be saved (default:
-  `/tmp/gitlab-qa/logs`)
+* `QA_ARTIFACTS_DIR` - Path to a directory where artifacts (logs and screenshots)
+  for failing tests will be saved (default: `/tmp/gitlab-qa`)
+* `QA_SCREENSHOTS_DIR` - **Deprecated**, used `QA_ARTIFACTS_DIR` instead.
+* `QA_LOGS_DIR` - **Deprecated**, used `QA_ARTIFACTS_DIR` instead. Path to a
+  directory where logs will be saved (default: `/tmp/gitlab-qa/logs`).
 * `DOCKER_HOST` - Docker host to run tests against (default: `http://localhost`)
 * `CHROME_HEADLESS` - when running locally, set to `false` to allow Chrome tests to be visible - watch your tests being run
 

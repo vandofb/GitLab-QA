@@ -6,25 +6,25 @@ describe Gitlab::QA::Runtime::Env do
     end
   end
 
-  describe '.screenshots_dir' do
+  describe '.artifacts_dir' do
     context 'when there is an env variable set' do
       around do |example|
-        ClimateControl.modify(QA_SCREENSHOTS_DIR: '/tmp') { example.run }
+        ClimateControl.modify(QA_ARTIFACTS_DIR: '/tmp') { example.run }
       end
 
       it 'returns directory defined in environment variable' do
-        expect(described_class.screenshots_dir).to eq '/tmp'
+        expect(described_class.artifacts_dir).to eq '/tmp'
       end
     end
 
     context 'when there is no env variable set' do
       around do |example|
-        ClimateControl.modify(QA_SCREENSHOTS_DIR: nil) { example.run }
+        ClimateControl.modify(QA_ARTIFACTS_DIR: nil) { example.run }
       end
 
       it 'returns a default screenshots directory' do
-        expect(described_class.screenshots_dir)
-          .to eq '/tmp/gitlab-qa/screenshots'
+        expect(described_class.artifacts_dir)
+          .to eq '/tmp/gitlab-qa'
       end
     end
   end
@@ -46,8 +46,7 @@ describe Gitlab::QA::Runtime::Env do
       end
 
       it 'returns a default screenshots directory' do
-        expect(described_class.logs_dir)
-          .to eq '/tmp/gitlab-qa/logs'
+        expect(described_class.logs_dir).to be_nil
       end
     end
   end
