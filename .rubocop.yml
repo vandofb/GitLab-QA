@@ -28,3 +28,6 @@ Style/ModuleFunction:
 
 Style/SignalException:
   Enabled: false
+
+Layout/SpaceBeforeFirstArg:
+  Enabled: false
