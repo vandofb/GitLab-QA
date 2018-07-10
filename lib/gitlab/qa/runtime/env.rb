@@ -1,3 +1,5 @@
+require 'securerandom'
+
 module Gitlab
   module QA
     module Runtime
@@ -23,6 +25,10 @@ module Gitlab
 
         ENV_VARIABLES.each_value do |accessor|
           send(:attr_accessor, accessor) # rubocop:disable GitlabSecurity/PublicSend
+        end
+
+        def run_id
+          @run_id ||= "gitlab-qa-run-#{Time.now.strftime('%Y-%m-%d-%Y-%H-%M-%S')}-#{SecureRandom.hex(4)}"
         end
 
         def qa_access_token

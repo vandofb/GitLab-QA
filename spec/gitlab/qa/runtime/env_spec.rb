@@ -6,6 +6,23 @@ describe Gitlab::QA::Runtime::Env do
     end
   end
 
+  describe '.run_id' do
+    around do |example|
+      described_class.instance_variable_set(:@run_id, nil)
+      example.run
+      described_class.instance_variable_set(:@run_id, nil)
+    end
+
+    it 'returns a unique run id' do
+      now = Time.now
+      allow(Time).to receive(:now).and_return(now)
+      allow(SecureRandom).to receive(:hex).and_return('abc123')
+
+      expect(described_class.run_id).to eq "gitlab-qa-run-#{now.strftime('%Y-%m-%d-%Y-%H-%M-%S')}-abc123"
+      expect(described_class.run_id).to eq "gitlab-qa-run-#{now.strftime('%Y-%m-%d-%Y-%H-%M-%S')}-abc123"
+    end
+  end
+
   describe '.artifacts_dir' do
     context 'when there is an env variable set' do
       around do |example|

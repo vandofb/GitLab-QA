@@ -91,6 +91,10 @@ describe Gitlab::QA::Component::Gitlab do
       stub_const('Gitlab::QA::Docker::Command', docker)
 
       allow(subject).to receive(:ensure_configured!)
+
+      allow(Gitlab::QA::Runtime::Env)
+        .to receive(:run_id)
+        .and_return('gitlab-qa-run-abc123')
     end
 
     it 'runs a docker command' do
@@ -129,7 +133,7 @@ describe Gitlab::QA::Component::Gitlab do
       subject.start
 
       expect(docker).to have_received(:volume)
-        .with('/tmp/gitlab-qa/my-gitlab/logs', '/var/log/gitlab', 'Z')
+        .with('/tmp/gitlab-qa/gitlab-qa-run-abc123/my-gitlab/logs', '/var/log/gitlab', 'Z')
     end
 
     context 'when Gitlab::QA::Runtime::Env.logs_dir is set' do
@@ -145,7 +149,7 @@ describe Gitlab::QA::Component::Gitlab do
         subject.start
 
         expect(docker).to have_received(:volume)
-          .with('/tmp/gitlab-qa/logs/my-gitlab', '/var/log/gitlab', 'Z')
+          .with('/tmp/gitlab-qa/logs/gitlab-qa-run-abc123/my-gitlab', '/var/log/gitlab', 'Z')
       end
     end
 

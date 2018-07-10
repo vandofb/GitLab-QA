@@ -17,9 +17,9 @@ describe Gitlab::QA::Component::Specs do
     end
 
     it 'bind-mounds volume with screenshots in an appropriate directory' do
-      allow(SecureRandom)
-        .to receive(:hex)
-        .and_return('abc123')
+      allow(Gitlab::QA::Runtime::Env)
+        .to receive(:run_id)
+        .and_return('gitlab-qa-run-abc123')
       allow(Gitlab::QA::Runtime::Env)
         .to receive(:artifacts_dir)
         .and_return('/tmp/gitlab-qa')
@@ -32,7 +32,7 @@ describe Gitlab::QA::Component::Specs do
       expect(docker).to have_received(:volume)
         .with('/var/run/docker.sock', '/var/run/docker.sock')
       expect(docker).to have_received(:volume)
-        .with('/tmp/gitlab-qa/gitlab-ce-qa-abc123', '/home/qa/tmp')
+        .with('/tmp/gitlab-qa/gitlab-qa-run-abc123/gitlab-ce-qa', '/home/qa/tmp')
     end
   end
 end
