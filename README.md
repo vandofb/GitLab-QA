@@ -98,9 +98,9 @@ GitLab QA tool is published as a [Ruby Gem](https://rubygems.org/gems/gitlab-qa)
 You can install it with `gem install gitlab-qa`. It will expose a `gitlab-qa`
 command in your system.
 
-If you want to run the scenarios or develop them on Mac OS, please read
-[Mac OS specific documentation](/docs/run_geo_qa_against_gdk.md) as there are caveats and things
-that may work differently.
+If you want to run the scenarios against your GDK and/or develop them on Mac OS,
+please read [Run QA tests against your GDK setup](/docs/run_qa_against_gdk.md)
+as there are caveats and things that may work differently.
 
 All the scenarios you can run are described in the
 [What tests can be run?](/docs/what_tests_can_be_run.md) documentation.

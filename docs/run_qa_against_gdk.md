@@ -1,4 +1,30 @@
-# Run Geo QA tests against your Geo GDK setup
+# Run QA tests against your GDK setup
+
+To run the `Test::Instance::Any` scenario against your local GDK, you'll need to
+make a few changes to your `gdk/gitlab/config/gitlab.yml` file.
+
+1. Retrieve your current local IP with `ifconfig`, e.g. `192.168.0.12`.
+1. Edit `gdk/gitlab/config/gitlab.yml` and replace `host: localhost` with
+  `host: 192.168.0.12`.
+1. Restart your GDK
+1. Run the QA scenario as follows:
+
+  ```
+  $ gitlab-qa Test::Instance::Any CE http://192.168.0.12:3000 -- qa/specs/features/repository/protected_branches_spec.rb:30
+
+  # Or if you want to run your local `gitlab-qa/bin/qa`:
+  $ bin/qa Test::Instance::Any CE http://192.168.0.12:3000 -- qa/specs/features/repository/protected_branches_spec.rb:30
+
+  # And if you want to test your local `gdk/gitlab/qa` changes, you'll need to
+  # build the QA image first
+  # In gdk/gitlab/qa:
+  $ docker build -t gitlab/gitlab-ce-qa:your-custom-tag .
+
+  # Then in gitlab-qa:
+  $ bin/qa Test::Instance::Any gitlab/gitlab-ce:your-custom-tag http://192.168.0.12:3000 -- qa/specs/features/repository/protected_branches_spec.rb:30
+  ```
+
+## Run Geo QA tests against your Geo GDK setup
 
 Run from the `gdk-ee/gitlab/qa` directory with GDK primary and secondary running:
 
@@ -10,7 +36,7 @@ bin/qa QA::EE::Scenario::Test::Geo --primary-address http://localhost:3001 --sec
 CHROME_HEADLESS=false bin/qa QA::EE::Scenario::Test::Geo --primary-address http://localhost:3001 --secondary-address http://localhost:3002 --primary-name primary --secondary-name secondary --without-setup
 ```
 
-# QA Tool support on macOS
+### QA Tool support on macOS
 
 Most of our development for GitLab is done on macOS. This brings some challenges as Docker on
 macOS doesn't have feature parity with it's Linux conterpart.
@@ -38,7 +64,7 @@ When using the `route` command to expose the internet network, you still need to
 There is another tool called [dnsdock][dnsdock] that may do the trick. That means you need to change
 your DNS and point to the IP/port of `dnsdock` application.
 
-# Docker on macOS caveats
+### Docker on macOS caveats
 
 When using OS X Docker, you need to go to Preferences > Advanced and allocate at least **5.0 GB**,
 otherwise some steps may fail to execute the `chrome-webdriver`.
@@ -59,7 +85,7 @@ Docker Inc [doesn't want to fix][Docker bridge issue].
 
 To see if this limitation is still present, check the [documentation][Docker Networking].
 
-## Workarounds
+#### Workarounds
 
 One possible workaround to connect to a multi-node environment like Geo, is to run a reverse proxy on your
 development machine that maps the VHOST to `localhost:port`, changing to the ports listed in `docker ps`.
