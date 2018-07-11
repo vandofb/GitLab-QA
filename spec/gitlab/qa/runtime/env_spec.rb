@@ -23,6 +23,28 @@ describe Gitlab::QA::Runtime::Env do
     end
   end
 
+  describe '.dev_access_token_variable' do
+    context 'when there is an env variable set' do
+      around do |example|
+        ClimateControl.modify(GITLAB_QA_DEV_ACCESS_TOKEN: 'abc123') { example.run }
+      end
+
+      it 'returns directory defined in environment variable' do
+        expect(described_class.dev_access_token_variable).to eq '$GITLAB_QA_DEV_ACCESS_TOKEN'
+      end
+    end
+
+    context 'when there is no env variable set' do
+      around do |example|
+        ClimateControl.modify(GITLAB_QA_DEV_ACCESS_TOKEN: nil) { example.run }
+      end
+
+      it 'returns a default screenshots directory' do
+        expect(described_class.dev_access_token_variable).to be_nil
+      end
+    end
+  end
+
   describe '.host_artifacts_dir' do
     around do |example|
       described_class.instance_variable_set(:@host_artifacts_dir, nil)

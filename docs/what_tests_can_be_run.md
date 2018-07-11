@@ -246,11 +246,21 @@ in the GitLab CE project).
 
 - `GITLAB_QA_ACCESS_TOKEN`: A valid personal access token with the `api` scope.
   This is used to retrieve the version that staging is currently running.
+  This can be found in the shared 1Password vault.
+
+**Optional environment variables:**
+
+- `GITLAB_QA_DEV_ACCESS_TOKEN`: A valid personal access token for the
+  `gitlab-qa-bot` on `dev.gitlab.org` with the `registry` scope.
+  This is used to pull the QA Docker from the Omnibus GitLab `dev` Container Registry.
+  If the variable isn't present, the QA image from Docker Hub will be used.
+  This can be found in the shared 1Password vault.
 
 Example:
 
 ```
 $ export GITLAB_QA_ACCESS_TOKEN=your_api_access_token
+$ export GITLAB_QA_DEV_ACCESS_TOKEN=your_dev_registry_access_token
 $ export GITLAB_USERNAME="gitlab-qa"
 $ export GITLAB_PASSWORD="$GITLAB_QA_PASSWORD"
 

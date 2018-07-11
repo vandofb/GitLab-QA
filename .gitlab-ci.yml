@@ -5,7 +5,6 @@ stages:
   - check
   - sanity
   - test
-  - qa
 
 variables:
   TEST_IMAGE: registry.gitlab.com/gitlab-org/gitlab-build-images:gitlab-qa
@@ -201,7 +200,6 @@ qa:staging:
     - bin/qa Test::Instance::Staging
   <<: *test
   retry: 0
-  stage: qa
   when: manual
   except:
     - triggers
