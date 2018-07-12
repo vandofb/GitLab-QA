@@ -18,19 +18,25 @@ describe Gitlab::QA::Runtime::Env do
       allow(Time).to receive(:now).and_return(now)
       allow(SecureRandom).to receive(:hex).and_return('abc123')
 
-      expect(described_class.run_id).to eq "gitlab-qa-run-#{now.strftime('%Y-%m-%d-%Y-%H-%M-%S')}-abc123"
-      expect(described_class.run_id).to eq "gitlab-qa-run-#{now.strftime('%Y-%m-%d-%Y-%H-%M-%S')}-abc123"
+      expect(described_class.run_id).to eq "gitlab-qa-run-#{now.strftime('%Y-%m-%d-%H-%M-%S')}-abc123"
+      expect(described_class.run_id).to eq "gitlab-qa-run-#{now.strftime('%Y-%m-%d-%H-%M-%S')}-abc123"
     end
   end
 
-  describe '.artifacts_dir' do
+  describe '.host_artifacts_dir' do
+    around do |example|
+      described_class.instance_variable_set(:@host_artifacts_dir, nil)
+      example.run
+      described_class.instance_variable_set(:@host_artifacts_dir, nil)
+    end
+
     context 'when there is an env variable set' do
       around do |example|
         ClimateControl.modify(QA_ARTIFACTS_DIR: '/tmp') { example.run }
       end
 
       it 'returns directory defined in environment variable' do
-        expect(described_class.artifacts_dir).to eq '/tmp'
+        expect(described_class.host_artifacts_dir).to eq "/tmp/#{described_class.run_id}"
       end
     end
 
@@ -40,30 +46,8 @@ describe Gitlab::QA::Runtime::Env do
       end
 
       it 'returns a default screenshots directory' do
-        expect(described_class.artifacts_dir)
-          .to eq '/tmp/gitlab-qa'
-      end
-    end
-  end
-
-  describe '.logs_dir' do
-    context 'when there is an env variable set' do
-      around do |example|
-        ClimateControl.modify(QA_LOGS_DIR: '/tmp') { example.run }
-      end
-
-      it 'returns directory defined in environment variable' do
-        expect(described_class.logs_dir).to eq '/tmp'
-      end
-    end
-
-    context 'when there is no env variable set' do
-      around do |example|
-        ClimateControl.modify(QA_LOGS_DIR: nil) { example.run }
-      end
-
-      it 'returns a default screenshots directory' do
-        expect(described_class.logs_dir).to be_nil
+        expect(described_class.host_artifacts_dir)
+          .to eq "/tmp/gitlab-qa/#{described_class.run_id}"
       end
     end
   end

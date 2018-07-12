@@ -83,10 +83,7 @@ module Gitlab
               command.volume(to, from, 'Z')
             end
 
-            logs_dir = Runtime::Env.logs_dir ? File.join(Runtime::Env.logs_dir, Runtime::Env.run_id, name) : File.join(Runtime::Env.artifacts_dir, Runtime::Env.run_id, name, 'logs')
-            logs_dir.tap do |host_logs_dir|
-              command.volume(host_logs_dir, '/var/log/gitlab', 'Z')
-            end
+            command.volume(File.join(Runtime::Env.host_artifacts_dir, name, 'logs'), '/var/log/gitlab', 'Z')
 
             @environment.to_h.each do |key, value|
               command.env(key, value)

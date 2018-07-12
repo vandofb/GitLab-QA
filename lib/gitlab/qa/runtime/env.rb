@@ -28,20 +28,15 @@ module Gitlab
         end
 
         def run_id
-          @run_id ||= "gitlab-qa-run-#{Time.now.strftime('%Y-%m-%d-%Y-%H-%M-%S')}-#{SecureRandom.hex(4)}"
+          @run_id ||= "gitlab-qa-run-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}-#{SecureRandom.hex(4)}"
         end
 
         def qa_access_token
           ENV['GITLAB_QA_ACCESS_TOKEN']
         end
 
-        def artifacts_dir
-          ENV.fetch('QA_ARTIFACTS_DIR') { '/tmp/gitlab-qa' }
-        end
-
-        # Deprecated: Use artifacts_dir instead
-        def logs_dir
-          ENV['QA_LOGS_DIR']
+        def host_artifacts_dir
+          @host_artifacts_dir ||= File.join(ENV['QA_ARTIFACTS_DIR'] || '/tmp/gitlab-qa', Runtime::Env.run_id)
         end
 
         def variables

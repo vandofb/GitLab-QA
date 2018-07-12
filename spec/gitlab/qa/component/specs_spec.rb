@@ -17,12 +17,10 @@ describe Gitlab::QA::Component::Specs do
     end
 
     it 'bind-mounds volume with screenshots in an appropriate directory' do
+      allow(SecureRandom).to receive(:hex).and_return('def456')
       allow(Gitlab::QA::Runtime::Env)
-        .to receive(:run_id)
-        .and_return('gitlab-qa-run-abc123')
-      allow(Gitlab::QA::Runtime::Env)
-        .to receive(:artifacts_dir)
-        .and_return('/tmp/gitlab-qa')
+      .to receive(:host_artifacts_dir)
+      .and_return('/tmp/gitlab-qa/gitlab-qa-run-2018-07-11-10-00-00-abc123')
 
       described_class.perform do |specs|
         specs.suite = spy('suite')
@@ -32,7 +30,7 @@ describe Gitlab::QA::Component::Specs do
       expect(docker).to have_received(:volume)
         .with('/var/run/docker.sock', '/var/run/docker.sock')
       expect(docker).to have_received(:volume)
-        .with('/tmp/gitlab-qa/gitlab-qa-run-abc123/gitlab-ce-qa', '/home/qa/tmp')
+        .with('/tmp/gitlab-qa/gitlab-qa-run-2018-07-11-10-00-00-abc123/gitlab-ce-qa-def456', '/home/qa/tmp')
     end
   end
 end

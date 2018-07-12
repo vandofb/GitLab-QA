@@ -91,10 +91,6 @@ describe Gitlab::QA::Component::Gitlab do
       stub_const('Gitlab::QA::Docker::Command', docker)
 
       allow(subject).to receive(:ensure_configured!)
-
-      allow(Gitlab::QA::Runtime::Env)
-        .to receive(:run_id)
-        .and_return('gitlab-qa-run-abc123')
     end
 
     it 'runs a docker command' do
@@ -125,32 +121,15 @@ describe Gitlab::QA::Component::Gitlab do
 
     it 'bind-mounds volume with logs in an appropriate directory' do
       allow(Gitlab::QA::Runtime::Env)
-        .to receive(:artifacts_dir)
-        .and_return('/tmp/gitlab-qa')
+        .to receive(:host_artifacts_dir)
+        .and_return('/tmp/gitlab-qa/gitlab-qa-run-2018-07-11-10-00-00-abc123')
 
       subject.name = 'my-gitlab'
 
       subject.start
 
       expect(docker).to have_received(:volume)
-        .with('/tmp/gitlab-qa/gitlab-qa-run-abc123/my-gitlab/logs', '/var/log/gitlab', 'Z')
-    end
-
-    context 'when Gitlab::QA::Runtime::Env.logs_dir is set' do
-      before do
-        allow(Gitlab::QA::Runtime::Env)
-          .to receive(:logs_dir)
-          .and_return('/tmp/gitlab-qa/logs')
-      end
-
-      it 'is backward-compatible and supports Gitlab::QA::Runtime::Env.logs_dir' do
-        subject.name = 'my-gitlab'
-
-        subject.start
-
-        expect(docker).to have_received(:volume)
-          .with('/tmp/gitlab-qa/logs/gitlab-qa-run-abc123/my-gitlab', '/var/log/gitlab', 'Z')
-      end
+        .with('/tmp/gitlab-qa/gitlab-qa-run-2018-07-11-10-00-00-abc123/my-gitlab/logs', '/var/log/gitlab', 'Z')
     end
 
     context 'with a network' do
