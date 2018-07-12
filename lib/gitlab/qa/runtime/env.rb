@@ -1,3 +1,5 @@
+require 'securerandom'
+
 module Gitlab
   module QA
     module Runtime
@@ -25,16 +27,16 @@ module Gitlab
           send(:attr_accessor, accessor) # rubocop:disable GitlabSecurity/PublicSend
         end
 
+        def run_id
+          @run_id ||= "gitlab-qa-run-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}-#{SecureRandom.hex(4)}"
+        end
+
         def qa_access_token
           ENV['GITLAB_QA_ACCESS_TOKEN']
         end
 
-        def screenshots_dir
-          ENV['QA_SCREENSHOTS_DIR'] || '/tmp/gitlab-qa/screenshots'
-        end
-
-        def logs_dir
-          ENV['QA_LOGS_DIR'] || '/tmp/gitlab-qa/logs'
+        def host_artifacts_dir
+          @host_artifacts_dir ||= File.join(ENV['QA_ARTIFACTS_DIR'] || '/tmp/gitlab-qa', Runtime::Env.run_id)
         end
 
         def variables

@@ -1,3 +1,5 @@
+require 'securerandom'
+
 module Gitlab
   module QA
     module Component
@@ -17,17 +19,19 @@ module Gitlab
 
           puts "Running test suite `#{suite}` for #{release.project_name}"
 
+          name = "gitlab-#{release.edition}-qa-#{SecureRandom.hex(4)}"
+
           @docker.run(release.qa_image, release.qa_tag, suite, *args) do |command|
             command << "-t --rm --net=#{network || 'bridge'}"
 
-            variables = Runtime::Env.variables
-            variables.each do |key, value|
+            Runtime::Env.variables.each do |key, value|
               command.env(key, value)
             end
 
             command.volume('/var/run/docker.sock', '/var/run/docker.sock')
-            command.volume(Runtime::Env.screenshots_dir, '/home/qa/tmp')
-            command.name("gitlab-specs-#{Time.now.to_i}")
+            command.volume(File.join(Runtime::Env.host_artifacts_dir, name), '/home/qa/tmp')
+
+            command.name(name)
           end
         end
       end

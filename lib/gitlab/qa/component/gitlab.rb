@@ -38,7 +38,7 @@ module Gitlab
         end
 
         def name
-          @name ||= "gitlab-qa-#{edition}-#{SecureRandom.hex(4)}"
+          @name ||= "gitlab-#{edition}-#{SecureRandom.hex(4)}"
         end
 
         def address
@@ -83,9 +83,7 @@ module Gitlab
               command.volume(to, from, 'Z')
             end
 
-            File.join(Runtime::Env.logs_dir, name).tap do |logs_dir|
-              command.volume(logs_dir, '/var/log/gitlab', 'Z')
-            end
+            command.volume(File.join(Runtime::Env.host_artifacts_dir, name, 'logs'), '/var/log/gitlab', 'Z')
 
             @environment.to_h.each do |key, value|
               command.env(key, value)

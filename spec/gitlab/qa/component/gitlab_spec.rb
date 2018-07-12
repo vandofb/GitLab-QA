@@ -53,12 +53,12 @@ describe Gitlab::QA::Component::Gitlab do
     end
 
     it 'returns a unique name' do
-      expect(subject.name).to match(/\Agitlab-qa-ee-(\w+){8}\z/)
+      expect(subject.name).to match(/\Agitlab-ee-(\w+){8}\z/)
     end
   end
 
   describe '#hostname' do
-    it { expect(subject.hostname).to match(/\Agitlab-qa-ce-(\w+){8}\.\z/) }
+    it { expect(subject.hostname).to match(/\Agitlab-ce-(\w+){8}\.\z/) }
 
     context 'with a network' do
       before do
@@ -66,7 +66,7 @@ describe Gitlab::QA::Component::Gitlab do
       end
 
       it 'returns a valid hostname' do
-        expect(subject.hostname).to match(/\Agitlab-qa-ce-(\w+){8}\.local\z/)
+        expect(subject.hostname).to match(/\Agitlab-ce-(\w+){8}\.local\z/)
       end
     end
   end
@@ -79,7 +79,7 @@ describe Gitlab::QA::Component::Gitlab do
 
       it 'returns a HTTP address' do
         expect(subject.address)
-          .to match(%r{http://gitlab-qa-ce-(\w+){8}\.local\z})
+          .to match(%r{http://gitlab-ce-(\w+){8}\.local\z})
       end
     end
   end
@@ -121,15 +121,15 @@ describe Gitlab::QA::Component::Gitlab do
 
     it 'bind-mounds volume with logs in an appropriate directory' do
       allow(Gitlab::QA::Runtime::Env)
-        .to receive(:logs_dir)
-        .and_return('/tmp/gitlab-qa/logs')
+        .to receive(:host_artifacts_dir)
+        .and_return('/tmp/gitlab-qa/gitlab-qa-run-2018-07-11-10-00-00-abc123')
 
       subject.name = 'my-gitlab'
 
       subject.start
 
       expect(docker).to have_received(:volume)
-        .with('/tmp/gitlab-qa/logs/my-gitlab', '/var/log/gitlab', 'Z')
+        .with('/tmp/gitlab-qa/gitlab-qa-run-2018-07-11-10-00-00-abc123/my-gitlab/logs', '/var/log/gitlab', 'Z')
     end
 
     context 'with a network' do
