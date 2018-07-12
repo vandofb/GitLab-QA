@@ -64,7 +64,8 @@ ee:version:
   artifacts:
     when: on_failure
     expire_in: 30d
-    untracked: true
+    paths:
+      - gitlab-qa-run-*/
 
 .ce-qa: &ce-qa
   only:
