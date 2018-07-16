@@ -35,6 +35,10 @@ module Gitlab
           ENV['GITLAB_QA_ACCESS_TOKEN']
         end
 
+        def dev_access_token_variable
+          env_value_if_defined('GITLAB_QA_DEV_ACCESS_TOKEN')
+        end
+
         def host_artifacts_dir
           @host_artifacts_dir ||= File.join(ENV['QA_ARTIFACTS_DIR'] || '/tmp/gitlab-qa', Runtime::Env.run_id)
         end

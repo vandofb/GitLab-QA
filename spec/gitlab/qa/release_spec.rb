@@ -9,6 +9,7 @@ describe Gitlab::QA::Release do
   let(:full_ee_address) { 'registry.gitlab.com:5000/foo/gitlab/gitlab-ee' }
   let(:full_ee_address_with_simple_tag) { "#{full_ee_address}:latest" }
   let(:full_ee_address_with_complex_tag) { "#{full_ee_address}:#{specific_ee_tag}" }
+  let(:full_dev_address) { 'dev.gitlab.org:5005/gitlab/omnibus-gitlab/gitlab-ee:latest' }
 
   describe '#to_s' do
     context 'when release is ce' do
@@ -509,6 +510,32 @@ describe Gitlab::QA::Release do
 
         it { expect(subject.qa_tag).to eq '11.0.8-rc8-ee' }
       end
+    end
+  end
+
+  describe '#dev_gitlab_org?' do
+    context 'when release is CE' do
+      subject { described_class.new('CE') }
+
+      it { expect(subject).not_to be_dev_gitlab_org }
+    end
+
+    context 'when release is EE' do
+      subject { described_class.new('EE') }
+
+      it { expect(subject).not_to be_dev_gitlab_org }
+    end
+
+    context 'when release is a full address from non-dev' do
+      subject { described_class.new(full_ce_address_with_simple_tag) }
+
+      it { expect(subject).not_to be_dev_gitlab_org }
+    end
+
+    context 'when release is a full address from dev' do
+      subject { described_class.new(full_dev_address) }
+
+      it { expect(subject).to be_dev_gitlab_org }
     end
   end
 end

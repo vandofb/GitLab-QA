@@ -10,8 +10,14 @@ module Gitlab
 
         def self.release
           version = Version.new(ADDRESS).fetch!
+          image =
+            if Runtime::Env.dev_access_token_variable
+              "dev.gitlab.org:5005/gitlab/omnibus-gitlab/gitlab-ee:#{version}"
+            else
+              "ee:#{version}"
+            end
 
-          Release.new("EE:#{version}")
+          Release.new(image)
         rescue InvalidResponseError => ex
           warn ex.message
           warn "#{ex.response.code} #{ex.response.message}: #{ex.response.body}"

@@ -5,6 +5,7 @@ module Gitlab
       CUSTOM_GITLAB_IMAGE_REGEX = %r{/gitlab-(?<edition>[ce]e):(?<tag>.+)\z}
       DEFAULT_TAG = 'latest'.freeze
       DEFAULT_CANONICAL_TAG = 'nightly'.freeze
+      DEV_REGISTRY = 'dev.gitlab.org:5005'.freeze
 
       attr_reader :release
       attr_writer :tag
@@ -70,6 +71,10 @@ module Gitlab
 
       def qa_tag
         tag.sub(/\.([ce]e)/, '-\1').sub(/\.(\d+)\z/, '')
+      end
+
+      def dev_gitlab_org?
+        image.start_with?(DEV_REGISTRY)
       end
 
       private
