@@ -64,7 +64,7 @@ ee:version:
     when: on_failure
     expire_in: 30d
     paths:
-      - gitlab-qa-run-*/
+      - ./gitlab-qa-run-*
 
 .ce-qa: &ce-qa
   only:
