@@ -225,10 +225,13 @@ $ export GITLAB_USERNAME=your_username
 $ export GITLAB_PASSWORD=your_password
 
 # Runs the QA suite for an instance running GitLab CE 10.8.1
-$ gitlab-qa Test::Instance::Any EE:10.8.1-ce https://your.instance.gitlab
+$ gitlab-qa Test::Instance::Any CE:10.8.1-ce https://your.instance.gitlab
 
 # Runs the QA suite for an instance running GitLab EE 10.7.3
 $ gitlab-qa Test::Instance::Any EE:10.7.3-ee https://your.instance.gitlab
+
+# You can even pass a gitlab-{ce,ee}-qa image directly
+$ gitlab-qa Test::Instance::Any registry.gitlab.com:5000/gitlab/gitlab-ce-qa:v11.1.0-rc12 https://your.instance.gitlab
 ```
 
 ### `Test::Instance::Staging`

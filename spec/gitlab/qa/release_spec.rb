@@ -10,6 +10,11 @@ describe Gitlab::QA::Release do
   let(:full_ee_address_with_simple_tag) { "#{full_ee_address}:latest" }
   let(:full_ee_address_with_complex_tag) { "#{full_ee_address}:#{specific_ee_tag}" }
   let(:full_dev_address) { 'dev.gitlab.org:5005/gitlab/omnibus-gitlab/gitlab-ee:latest' }
+  let(:ce_image) { 'gitlab/gitlab-ce' }
+  let(:ee_image) { 'gitlab/gitlab-ee' }
+  let(:ce_qa_image) { "#{ce_image}-qa" }
+  let(:full_ce_qa_image) { "#{full_ce_address}-qa" }
+  let(:full_ee_qa_image) { "#{full_ee_address}-qa" }
 
   describe '#to_s' do
     context 'when release is ce' do
@@ -75,6 +80,18 @@ describe Gitlab::QA::Release do
         it { expect(subject.to_s).to eq full_ee_address_with_complex_tag }
       end
     end
+
+    context 'when release is a QA image' do
+      subject { described_class.new("#{ce_qa_image}:latest") }
+
+      it { expect(subject.to_s).to eq "#{ce_image}:latest" }
+    end
+
+    context 'when release is a full QA image' do
+      subject { described_class.new("#{full_ce_qa_image}:latest") }
+
+      it { expect(subject.to_s).to eq "#{full_ce_address}:latest" }
+    end
   end
 
   describe '#previous_stable' do
@@ -138,6 +155,24 @@ describe Gitlab::QA::Release do
         it { expect(subject.tag).to eq 'latest' }
       end
     end
+
+    context 'when release is a QA image' do
+      subject do
+        described_class.new("#{ce_qa_image}:nightly").previous_stable
+      end
+
+      it { expect(subject.image).to eq ce_image }
+      it { expect(subject.tag).to eq 'latest' }
+    end
+
+    context 'when release is a full QA image' do
+      subject do
+        described_class.new("#{full_ce_qa_image}:nightly").previous_stable
+      end
+
+      it { expect(subject.image).to eq ce_image }
+      it { expect(subject.tag).to eq 'latest' }
+    end
   end
 
   describe '#edition' do
@@ -186,6 +221,18 @@ describe Gitlab::QA::Release do
         it { expect(subject.edition).to eq :ee }
       end
     end
+
+    context 'when release is a QA image' do
+      subject { described_class.new("#{ce_qa_image}:latest") }
+
+      it { expect(subject.edition).to eq :ce }
+    end
+
+    context 'when release is a full QA image' do
+      subject { described_class.new("#{full_ce_qa_image}:latest") }
+
+      it { expect(subject.edition).to eq :ce }
+    end
   end
 
   describe '#ee?' do
@@ -233,6 +280,18 @@ describe Gitlab::QA::Release do
 
         it { expect(subject).to be_ee }
       end
+    end
+
+    context 'when release is a QA image' do
+      subject { described_class.new("#{ce_qa_image}:latest") }
+
+      it { expect(subject).not_to be_ee }
+    end
+
+    context 'when release is a full QA image' do
+      subject { described_class.new("#{full_ce_qa_image}:latest") }
+
+      it { expect(subject).not_to be_ee }
     end
   end
 
@@ -303,6 +362,18 @@ describe Gitlab::QA::Release do
         it { expect(subject.to_ee.to_s).to eq subject.to_s }
       end
     end
+
+    context 'when release is a QA image' do
+      subject { described_class.new("#{ce_qa_image}:latest") }
+
+      it { expect(subject.to_ee.to_s).to eq "#{ee_image}:latest" }
+    end
+
+    context 'when release is a full QA image' do
+      subject { described_class.new("#{full_ce_qa_image}:latest") }
+
+      it { expect(subject.to_ee.to_s).to eq "#{full_ee_address}:latest" }
+    end
   end
 
   describe '#image' do
@@ -351,6 +422,18 @@ describe Gitlab::QA::Release do
         it { expect(subject.image).to eq full_ee_address }
       end
     end
+
+    context 'when release is a QA image' do
+      subject { described_class.new("#{ce_qa_image}:latest") }
+
+      it { expect(subject.image).to eq ce_image }
+    end
+
+    context 'when release is a full QA image' do
+      subject { described_class.new("#{full_ce_qa_image}:latest") }
+
+      it { expect(subject.image).to eq full_ce_address }
+    end
   end
 
   describe '#qa_image' do
@@ -384,14 +467,26 @@ describe Gitlab::QA::Release do
       context 'with a simple tag' do
         subject { described_class.new(full_ee_address_with_simple_tag) }
 
-        it { expect(subject.qa_image).to eq "#{full_ee_address}-qa" }
+        it { expect(subject.qa_image).to eq full_ee_qa_image }
       end
 
       context 'with a complex tag' do
         subject { described_class.new(full_ee_address_with_complex_tag) }
 
-        it { expect(subject.qa_image).to eq "#{full_ee_address}-qa" }
+        it { expect(subject.qa_image).to eq full_ee_qa_image }
       end
+    end
+
+    context 'when release is a QA image' do
+      subject { described_class.new("#{ce_qa_image}:latest") }
+
+      it { expect(subject.qa_image).to eq ce_qa_image }
+    end
+
+    context 'when release is a full QA image' do
+      subject { described_class.new("#{full_ce_qa_image}:latest") }
+
+      it { expect(subject.qa_image).to eq full_ce_qa_image }
     end
   end
 
@@ -410,6 +505,18 @@ describe Gitlab::QA::Release do
 
     context 'when release is edition:tag' do
       subject { described_class.new("ce:#{specific_ce_tag}") }
+
+      it { expect(subject.project_name).to eq 'gitlab-ce' }
+    end
+
+    context 'when release is a QA image' do
+      subject { described_class.new("#{ce_qa_image}:latest") }
+
+      it { expect(subject.project_name).to eq 'gitlab-ce' }
+    end
+
+    context 'when release is a full QA image' do
+      subject { described_class.new("#{full_ce_qa_image}:latest") }
 
       it { expect(subject.project_name).to eq 'gitlab-ce' }
     end
@@ -461,6 +568,24 @@ describe Gitlab::QA::Release do
         it { expect(subject.tag).to eq specific_ee_tag }
       end
     end
+
+    context 'when release is a QA image without a tag' do
+      subject { described_class.new(ce_qa_image) }
+
+      it { expect(subject.tag).to eq 'latest' }
+    end
+
+    context 'when release is a QA image' do
+      subject { described_class.new("#{ce_qa_image}:nightly") }
+
+      it { expect(subject.tag).to eq 'nightly' }
+    end
+
+    context 'when release is a full QA image' do
+      subject { described_class.new("#{full_ce_qa_image}:nightly") }
+
+      it { expect(subject.tag).to eq 'nightly' }
+    end
   end
 
   describe '#qa_tag' do
@@ -510,6 +635,24 @@ describe Gitlab::QA::Release do
 
         it { expect(subject.qa_tag).to eq '11.0.8-rc8-ee' }
       end
+    end
+
+    context 'when release is a QA image without a tag' do
+      subject { described_class.new(ce_qa_image) }
+
+      it { expect(subject.qa_tag).to eq 'latest' }
+    end
+
+    context 'when release is a QA image' do
+      subject { described_class.new("#{ce_qa_image}:nightly") }
+
+      it { expect(subject.qa_tag).to eq 'nightly' }
+    end
+
+    context 'when release is a full QA image' do
+      subject { described_class.new("#{full_ce_qa_image}:nightly") }
+
+      it { expect(subject.qa_tag).to eq 'nightly' }
     end
   end
 

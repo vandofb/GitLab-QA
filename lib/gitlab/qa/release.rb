@@ -1,8 +1,25 @@
 module Gitlab
   module QA
     class Release
-      CANONICAL_REGEX = /\A(?<edition>ce|ee):?(?<tag>.+)?/i
-      CUSTOM_GITLAB_IMAGE_REGEX = %r{/gitlab-(?<edition>[ce]e):(?<tag>.+)\z}
+      CANONICAL_REGEX = /
+        \A
+          (?<edition>ce|ee)
+          (-qa)?
+          (:(?<tag>.+))?
+        \z
+      /xi
+      CUSTOM_GITLAB_IMAGE_REGEX = %r{
+        \A
+          (?<image_without_tag>
+            (?<registry>[^\/:]+(:(?<port>\d+))?)
+            .+
+            gitlab-
+            (?<edition>ce|ee)
+          )
+          (-qa)?
+          (:(?<tag>.+))?
+        \z
+      }xi
       DEFAULT_TAG = 'latest'.freeze
       DEFAULT_CANONICAL_TAG = 'nightly'.freeze
       DEV_REGISTRY = 'dev.gitlab.org:5005'.freeze
@@ -48,7 +65,7 @@ module Gitlab
           if canonical?
             "gitlab/gitlab-#{edition}"
           else
-            release.sub(%r{(?<image_without_tag>.+(?<port>:\d+)?/.+)(?<tag>:.+)\z}, '\k<image_without_tag>')
+            release.match(CUSTOM_GITLAB_IMAGE_REGEX)[:image_without_tag]
           end
       end
 
@@ -57,9 +74,15 @@ module Gitlab
       end
 
       def project_name
-        @project_name ||= image.sub(%r{^gitlab\/}, '')
+        @project_name ||=
+          if canonical?
+            "gitlab-#{edition}"
+          else
+            "gitlab-#{release.match(CUSTOM_GITLAB_IMAGE_REGEX)[:edition]}"
+          end
       end
 
+      # Tag scheme for gitlab-{ce,ee} images is like 11.1.0-rc12.ee.0
       def tag
         @tag ||=
           if canonical?
@@ -69,6 +92,7 @@ module Gitlab
           end
       end
 
+      # Tag scheme for gitlab-{ce,ee}-qa images is like 11.1.0-rc12-ee
       def qa_tag
         tag.sub(/\.([ce]e)/, '-\1').sub(/\.(\d+)\z/, '')
       end
