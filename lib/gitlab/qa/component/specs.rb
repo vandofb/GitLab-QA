@@ -19,7 +19,7 @@ module Gitlab
 
           puts "Running test suite `#{suite}` for #{release.project_name}"
 
-          name = "gitlab-#{release.edition}-qa-#{SecureRandom.hex(4)}"
+          name = "#{release.project_name}-qa-#{SecureRandom.hex(4)}"
 
           @docker.run(release.qa_image, release.qa_tag, suite, *args) do |command|
             command << "-t --rm --net=#{network || 'bridge'}"
