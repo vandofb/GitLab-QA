@@ -85,8 +85,9 @@ All the documentation can be found under [`docs/`](/docs/README.md).
 
 ## How do we use it
 
-Currently we trigger test suite against GitLab Docker images created by Omnibus
-nightly.
+Currently we trigger the test suite against GitLab Docker images created by Omnibus
+nightly. This happens in the [nightly](https://gitlab.com/gitlab-org/quality/nightly/pipelines)
+and [staging](https://gitlab.com/gitlab-org/quality/staging/pipelines) project pipelines.
 
 We also trigger GitLab QA pipelines whenever someone clicks `package-and-qa` manual
 action in a merge request.
