@@ -3,7 +3,6 @@ services:
 
 stages:
   - check
-  - sanity
   - test
 
 variables:
@@ -35,24 +34,6 @@ check:rspec:
     - triggers
   tags:
     - docker
-
-.sanity: &sanity
-  stage: sanity
-  image: $TEST_IMAGE
-  only:
-    - schedules
-  tags:
-    - docker
-
-ce:version:
-  script: bin/qa Test::Sanity::Version CE
-  allow_failure: true
-  <<: *sanity
-
-ee:version:
-  script: bin/qa Test::Sanity::Version EE
-  allow_failure: true
-  <<: *sanity
 
 .test: &test
   stage: test
@@ -191,15 +172,3 @@ ee:kubernetes:
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
-
-qa:staging:
-  script:
-    - export GITLAB_USERNAME="gitlab-qa"
-    - export GITLAB_PASSWORD="$GITLAB_QA_PASSWORD"
-    - unset EE_LICENSE
-    - bin/qa Test::Instance::Staging
-  <<: *test
-  retry: 0
-  when: manual
-  except:
-    - triggers
