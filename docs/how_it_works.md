@@ -12,7 +12,7 @@ For a visual architecture explanation, please read the
 1. A new `gitlab-ce` container is started with `Component::Gitlab.perform`
 1. Then `Component::Specs.perform` is called, which starts a `gitlab/gitlab-qa`
   container (from [`gitlab-org/gitlab-ce@qa/Dockerfile`][gitlab-dockerfile])
-  and pass it the instance-level scenario to run (e.g. `Test::Instance` for
+  and pass it the instance-level scenario to run (e.g. `Test::Instance::All` for
   [`gitlab-org/gitlab-qa@lib/gitlab/qa/scenario/test/instance/image.rb`][instance-image]),
   then the address of the live instance to be tested, and optional extra arguments.
 1. Within the `gitlab/gitlab-qa` container, these arguments are passed to `bin/test` (since it's
@@ -20,7 +20,7 @@ For a visual architecture explanation, please read the
   [`ENTRYPOINT` defined at `gitlab-org/gitlab-ce@qa/Dockerfile`][gitlab-dockerfile]),
   and then to `bin/qa`.
 1. `bin/qa` then calls `.launch!` on the fully qualified constant `QA::Scenario::` +
-  the scenario name, e.g. `QA::Scenario::Test::Instance`, and ultimately calls
+  the scenario name, e.g. `QA::Scenario::Test::Instance::All`, and ultimately calls
   [`.perform`][instance]
 1. The `.perform` method [saves the instance address for later][instance], then sets up an
   `RSpec::Core::Runner`, pass it the extra arguments,
