@@ -17,6 +17,7 @@ module Gitlab
           autoload :Any, 'qa/scenario/test/instance/any'
           autoload :Image, 'qa/scenario/test/instance/image'
           autoload :Staging, 'qa/scenario/test/instance/staging'
+          autoload :Smoke, 'qa/scenario/test/instance/smoke'
         end
 
         module Omnibus
