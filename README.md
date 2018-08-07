@@ -88,10 +88,14 @@ All the documentation can be found under [`docs/`](/docs/README.md).
 
 ## How do we use it
 
-Currently we trigger the test suite against GitLab Docker images created by 
-Omnibus nightly.
+Currently, we execute the test suite against GitLab Docker images created by 
+Omnibus nightly via a pipeline in the [nightly](https://gitlab.com/gitlab-org/quality/nightly) 
+project.
 
-We also trigger GitLab QA pipelines whenever someone clicks `package-and-qa` manual
+We also execute the test suite nightly against our [staging environment](https://staging.gitlab.com)
+via a pipeline in the [staging project](https://gitlab.com/gitlab-org/quality/staging).
+
+Finally, we trigger GitLab QA pipelines whenever someone clicks `package-and-qa` manual
 action in a merge request.
 
 ## How can you use it
