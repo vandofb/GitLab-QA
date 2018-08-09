@@ -41,7 +41,6 @@ For more details on the internals, please read the
   for failing tests will be saved (default: `/tmp/gitlab-qa`)
 * `DOCKER_HOST` - Docker host to run tests against (default: `http://localhost`)
 * `CHROME_HEADLESS` - when running locally, set to `false` to allow Chrome tests to be visible - watch your tests being run
-* `SUITE` - the suite to run. Defaults to `All`.
 
 ### `Test::Instance::Image CE|EE|<full image address>`
 
