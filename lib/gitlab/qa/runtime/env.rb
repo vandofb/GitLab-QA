@@ -11,6 +11,8 @@ module Gitlab
           'GITLAB_PASSWORD' => :user_password,
           'GITLAB_LDAP_USERNAME' => :ldap_username,
           'GITLAB_LDAP_PASSWORD' => :ldap_password,
+          'GITLAB_FORKER_USERNAME' => :forker_username,
+          'GITLAB_FORKER_PASSWORD' => :forker_password,
           'GITLAB_USER_TYPE' => :user_type,
           'GITLAB_SANDBOX_NAME' => :gitlab_sandbox_name,
           'GITLAB_QA_ACCESS_TOKEN' => :qa_access_token,

@@ -30,6 +30,8 @@ For more details on the internals, please read the
 
 * `GITLAB_USERNAME` - username to use when signing into GitLab
 * `GITLAB_PASSWORD` - password to use when signing into GitLab
+* `GITLAB_FORKER_USERNAME` - username to use for forking a project
+* `GITLAB_FORKER_PASSWORD` - password to use for forking a project
 * `GITLAB_USER_TYPE` - type of user to use when signing into GitLab: standard (default), ldap
 * `GITLAB_LDAP_USERNAME` - LDAP username to use when signing into GitLab
 * `GITLAB_LDAP_PASSWORD` - LDAP password to use when signing into GitLab
