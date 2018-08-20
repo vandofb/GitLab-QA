@@ -48,7 +48,7 @@ This tests that a GitLab Docker container works as expected by running
 instance-level tests against it.
 
 To run tests against the GitLab containers, a GitLab QA (`gitlab/gitlab-qa`)
-container is spun up and tests are run from it by running the `Test::Instance`
+container is spun up and tests are run from it by running the `Test::Instance::All`
 scenario (located under
 [`gitlab-org/gitlab-ce@qa/qa/scenario/test/instance.rb`][test-instance] in the
 GitLab CE project).
@@ -216,7 +216,7 @@ against it.
 
 To run tests against the GitLab instance, a GitLab QA (`gitlab/gitlab-qa`)
 container is spun up and tests are run from it by running the
-`Test::Instance` scenario (located under
+`Test::Instance::All` scenario (located under
 [`gitlab-org/gitlab-ce@qa/qa/scenario/test/instance.rb`][test-instance] in the
 in the GitLab CE project).
 
@@ -243,7 +243,7 @@ works as expected by running tests against it.
 
 To run tests against the GitLab instance, a GitLab QA (`gitlab/gitlab-qa`)
 container is spun up and tests are run from it by running the
-`Test::Instance` scenario (located under
+`Test::Instance::All` scenario (located under
 [`gitlab-org/gitlab-ce@qa/qa/scenario/test/instance.rb`][test-instance] in the
 in the GitLab CE project).
 
