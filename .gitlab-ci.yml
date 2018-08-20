@@ -172,3 +172,17 @@ ee:kubernetes:
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
+
+ce:object_storage:
+  script:
+    - bin/qa Test::Integration::ObjectStorage ${RELEASE:=CE}
+  <<: *test
+  <<: *high-capacity
+  <<: *ce-qa
+
+ee:object_storage:
+  script:
+    - bin/qa Test::Integration::ObjectStorage ${RELEASE:=EE}
+  <<: *test
+  <<: *high-capacity
+  <<: *ee-qa

@@ -31,6 +31,7 @@ module Gitlab
           autoload :LDAP, 'qa/scenario/test/integration/ldap'
           autoload :Mattermost, 'qa/scenario/test/integration/mattermost'
           autoload :Kubernetes, 'qa/scenario/test/integration/kubernetes'
+          autoload :ObjectStorage, 'qa/scenario/test/integration/object_storage'
         end
 
         module Sanity
@@ -45,6 +46,7 @@ module Gitlab
       autoload :LDAP, 'qa/component/ldap'
       autoload :Specs, 'qa/component/specs'
       autoload :Staging, 'qa/component/staging'
+      autoload :Minio, 'qa/component/minio'
     end
 
     module Docker

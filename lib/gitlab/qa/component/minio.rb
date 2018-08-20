@@ -1,0 +1,136 @@
+require 'securerandom'
+require 'fileutils'
+
+# This component sets up the Minio (https://hub.docker.com/r/minio/minio)
+# image with the proper configuration for GitLab users to use object storage.
+module Gitlab
+  module QA
+    module Component
+      class Minio
+        include Scenario::Actable
+
+        MINIO_IMAGE = 'minio/minio'.freeze
+        MINIO_IMAGE_TAG = 'latest'.freeze
+        AWS_ACCESS_KEY = 'AKIAIOSFODNN7EXAMPLE'.freeze
+        AWS_SECRET_KEY = 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'.freeze
+        DATA_DIR = '/data'.freeze
+        DEFAULT_PORT = 9000
+
+        attr_reader :docker
+        attr_accessor :volumes, :network, :environment
+        attr_writer :name
+
+        def initialize
+          @docker = Docker::Engine.new
+          @environment = { MINIO_ACCESS_KEY: AWS_ACCESS_KEY, MINIO_SECRET_KEY: AWS_SECRET_KEY }
+          @volumes = { host_data_dir => DATA_DIR }
+          @network_aliases = []
+          @buckets = []
+        end
+
+        def host_data_dir
+          base_dir = ENV['CI_PROJECT_DIR'] || Dir.tmpdir
+
+          File.join(base_dir, 'minio')
+        end
+
+        def add_network_alias(name)
+          @network_aliases.push(name)
+        end
+
+        def add_bucket(name)
+          @buckets << name
+        end
+
+        def name
+          @name ||= "minio-#{SecureRandom.hex(4)}"
+        end
+
+        def hostname
+          "#{name}.#{network}"
+        end
+
+        def port
+          DEFAULT_PORT
+        end
+
+        def instance
+          raise 'Please provide a block!' unless block_given?
+
+          prepare
+          start
+
+          yield self
+
+          teardown
+        end
+
+        def prepare
+          @docker.pull(MINIO_IMAGE, MINIO_IMAGE_TAG)
+
+          FileUtils.mkdir_p(host_data_dir)
+
+          @buckets.each do |bucket|
+            puts "Creating Minio bucket: #{bucket}"
+            FileUtils.mkdir_p(File.join(host_data_dir, bucket))
+          end
+
+          return if @docker.network_exists?(network)
+
+          @docker.network_create(network)
+        end
+
+        def start
+          docker.run(MINIO_IMAGE, MINIO_IMAGE_TAG, "server", DATA_DIR) do |command|
+            command << '-d '
+            command << "--name #{name}"
+            command << "--net #{network}"
+            command << "--hostname #{hostname}"
+
+            @volumes.to_h.each do |to, from|
+              command.volume(to, from, 'Z')
+            end
+
+            @environment.to_h.each do |key, value|
+              command.env(key, value)
+            end
+
+            @network_aliases.to_a.each do |network_alias|
+              command << "--network-alias #{network_alias}"
+            end
+          end
+        end
+
+        def restart
+          @docker.restart(name)
+        end
+
+        def teardown
+          raise 'Invalid instance name!' unless name
+
+          @docker.stop(name)
+          @docker.remove(name)
+        end
+
+        def pull
+          @docker.pull(MINIO_IMAGE, MINIO_IMAGE_TAG)
+        end
+
+        def to_config
+          config = YAML.safe_load <<~CFG
+            provider: AWS
+            aws_access_key_id: #{AWS_ACCESS_KEY}
+            aws_secret_access_key: #{AWS_SECRET_KEY}
+            aws_signature_version: 4
+            host: #{hostname}
+            endpoint: http://#{hostname}:#{port}
+            path_style: true
+          CFG
+
+          # Quotes get eaten up when the string is set in the environment
+          config.to_s.gsub("\"", "\\\"")
+        end
+      end
+    end
+  end
+end
