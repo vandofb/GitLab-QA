@@ -24,7 +24,7 @@ module Gitlab
               end
 
               Component::Specs.perform do |specs|
-                specs.suite = 'Test::Instance::All'
+                specs.suite = 'Test::Instance'
                 specs.release = release
                 specs.args = [Component::Staging::ADDRESS, *rspec_args]
               end

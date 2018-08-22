@@ -18,7 +18,7 @@ module Gitlab
 
                 gitlab.instance do
                   Component::Specs.perform do |specs|
-                    specs.suite = 'Test::Instance::All'
+                    specs.suite = 'Test::Instance'
                     specs.release = gitlab.release
                     specs.network = gitlab.network
                     specs.args = [gitlab.address]
