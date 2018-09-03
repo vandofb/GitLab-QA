@@ -70,6 +70,20 @@ check:rspec:
     - 7gb
     - triggered-packages
 
+ce:sanity-framework:
+  script:
+    - ./bin/expect_text "bin/qa Test::Instance::Image ${RELEASE:=CE} --tag framework" "2 examples, 1 failure"
+  <<: *test
+  <<: *high-capacity
+  <<: *ce-qa
+
+ee:sanity-framework:
+  script:
+    - ./bin/expect_text "bin/qa Test::Instance::Image ${RELEASE:=EE} --tag framework" "2 examples, 1 failure"
+  <<: *test
+  <<: *high-capacity
+  <<: *ee-qa
+
 ce:instance:
   script:
     - bin/qa Test::Instance::Image ${RELEASE:=CE}

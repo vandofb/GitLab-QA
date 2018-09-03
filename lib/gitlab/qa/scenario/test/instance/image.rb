@@ -10,7 +10,7 @@ module Gitlab
               @volumes = {}
             end
 
-            def perform(release)
+            def perform(release, *rspec_args)
               Component::Gitlab.perform do |gitlab|
                 gitlab.release = release
                 gitlab.volumes = @volumes
@@ -21,7 +21,7 @@ module Gitlab
                     specs.suite = 'Test::Instance'
                     specs.release = gitlab.release
                     specs.network = gitlab.network
-                    specs.args = [gitlab.address]
+                    specs.args = [gitlab.address, *rspec_args]
                   end
                 end
               end
