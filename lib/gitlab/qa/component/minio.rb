@@ -24,22 +24,45 @@ module Gitlab
           @docker = Docker::Engine.new
           @environment = { MINIO_ACCESS_KEY: AWS_ACCESS_KEY, MINIO_SECRET_KEY: AWS_SECRET_KEY }
           @volumes = { host_data_dir => DATA_DIR }
-          @network_aliases = []
           @buckets = []
         end
 
-        def host_data_dir
-          base_dir = ENV['CI_PROJECT_DIR'] || Dir.tmpdir
+        def instance
+          raise 'Please provide a block!' unless block_given?
 
-          File.join(base_dir, 'minio')
-        end
+          prepare
+          start
 
-        def add_network_alias(name)
-          @network_aliases.push(name)
+          yield self
+
+          teardown
         end
 
         def add_bucket(name)
           @buckets << name
+        end
+
+        def to_config
+          config = YAML.safe_load <<~CFG
+            provider: AWS
+            aws_access_key_id: #{AWS_ACCESS_KEY}
+            aws_secret_access_key: #{AWS_SECRET_KEY}
+            aws_signature_version: 4
+            host: #{hostname}
+            endpoint: http://#{hostname}:#{port}
+            path_style: true
+          CFG
+
+          # Quotes get eaten up when the string is set in the environment
+          config.to_s.gsub('"', '\\"')
+        end
+
+        private
+
+        def host_data_dir
+          base_dir = ENV['CI_PROJECT_DIR'] || '/tmp'
+
+          File.join(base_dir, 'minio')
         end
 
         def name
@@ -52,17 +75,6 @@ module Gitlab
 
         def port
           DEFAULT_PORT
-        end
-
-        def instance
-          raise 'Please provide a block!' unless block_given?
-
-          prepare
-          start
-
-          yield self
-
-          teardown
         end
 
         def prepare
@@ -101,34 +113,11 @@ module Gitlab
           end
         end
 
-        def restart
-          @docker.restart(name)
-        end
-
         def teardown
           raise 'Invalid instance name!' unless name
 
           @docker.stop(name)
           @docker.remove(name)
-        end
-
-        def pull
-          @docker.pull(MINIO_IMAGE, MINIO_IMAGE_TAG)
-        end
-
-        def to_config
-          config = YAML.safe_load <<~CFG
-            provider: AWS
-            aws_access_key_id: #{AWS_ACCESS_KEY}
-            aws_secret_access_key: #{AWS_SECRET_KEY}
-            aws_signature_version: 4
-            host: #{hostname}
-            endpoint: http://#{hostname}:#{port}
-            path_style: true
-          CFG
-
-          # Quotes get eaten up when the string is set in the environment
-          config.to_s.gsub("\"", "\\\"")
         end
       end
     end
