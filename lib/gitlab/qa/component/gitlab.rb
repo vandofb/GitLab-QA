@@ -155,7 +155,8 @@ module Gitlab
             host = @docker.hostname
             port = @docker.port(name, 80).split(':').last
 
-            @uri = URI.join("http://#{host}:#{port}#{relative_path}", '/help')
+            @uri = URI.join("http://#{host}:#{port}", "#{relative_path}/", 'help')
+
           end
 
           def check(retries)
