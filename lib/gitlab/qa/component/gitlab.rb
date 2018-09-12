@@ -12,7 +12,7 @@ module Gitlab
 
         attr_reader :release, :docker
         attr_accessor :volumes, :network, :environment
-        attr_writer :name
+        attr_writer :name, :relative_path
 
         def_delegators :release, :tag, :image, :edition
 
@@ -42,11 +42,15 @@ module Gitlab
         end
 
         def address
-          "http://#{hostname}"
+          "http://#{hostname}#{relative_path}"
         end
 
         def hostname
           "#{name}.#{network}"
+        end
+
+        def relative_path
+          @relative_path ||= ''
         end
 
         def instance
@@ -116,7 +120,7 @@ module Gitlab
         end
 
         def wait
-          if Availability.new(name).check(180)
+          if Availability.new(name, relative_path: relative_path).check(180)
             sleep 12 # TODO, handle that better
             puts ' -> GitLab is available.'
           else
@@ -145,13 +149,13 @@ module Gitlab
         end
 
         class Availability
-          def initialize(name)
+          def initialize(name, relative_path: '')
             @docker = Docker::Engine.new
 
             host = @docker.hostname
             port = @docker.port(name, 80).split(':').last
 
-            @uri = URI.join("http://#{host}:#{port}", '/help')
+            @uri = URI.join("http://#{host}:#{port}", "#{relative_path}/", 'help')
           end
 
           def check(retries)

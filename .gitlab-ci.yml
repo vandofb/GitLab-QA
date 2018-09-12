@@ -84,6 +84,20 @@ ee:instance:
   <<: *high-capacity
   <<: *ee-qa
 
+ce:relative_url:
+  script:
+    - bin/qa Test::Instance::RelativeUrl ${RELEASE:=CE}
+  <<: *test
+  <<: *high-capacity
+  <<: *ce-qa
+
+ee:relative_url:
+  script:
+    - bin/qa Test::Instance::RelativeUrl ${RELEASE:=EE}
+  <<: *test
+  <<: *high-capacity
+  <<: *ee-qa
+
 ce:image:
   script:
     - bin/qa Test::Omnibus::Image ${RELEASE:=CE}

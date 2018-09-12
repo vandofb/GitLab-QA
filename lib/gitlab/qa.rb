@@ -16,6 +16,7 @@ module Gitlab
         module Instance
           autoload :Any, 'qa/scenario/test/instance/any'
           autoload :Image, 'qa/scenario/test/instance/image'
+          autoload :RelativeUrl, 'qa/scenario/test/instance/relative_url'
           autoload :Staging, 'qa/scenario/test/instance/staging'
           autoload :Smoke, 'qa/scenario/test/instance/smoke'
         end
