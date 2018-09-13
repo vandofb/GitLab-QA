@@ -1,7 +1,30 @@
 #!/usr/bin/env ruby
 
 require 'gitlab/qa'
+require 'optparse'
 
-Gitlab::QA::Scenario
-  .const_get(ARGV.shift)
-  .perform(*ARGV)
+options = OptionParser.new do |opts|
+  opts.banner = 'Usage: gitlab-qa [options] Scenario URL [[--] path] [rspec_options]'
+
+  opts.on('-v', '--version', 'Show the version') do
+    require 'gitlab/qa/version'
+    puts "#{$PROGRAM_NAME} : #{Gitlab::QA::VERSION}"
+    exit
+  end
+
+  opts.on('-h', '--help', 'Show the usage') do
+    puts opts
+    exit
+  end
+
+  opts.parse!
+end
+
+if ARGV.size >= 1
+  Gitlab::QA::Scenario
+    .const_get(ARGV.shift)
+    .perform(*ARGV)
+else
+  puts options
+  exit 1
+end
