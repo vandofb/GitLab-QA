@@ -273,8 +273,26 @@ $ export GITLAB_PASSWORD="$GITLAB_QA_PASSWORD"
 $ gitlab-qa Test::Instance::Staging
 ```
 
-[test-instance]: https://gitlab.com/gitlab-org/gitlab-ce/blob/master/qa/qa/scenario/test/instance.rb
+### `Test::Instance::Smoke`
+
+This scenario will run a limited amount of tests selected from the test suite tagged by `:smoke`.
+Smoke tests are quick tests that ensure that some basic functionality of GitLab works.
+
+To run tests against the GitLab instance, a GitLab QA (`gitlab/gitlab-qa`)
+container is spun up and tests are run from it by running the
+`Test::Instance::Smoke` scenario (located under
+[`gitlab-org/gitlab-ce@qa/qa/scenario/test/smoke.rb`][smoke-instance] in the
+in the GitLab CE project).
+
+Example:
+
+```
+$ gitlab-qa Test::Instance::Smoke ee:<tag> https://staging.gitlab.com
+```
 
 ----
 
 [Back to README.md](../README.md)
+
+[test-instance]: https://gitlab.com/gitlab-org/gitlab-ce/blob/master/qa/qa/scenario/test/instance/all.rb
+[smoke-instance]: https://gitlab.com/gitlab-org/gitlab-ce/blob/master/qa/qa/scenario/test/instance/smoke.rb
