@@ -7,6 +7,8 @@ module Gitlab
         extend self
 
         ENV_VARIABLES = {
+          'GITLAB_ADMIN_USERNAME' => :admin_username,
+          'GITLAB_ADMIN_PASSWORD' => :admin_password,
           'GITLAB_USERNAME' => :user_username,
           'GITLAB_PASSWORD' => :user_password,
           'GITLAB_LDAP_USERNAME' => :ldap_username,
