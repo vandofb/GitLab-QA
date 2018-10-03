@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Run the given SCRIPT and expect its exit code to be EXPECTED_EXIT_CODE and its
+# output to include the given EXPECTED_TEXT.
+# If the expectation succeeds, exit with 0, otherwise exit with 1.
+# This is useful when you want don't care about a script's exit code but only
+# care about its output.
+
+SCRIPT=$1
+EXPECTED_EXIT_CODE=$2
+EXPECTED_TEXT=$3
+
+mkdir -p gitlab-qa-run-expect_text
+log_file="gitlab-qa-run-expect_text/log.txt"
+
+if [ -z "$SCRIPT" ] || [ -z "$EXPECTED_EXIT_CODE" ] || [ -z "$EXPECTED_TEXT" ]; then
+  echo "Missing argument(s) - Use: $0 script expected_exit_code expected_text"
+else
+  $SCRIPT > $log_file
+  SCRIPT_EXIT_CODE=$?
+
+  if [ "$SCRIPT_EXIT_CODE" -eq "$EXPECTED_EXIT_CODE" ]
+  then
+    echo "'$SCRIPT' exited with '$SCRIPT_EXIT_CODE', as expected!"
+    grep "$EXPECTED_TEXT" $log_file > /dev/null
+
+    if [ "$?" -eq "0" ]; then
+      echo "'$SCRIPT' outputted '$EXPECTED_TEXT', as expected!"
+    else
+      echo "'$SCRIPT' was expected to output '$EXPECTED_TEXT', but did not!"
+      exit 1
+    fi
+  else
+    echo "'$SCRIPT' was expected to exit with '$EXPECTED_EXIT_CODE', but exited with '$SCRIPT_EXIT_CODE' instead!"
+    exit 1
+  fi
+fi
