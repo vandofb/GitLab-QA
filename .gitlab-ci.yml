@@ -187,6 +187,13 @@ ee:ldap:
   <<: *high-capacity
   <<: *ee-qa
 
+ee:saml:
+  script:
+  - bin/qa Test::Integration::GroupSAML ${RELEASE:=EE}
+  <<: *test
+  <<: *high-capacity
+  <<: *ee-qa
+
 ce:kubernetes:
   script:
     - bin/qa Test::Integration::Kubernetes ${RELEASE:=CE}

@@ -30,6 +30,7 @@ module Gitlab
         module Integration
           autoload :Geo, 'qa/scenario/test/integration/geo'
           autoload :LDAP, 'qa/scenario/test/integration/ldap'
+          autoload :GroupSAML, 'qa/scenario/test/integration/group_saml'
           autoload :Mattermost, 'qa/scenario/test/integration/mattermost'
           autoload :Kubernetes, 'qa/scenario/test/integration/kubernetes'
           autoload :ObjectStorage, 'qa/scenario/test/integration/object_storage'
@@ -45,6 +46,7 @@ module Gitlab
       autoload :Gitlab, 'qa/component/gitlab'
       autoload :InternetTunnel, 'qa/component/internet_tunnel'
       autoload :LDAP, 'qa/component/ldap'
+      autoload :SAML, 'qa/component/saml'
       autoload :Specs, 'qa/component/specs'
       autoload :Staging, 'qa/component/staging'
       autoload :Minio, 'qa/component/minio'
