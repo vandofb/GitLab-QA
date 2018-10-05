@@ -4,6 +4,8 @@ module Gitlab
       module Test
         module Integration
           class Geo < Scenario::Template
+            GIT_LFS_VERSION = '2.5.2'.freeze
+
             ##
             # rubocop:disable Lint/MissingCopEnableDirective
             # rubocop:disable Metrics/MethodLength
@@ -31,6 +33,7 @@ module Gitlab
                   sidekiq['concurrency'] = 2;
                   unicorn['worker_processes'] = 2;
                 OMNIBUS
+                primary.exec_commands = fast_ssh_key_lookup_commands + git_lfs_install_commands
 
                 primary.instance do
                   Component::Gitlab.perform do |secondary|
@@ -44,13 +47,14 @@ module Gitlab
                       unicorn['worker_processes'] = 2;
                       gitlab_rails['monitoring_whitelist'] = ['0.0.0.0/0'];
                     OMNIBUS
+                    secondary.exec_commands = fast_ssh_key_lookup_commands + git_lfs_install_commands
 
                     secondary.act do
                       # TODO, we do not wait for secondary to start because of
                       # https://gitlab.com/gitlab-org/gitlab-ee/issues/3999
                       #
                       # rubocop:disable Style/Semicolon
-                      prepare; start; reconfigure
+                      prepare; start; reconfigure; process_exec_commands
 
                       # shellout to instance specs
                       puts 'Running Geo primary / secondary specs!'
@@ -72,6 +76,30 @@ module Gitlab
                   end
                 end
               end
+            end
+
+            private
+
+            def fast_ssh_key_lookup_content
+              @fast_ssh_key_lookup_content ||= <<~CONTENT
+              # Enable fast SSH key lookup - https://docs.gitlab.com/ee/administration/operations/fast_ssh_key_lookup.html
+              AuthorizedKeysCommand /opt/gitlab/embedded/service/gitlab-shell/bin/gitlab-shell-authorized-keys-check git %u %k
+              AuthorizedKeysCommandUser git
+              CONTENT
+            end
+
+            def fast_ssh_key_lookup_commands
+              @fast_ssh_key_lookup_commands ||= [
+                %(echo -e "\n#{fast_ssh_key_lookup_content.chomp}" >> /assets/sshd_config),
+                'gitlab-ctl restart sshd'
+              ]
+            end
+
+            def git_lfs_install_commands
+              @git_lfs_install_commands ||= [
+                "cd /tmp ; curl -qsL https://github.com/git-lfs/git-lfs/releases/download/v#{GIT_LFS_VERSION}/git-lfs-linux-amd64-v#{GIT_LFS_VERSION}.tar.gz | tar xzvf -",
+                'cp /tmp/git-lfs /usr/local/bin'
+              ]
             end
           end
         end
