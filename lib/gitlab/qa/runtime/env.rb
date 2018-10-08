@@ -26,7 +26,8 @@ module Gitlab
           'GCLOUD_ACCOUNT_EMAIL' => :gcloud_account_email,
           'GCLOUD_ACCOUNT_KEY' => :gcloud_account_key,
           'CLOUDSDK_CORE_PROJECT' => :cloudsdk_core_project,
-          'GCLOUD_ZONE' => :gcloud_zone
+          'GCLOUD_ZONE' => :gcloud_zone,
+          'SIGNUP_DISABLED' => :signup_disabled
         }.freeze
 
         ENV_VARIABLES.each_value do |accessor|
