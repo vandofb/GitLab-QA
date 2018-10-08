@@ -38,7 +38,6 @@ check:rspec:
 .test: &test
   stage: test
   image: $TEST_IMAGE
-  retry: 1
   tags:
     - docker
   artifacts:
