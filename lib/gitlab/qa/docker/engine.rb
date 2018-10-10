@@ -23,6 +23,10 @@ module Gitlab
           end
         end
 
+        def exec(name, command)
+          Docker::Command.execute("exec #{name} bash -c '#{command}'")
+        end
+
         def read_file(image, tag, path, &block)
           cat_file = "run --rm --entrypoint /bin/cat #{image}:#{tag} #{path}"
           Docker::Command.execute(cat_file, &block)

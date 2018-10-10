@@ -12,7 +12,7 @@ module Gitlab
 
         attr_reader :release, :docker
         attr_accessor :volumes, :network, :environment
-        attr_writer :name, :relative_path
+        attr_writer :name, :relative_path, :exec_commands
 
         def_delegators :release, :tag, :image, :edition
 
@@ -23,6 +23,7 @@ module Gitlab
           @network_aliases = []
 
           self.release = 'CE'
+          self.exec_commands = []
         end
 
         def omnibus_config=(config)
@@ -60,6 +61,7 @@ module Gitlab
           start
           reconfigure
           wait
+          process_exec_commands
 
           yield self
 
@@ -142,7 +144,13 @@ module Gitlab
           manifest['software']['gitlab-rails']['locked_version']
         end
 
+        def process_exec_commands
+          exec_commands.each { |command| @docker.exec(name, command) }
+        end
+
         private
+
+        attr_reader :exec_commands
 
         def ensure_configured!
           raise 'Please configure an instance first!' unless [name, release, network].all?
