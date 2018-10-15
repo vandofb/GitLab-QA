@@ -186,7 +186,21 @@ ee:ldap:
   <<: *high-capacity
   <<: *ee-qa
 
-ee:saml:
+ce:instance_saml:
+  script:
+  - bin/qa Test::Integration::InstanceSAML ${RELEASE:=CE}
+  <<: *test
+  <<: *high-capacity
+  <<: *ce-qa
+
+ee:instance_saml:
+  script:
+  - bin/qa Test::Integration::InstanceSAML ${RELEASE:=EE}
+  <<: *test
+  <<: *high-capacity
+  <<: *ee-qa  
+
+ee:group_saml:
   script:
   - bin/qa Test::Integration::GroupSAML ${RELEASE:=EE}
   <<: *test
