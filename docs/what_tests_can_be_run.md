@@ -182,6 +182,60 @@ $ gitlab-qa Test::Integration::LDAP EE
 
 [test-integration-ldap]: https://gitlab.com/gitlab-org/gitlab-ce/blob/master/qa/qa/scenario/test/integration/ldap.rb
 
+### `Test::Integration::GroupSAML EE|<full image address>`
+
+This tests that Group SAML login works as expected with an external SAML identity provider (idp).
+
+This scenario spins up a SAML idp provider and verifies that a user is able to login to a group 
+in GitLab that has SAML SSO enabled.
+
+To run tests against the GitLab containers, a GitLab QA (`gitlab/gitlab-qa`)
+container is spun up and tests are run from it by running the
+`Test::Integration::GroupSAML` scenario (located under [`gitlab-org/gitlab-ce@qa/qa/ee/scenario/test/integration/group_saml.rb`][test-integration-group-saml] in the GitLab EE project).
+
+[test-integration-group-saml]: https://gitlab.com/gitlab-org/gitlab-ee/blob/master/qa/qa/ee/scenario/test/integration/group_saml.rb
+
+**Required environment variables:**
+
+- `EE_LICENSE`: A valid EE license.
+
+Example:
+
+```
+$ export EE_LICENSE=$(cat /path/to/Geo.gitlab_license)
+
+$ gitlab-qa Test::Integration::GroupSAML EE
+```
+
+### `Test::Integration::InstanceSAML CE|EE|<full image address>`
+
+This tests that a GitLab instance works as expected with an external
+SAML identity provider (idp).
+
+This scenario spins up a SAML idp provider and verifies that a user is able to login to GitLab instance 
+using SAML.
+
+To run tests against the GitLab containers, a GitLab QA (`gitlab/gitlab-qa`)
+container is spun up and tests are run from it by running the
+`Test::Integration::InstanceSAML` scenario (located under [`gitlab-org/gitlab-ce@qa/qa/scenario/test/integration/instance_saml.rb`][test-integration-instance-saml] in the GitLab CE project).
+
+[test-integration-instance-saml]: https://gitlab.com/gitlab-org/gitlab-ce/blob/master/qa/qa/scenario/test/integration/instance_saml.rb
+
+**Required environment variables:**
+
+- [For EE only] `EE_LICENSE`: A valid EE license.
+
+Example:
+
+```
+$ gitlab-qa Test::Integration::InstanceSAML CE
+
+# For EE
+$ export EE_LICENSE=$(cat /path/to/Geo.gitlab_license)
+
+$ gitlab-qa Test::Integration::InstanceSAML EE
+```
+
 ### `Test::Integration::Mattermost CE|EE|<full image address>`
 
 This tests that a GitLab instance works as expected when enabling the embedded
