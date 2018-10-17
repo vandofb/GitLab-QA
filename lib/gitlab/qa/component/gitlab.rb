@@ -64,7 +64,7 @@ module Gitlab
           process_exec_commands
 
           yield self
-
+        ensure
           teardown
         end
 

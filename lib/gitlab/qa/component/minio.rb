@@ -34,7 +34,7 @@ module Gitlab
           start
 
           yield self
-
+        ensure
           teardown
         end
 
