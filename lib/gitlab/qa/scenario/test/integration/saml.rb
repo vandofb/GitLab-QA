@@ -21,7 +21,7 @@ module Gitlab
               before_perform(release)
 
               Component::Gitlab.perform do |gitlab|
-                gitlab.release = release.edition
+                gitlab.release = release
                 gitlab.network = 'test'
                 gitlab.name = gitlab_name
 
