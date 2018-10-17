@@ -42,6 +42,8 @@ For more details on the internals, please read the
   for failing tests will be saved (default: `/tmp/gitlab-qa`)
 * `DOCKER_HOST` - Docker host to run tests against (default: `http://localhost`)
 * `CHROME_HEADLESS` - when running locally, set to `false` to allow Chrome tests to be visible - watch your tests being run
+* `QA_DEBUG` - set to `true` to verbosely log page object actions. Note: if enabled be aware that sensitive data might be logged. If an input element has a QA selector with `password` in the name, data entered into the input element will be masked. If the element doesn't have `password` in its name it won't be masked.
+* `QA_LOG_PATH` - path to output debug logging to. If not set logging will be output to STDOUT
 
 ### `Test::Instance::Image CE|EE|<full image address>`
 
@@ -186,7 +188,7 @@ $ gitlab-qa Test::Integration::LDAP EE
 
 This tests that Group SAML login works as expected with an external SAML identity provider (idp).
 
-This scenario spins up a SAML idp provider and verifies that a user is able to login to a group 
+This scenario spins up a SAML idp provider and verifies that a user is able to login to a group
 in GitLab that has SAML SSO enabled.
 
 To run tests against the GitLab containers, a GitLab QA (`gitlab/gitlab-qa`)
@@ -212,7 +214,7 @@ $ gitlab-qa Test::Integration::GroupSAML EE
 This tests that a GitLab instance works as expected with an external
 SAML identity provider (idp).
 
-This scenario spins up a SAML idp provider and verifies that a user is able to login to GitLab instance 
+This scenario spins up a SAML idp provider and verifies that a user is able to login to GitLab instance
 using SAML.
 
 To run tests against the GitLab containers, a GitLab QA (`gitlab/gitlab-qa`)
