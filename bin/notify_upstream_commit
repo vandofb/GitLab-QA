@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'gitlab'
+
+# Configure credentials to be used with gitlab gem
+Gitlab.configure do |config|
+  config.endpoint = 'https://gitlab.com/api/v4'
+  config.private_token = ENV['GITLAB_BOT_MULTI_PROJECT_PIPELINE_POLLING_TOKEN']
+end
+
+class CommitComment
+  def self.post!(status)
+    unless ENV['TOP_UPSTREAM_SOURCE_SHA']
+      puts "The 'TOP_UPSTREAM_SOURCE_SHA' environment variable is missing, cannot post a comment on a missing upstream commit."
+      return
+    end
+
+    top_upstream_source_sha = ENV['TOP_UPSTREAM_SOURCE_SHA']
+
+    unless ENV['TOP_UPSTREAM_SOURCE_PROJECT']
+      puts "The 'TOP_UPSTREAM_SOURCE_PROJECT' environment variable is missing, cannot post a comment on the upstream #{top_upstream_source_sha} commit."
+      return
+    end
+
+    top_upstream_source_project = ENV['TOP_UPSTREAM_SOURCE_PROJECT']
+
+    status_with_icon =
+      case status
+      when :success
+        "passed. :white_check_mark:"
+      when :failure
+        "failed! :boom:"
+      end
+
+    Gitlab.create_commit_comment(
+      top_upstream_source_project,
+      top_upstream_source_sha,
+      "The [`gitlab-qa` downstream pipeline](#{ENV['CI_PIPELINE_URL']}) #{status_with_icon}")
+  rescue Gitlab::Error::Error => error
+    puts "Ignoring the following error: #{error}"
+  end
+end
+
+status = ARGV[0].to_s.strip
+if status != ''
+  CommitComment.post!(status.to_sym)
+else
+  puts "Please provide a status!"
+end
