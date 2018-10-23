@@ -26,6 +26,7 @@ module Gitlab
         LDAP_USER = 'tanuki'.freeze
         LDAP_PASSWORD = 'password'.freeze
         LDAP_PORT = 389
+        LDAP_SSL_PORT = 636
         BASE_DN = 'dc=example,dc=org'.freeze
         BIND_DN = 'cn=admin,dc=example,dc=org'.freeze
         BOOTSTRAP_LDIF = '/container/service/slapd/assets/config/bootstrap/ldif/custom'.freeze
@@ -46,8 +47,13 @@ module Gitlab
           @volumes[FIXTURE_PATH] = BOOTSTRAP_LDIF
         end
 
-        def enable_tls(status)
+        # LDAP_TLS is true by default
+        def tls=(status)
           @environment['LDAP_TLS'] = 'false' unless status
+        end
+
+        def tls
+          @environment['LDAP_TLS'] != 'false'
         end
 
         def username
@@ -132,11 +138,12 @@ module Gitlab
             main:
               label: LDAP
               host: #{hostname}
-              port: #{LDAP_PORT}
+              port: #{tls ? LDAP_SSL_PORT : LDAP_PORT}
               uid: 'uid'
               bind_dn: #{BIND_DN}
               password: #{ADMIN_PASSWORD}
-              method: 'plain'
+              method: #{tls ? 'simple_tls' : 'plain'}
+              verify_certificates: false
               base: #{BASE_DN}
               user_filter: ''
               group_base: #{GROUP_BASE}

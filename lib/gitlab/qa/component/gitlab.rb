@@ -11,16 +11,21 @@ module Gitlab
         include Scenario::Actable
 
         attr_reader :release, :docker
-        attr_accessor :volumes, :network, :environment
+        attr_accessor :volumes, :network, :environment, :tls
         attr_writer :name, :relative_path, :exec_commands
 
         def_delegators :release, :tag, :image, :edition
+
+        CERTIFICATES_PATH = File.expand_path('../../../../fixtures/ssl_certificates'.freeze, __dir__)
+        SSL_PATH = '/etc/gitlab/ssl'.freeze
 
         def initialize
           @docker = Docker::Engine.new
           @environment = {}
           @volumes = {}
           @network_aliases = []
+
+          @volumes[CERTIFICATES_PATH] = SSL_PATH
 
           self.release = 'CE'
           self.exec_commands = []
@@ -43,7 +48,15 @@ module Gitlab
         end
 
         def address
-          "http://#{hostname}#{relative_path}"
+          "#{protocol}://#{hostname}#{relative_path}"
+        end
+
+        def protocol
+          tls ? 'https' : 'http'
+        end
+
+        def port
+          tls ? '443' : '80'
         end
 
         def hostname
@@ -80,7 +93,7 @@ module Gitlab
           ensure_configured!
 
           docker.run(image, tag) do |command|
-            command << '-d -p 80'
+            command << "-d -p #{port}"
             command << "--name #{name}"
             command << "--net #{network}"
             command << "--hostname #{hostname}"
@@ -122,7 +135,7 @@ module Gitlab
         end
 
         def wait
-          if Availability.new(name, relative_path: relative_path).check(180)
+          if Availability.new(name, relative_path: relative_path, protocol: protocol, port: port.to_i).check(180)
             sleep 12 # TODO, handle that better
             puts ' -> GitLab is available.'
           else
@@ -157,13 +170,13 @@ module Gitlab
         end
 
         class Availability
-          def initialize(name, relative_path: '')
+          def initialize(name, relative_path: '', protocol: 'http', protocol_port: 80)
             @docker = Docker::Engine.new
 
             host = @docker.hostname
-            port = @docker.port(name, 80).split(':').last
+            port = @docker.port(name, protocol_port).split(':').last
 
-            @uri = URI.join("http://#{host}:#{port}", "#{relative_path}/", 'help')
+            @uri = URI.join("#{protocol}://#{host}:#{port}", "#{relative_path}/", 'help')
           end
 
           def check(retries)
