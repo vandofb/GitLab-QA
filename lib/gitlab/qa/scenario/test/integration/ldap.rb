@@ -6,29 +6,34 @@ module Gitlab
       module Test
         module Integration
           class LDAP < Scenario::Template
+            attr_reader :gitlab_name, :spec_suite, :tls
+
+            def configure(gitlab, ldap)
+              raise NotImplementedError
+            end
+
             # rubocop:disable Metrics/AbcSize
             def perform(release)
               Component::Gitlab.perform do |gitlab|
                 gitlab.release = release
-                gitlab.name = 'gitlab-ldap'
+                gitlab.name = gitlab_name
                 gitlab.network = 'test'
+                gitlab.tls = tls
 
                 Component::LDAP.perform do |ldap|
-                  ldap.tls = false
+                  ldap.name = 'ldap-server'
                   ldap.network = 'test'
                   ldap.set_gitlab_credentials
+                  ldap.tls = tls
 
-                  gitlab.omnibus_config = <<~OMNIBUS
-                    gitlab_rails['ldap_enabled'] = true;
-                    gitlab_rails['ldap_servers'] = #{ldap.to_config};
-                  OMNIBUS
+                  configure(gitlab, ldap)
 
                   ldap.instance do
                     gitlab.instance do
-                      puts 'Running LDAP specs!'
+                      puts "Running #{spec_suite} specs!"
 
                       Component::Specs.perform do |specs|
-                        specs.suite = 'Test::Integration::LDAP'
+                        specs.suite = spec_suite
                         specs.release = gitlab.release
                         specs.network = gitlab.network
                         specs.args = [gitlab.address]

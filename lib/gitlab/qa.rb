@@ -30,6 +30,7 @@ module Gitlab
         module Integration
           autoload :Geo, 'qa/scenario/test/integration/geo'
           autoload :LDAP, 'qa/scenario/test/integration/ldap'
+          autoload :LDAPNoSSL, 'qa/scenario/test/integration/ldap_no_ssl'
           autoload :LDAPSSL, 'qa/scenario/test/integration/ldap_ssl'
           autoload :SAML, 'qa/scenario/test/integration/saml'
           autoload :GroupSAML, 'qa/scenario/test/integration/group_saml'
