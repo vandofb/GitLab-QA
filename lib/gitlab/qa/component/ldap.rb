@@ -49,7 +49,13 @@ module Gitlab
 
         # LDAP_TLS is true by default
         def tls=(status)
-          @environment['LDAP_TLS'] = 'false' unless status
+          if status
+            @environment['LDAP_TLS_CRT_FILENAME'] = "#{hostname}.crt"
+            @environment['LDAP_TLS_KEY_FILENAME'] = "#{hostname}.key"
+            @environment['LDAP_TLS_VERIFY_CLIENT'] = 'never'
+          else
+            @environment['LDAP_TLS'] = 'false'
+          end
         end
 
         def tls
@@ -159,6 +165,10 @@ module Gitlab
         def set_gitlab_credentials
           ::Gitlab::QA::Runtime::Env.ldap_username = username
           ::Gitlab::QA::Runtime::Env.ldap_password = password
+        end
+
+        def set_accept_insecure_certs
+          ::Gitlab::QA::Runtime::Env.accept_insecure_certs = 'true'
         end
       end
     end

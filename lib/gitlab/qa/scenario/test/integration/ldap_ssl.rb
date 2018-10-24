@@ -15,9 +15,11 @@ module Gitlab
                 gitlab.tls = true
 
                 Component::LDAP.perform do |ldap|
-                  ldap.tls = true
+                  ldap.name = 'ldap-server'
                   ldap.network = 'test'
+                  ldap.tls = true
                   ldap.set_gitlab_credentials
+                  ldap.set_accept_insecure_certs
 
                   gitlab.omnibus_config = <<~OMNIBUS
                     gitlab_rails['ldap_enabled'] = true;
@@ -31,7 +33,7 @@ module Gitlab
                       puts 'Running LDAP SSL specs!'
 
                       Component::Specs.perform do |specs|
-                        specs.suite = 'Test::Integration::LDAP'
+                        specs.suite = 'Test::Integration::LDAPSSL'
                         specs.release = gitlab.release
                         specs.network = gitlab.network
                         specs.args = [gitlab.address]
