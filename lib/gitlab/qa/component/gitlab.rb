@@ -16,7 +16,7 @@ module Gitlab
 
         def_delegators :release, :tag, :image, :edition
 
-        CERTIFICATES_PATH = File.expand_path('../../../../ssl_certificates/gitlab'.freeze, __dir__)
+        CERTIFICATES_PATH = File.expand_path('../../../../tls_certificates/gitlab'.freeze, __dir__)
         SSL_PATH = '/etc/gitlab/ssl'.freeze
 
         def initialize
@@ -82,7 +82,7 @@ module Gitlab
         end
 
         def prepare
-          @docker.pull(image, tag)
+          # @docker.pull(image, tag)
 
           return if @docker.network_exists?(network)
 
@@ -144,7 +144,7 @@ module Gitlab
         end
 
         def pull
-          @docker.pull(@release.image, @release.tag)
+          # @docker.pull(@release.image, @release.tag)
         end
 
         def sha_version
