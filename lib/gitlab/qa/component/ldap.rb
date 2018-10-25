@@ -52,6 +52,7 @@ module Gitlab
           if status
             @environment['LDAP_TLS_CRT_FILENAME'] = "#{hostname}.crt"
             @environment['LDAP_TLS_KEY_FILENAME'] = "#{hostname}.key"
+            @environment['LDAP_TLS_ENFORCE'] = 'true'
             @environment['LDAP_TLS_VERIFY_CLIENT'] = 'never'
           else
             @environment['LDAP_TLS'] = 'false'
