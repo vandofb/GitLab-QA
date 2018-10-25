@@ -172,30 +172,30 @@ ee:geo:
   <<: *high-capacity
   <<: *ee-qa
 
-ce:ldap_no_ssl:
+ce:ldap_no_tls:
   script:
-    - bin/qa Test::Integration::LDAPNoSSL ${RELEASE:=CE}
+    - bin/qa Test::Integration::LDAPNoTLS ${RELEASE:=CE}
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
 
-ee:ldap_no_ssl:
+ee:ldap_no_tls:
   script:
-    - bin/qa Test::Integration::LDAPNoSSL ${RELEASE:=EE}
+    - bin/qa Test::Integration::LDAPNoTLS ${RELEASE:=EE}
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
 
-ce:ldap_ssl:
+ce:ldap_tls:
   script:
-    - bin/qa Test::Integration::LDAPSSL ${RELEASE:=CE}
+    - bin/qa Test::Integration::LDAPTLS ${RELEASE:=CE}
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
 
-ee:ldap_ssl:
+ee:ldap_tls:
   script:
-    - bin/qa Test::Integration::LDAPSSL ${RELEASE:=EE}
+    - bin/qa Test::Integration::LDAPTLS ${RELEASE:=EE}
   <<: *test
   <<: *high-capacity
   <<: *ee-qa

@@ -5,10 +5,10 @@ module Gitlab
     module Scenario
       module Test
         module Integration
-          class LDAPSSL < LDAP
+          class LDAPTLS < LDAP
             def initialize
               @gitlab_name = 'gitlab'
-              @spec_suite = 'Test::Integration::LDAPSSL'
+              @spec_suite = 'Test::Integration::LDAPTLS'
               @tls = true
             end
 

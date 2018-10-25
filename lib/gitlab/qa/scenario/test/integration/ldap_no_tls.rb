@@ -5,10 +5,10 @@ module Gitlab
     module Scenario
       module Test
         module Integration
-          class LDAPNoSSL < LDAP
+          class LDAPNoTLS < LDAP
             def initialize
               @gitlab_name = 'gitlab-ldap'
-              @spec_suite = 'Test::Integration::LDAPNoSSL'
+              @spec_suite = 'Test::Integration::LDAPNoTLS'
               @tls = false
             end
 
