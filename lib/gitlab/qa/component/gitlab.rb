@@ -82,7 +82,7 @@ module Gitlab
         end
 
         def prepare
-          # @docker.pull(image, tag)
+          @docker.pull(image, tag)
 
           return if @docker.network_exists?(network)
 
@@ -144,7 +144,7 @@ module Gitlab
         end
 
         def pull
-          # @docker.pull(@release.image, @release.tag)
+          @docker.pull(@release.image, @release.tag)
         end
 
         def sha_version
