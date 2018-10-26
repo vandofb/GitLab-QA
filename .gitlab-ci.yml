@@ -172,14 +172,14 @@ ee:geo:
   <<: *high-capacity
   <<: *ee-qa
 
-ce:ldap:
+ce:ldap_no_tls:
   script:
     - bin/qa Test::Integration::LDAP ${RELEASE:=CE}
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
 
-ee:ldap:
+ee:ldap_no_tls:
   script:
     - bin/qa Test::Integration::LDAP ${RELEASE:=EE}
   <<: *test
@@ -198,7 +198,7 @@ ee:instance_saml:
   - bin/qa Test::Integration::InstanceSAML ${RELEASE:=EE}
   <<: *test
   <<: *high-capacity
-  <<: *ee-qa  
+  <<: *ee-qa
 
 ee:group_saml:
   script:

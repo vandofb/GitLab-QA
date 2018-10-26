@@ -148,18 +148,18 @@ $ gitlab-qa Test::Integration::Geo EE
 
 [test-geo]: https://gitlab.com/gitlab-org/gitlab-ee/blob/master/qa/qa/ee/scenario/test/geo.rb
 
-### `Test::Integration::LDAP CE|EE|<full image address>`
+### `Test::Integration::LDAPNoTLS CE|EE|<full image address>`
 
 This tests that a GitLab instance works as expected with an external
-LDAP server.
+LDAP server with TLS not enabled.
 
 The scenario spins up an OpenLDAP server, seeds users, and verifies
 that LDAP-related features work as expected.
 
 To run tests against the GitLab containers, a GitLab QA (`gitlab/gitlab-qa`)
 container is spun up and tests are run from it by running the
-`Test::Integration::LDAP` scenario (located under
-[`gitlab-org/gitlab-ce@qa/qa/scenario/test/integration/ldap.rb`][test-integration-ldap]
+`Test::Integration::LDAPNoTLS` scenario (located under
+[`gitlab-org/gitlab-ce@qa/qa/scenario/test/integration/ldap_no_tls.rb`][test-integration-ldap-no-tls]
 in the GitLab CE project).
 
 In EE, both the GitLab standard and LDAP credentials are needed:
@@ -174,15 +174,15 @@ In EE, both the GitLab standard and LDAP credentials are needed:
 Example:
 
 ```
-$ gitlab-qa Test::Integration::LDAP CE
+$ gitlab-qa Test::Integration::LDAPNoTLS CE
 
 # For EE
 $ export EE_LICENSE=$(cat /path/to/Geo.gitlab_license)
 
-$ gitlab-qa Test::Integration::LDAP EE
+$ gitlab-qa Test::Integration::LDAPNoTLS EE
 ```
 
-[test-integration-ldap]: https://gitlab.com/gitlab-org/gitlab-ce/blob/master/qa/qa/scenario/test/integration/ldap.rb
+[test-integration-ldap-no-tls]:  https://gitlab.com/gitlab-org/gitlab-ce/blob/master/qa/qa/scenario/test/integration/ldap_no_tls.rb
 
 ### `Test::Integration::GroupSAML EE|<full image address>`
 
