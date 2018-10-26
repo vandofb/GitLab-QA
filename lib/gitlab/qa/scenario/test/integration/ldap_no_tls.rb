@@ -28,7 +28,7 @@ module Gitlab
                       puts 'Running LDAP specs!'
 
                       Component::Specs.perform do |specs|
-                        specs.suite = 'Test::Integration::LDAP'
+                        specs.suite = 'Test::Integration::LDAPNoTLS'
                         specs.release = gitlab.release
                         specs.network = gitlab.network
                         specs.args = [gitlab.address]

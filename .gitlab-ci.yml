@@ -174,14 +174,14 @@ ee:geo:
 
 ce:ldap_no_tls:
   script:
-    - bin/qa Test::Integration::LDAP ${RELEASE:=CE}
+    - bin/qa Test::Integration::LDAPNoTLS ${RELEASE:=CE}
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
 
 ee:ldap_no_tls:
   script:
-    - bin/qa Test::Integration::LDAP ${RELEASE:=EE}
+    - bin/qa Test::Integration::LDAPNoTLS ${RELEASE:=EE}
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
