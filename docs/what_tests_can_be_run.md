@@ -151,7 +151,7 @@ $ gitlab-qa Test::Integration::Geo EE
 ### `Test::Integration::LDAPNoTLS CE|EE|<full image address>`
 
 This tests that a GitLab instance works as expected with an external
-LDAP server TLS not enabled.
+LDAP server with TLS not enabled.
 
 The scenario spins up an OpenLDAP server, seeds users, and verifies
 that LDAP-related features work as expected.
