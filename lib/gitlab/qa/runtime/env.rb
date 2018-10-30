@@ -29,7 +29,8 @@ module Gitlab
           'GCLOUD_ZONE' => :gcloud_zone,
           'SIGNUP_DISABLED' => :signup_disabled,
           'QA_DEBUG' => :qa_debug,
-          'QA_LOG_PATH' => :qa_log_path
+          'QA_LOG_PATH' => :qa_log_path,
+          'QA_CAN_TEST_GIT_PROTOCOL_V2' => :qa_can_test_git_protocol_v2
         }.freeze
 
         ENV_VARIABLES.each_value do |accessor|

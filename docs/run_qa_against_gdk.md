@@ -4,13 +4,15 @@ To run the `Test::Instance::Any` scenario against your local GDK, you'll need to
 make a few changes to your `gdk/gitlab/config/gitlab.yml` file.
 
 1. Retrieve your current local IP with `ifconfig`, e.g. `192.168.0.12`.
-1. Edit `gdk/gitlab/config/gitlab.yml` and replace `host: localhost` with 
+1. Edit `gdk/gitlab/config/gitlab.yml` and replace `host: localhost` with
    `host: 192.168.0.12`.
-1. Also replace `ssh_host: localhost` (found under `gitlab_shell`) with 
+1. Also replace `ssh_host: localhost` (found under `gitlab_shell`) with
    `ssh_host: 192.168.0.12`.
-1. Enable the `sshd` service by uncommenting the relevant line in your 
+1. Enable the `sshd` service by uncommenting the relevant line in your
    `Procfile`.
-1. Edit `openssh/sshd_config` and set `ListenAddress` to `192.168.0.12`.
+1. Edit `openssh/sshd_config` and
+   - set `ListenAddress` to `192.168.0.12`
+   - add `AcceptEnv GIT_PROTOCOL` to allow use of [Git protocol v2][Git protocol]
 1. Restart your GDK
 1. Run the QA scenario as follows:
 
@@ -141,6 +143,7 @@ You should be able to use your navigator and point it to `http://gitlab-primary.
 [Docker Networking]: https://docs.docker.com/docker-for-mac/networking/#known-limitations-use-cases-and-workarounds
 [Docker bridge issue]: https://github.com/moby/moby/issues/22753#issuecomment-253534261
 [dnsdock]: https://github.com/aacebedo/dnsdock
+[Git protocol]: https://docs.gitlab.com/ee/administration/git_protocol.html#doc-nav
 
 ----
 
