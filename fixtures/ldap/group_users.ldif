@@ -1,0 +1,143 @@
+# Human Resources
+
+dn: uid=hr_user1,ou=Human Resources,ou=Groups,dc=example,dc=org
+changetype: add
+uid: hr_user1
+cn: hr_user1
+sn: 4
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+loginShell: /bin/bash
+homeDirectory: /home/hr_user1
+uidNumber: 14583103
+gidNumber: 14564101
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+mail: hr_user1@example.org
+gecos: HR User 1
+
+dn: uid=hr_user2,ou=Human Resources,ou=Groups,dc=example,dc=org
+changetype: add
+uid: hr_user2
+cn: hr_user2
+sn: 5
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+loginShell: /bin/bash
+homeDirectory: /home/hr_user2
+uidNumber: 14583104
+gidNumber: 14564105
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+mail: hr_user2@example.org
+gecos: HR User 2
+
+# Engineering
+
+dn: uid=eng_user1,ou=Engineering,ou=Groups,dc=example,dc=org
+changetype: add
+uid: eng_user1
+cn: eng_user1
+sn: 6
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+loginShell: /bin/bash
+homeDirectory: /home/eng_user1
+uidNumber: 14583105
+gidNumber: 14564103
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+mail: eng_user1@example.org
+gecos: Eng User 1
+
+dn: uid=eng_user2,ou=Engineering,ou=Groups,dc=example,dc=org
+changetype: add
+uid: eng_user2
+cn: eng_user2
+sn: 7
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+loginShell: /bin/bash
+homeDirectory: /home/eng_user2
+uidNumber: 14583106
+gidNumber: 14564104
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+mail: eng_user2@example.org
+gecos: Eng User 2
+
+# Security
+
+dn: uid=security_user1,ou=Security,ou=Groups,dc=example,dc=org
+changetype: add
+uid: security_user1
+cn: security_user1
+sn: 8
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+loginShell: /bin/bash
+homeDirectory: /home/security_user1
+uidNumber: 14583107
+gidNumber: 14564105
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+mail: security_user1@example.org
+gecos: Security User 1
+
+dn: uid=security_user2,ou=Security,ou=Groups,dc=example,dc=org
+changetype: add
+uid: security_user2
+cn: security_user2
+sn: 9
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+loginShell: /bin/bash
+homeDirectory: /home/security_user2
+uidNumber: 14583108
+gidNumber: 14564106
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+mail: security_user2@example.org
+gecos: Security User 2
+
+# Admin
+
+dn: uid=admin_user1,ou=Admin,ou=Groups,dc=example,dc=org
+changetype: add
+uid: admin_user1
+cn: admin_user1
+sn: 10
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+loginShell: /bin/bash
+homeDirectory: /home/admin_user1
+uidNumber: 14583109
+gidNumber: 14564107
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+mail: admin_user1@example.org
+gecos: Admin User 1
+
+dn: uid=admin_user2,ou=Admin,ou=Groups,dc=example,dc=org
+changetype: add
+uid: admin_user2
+cn: admin_user2
+sn: 11
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+loginShell: /bin/bash
+homeDirectory: /home/admin_user2
+uidNumber: 14583110
+gidNumber: 14564108
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+mail: admin_user2@example.org
+gecos: Admin User 2

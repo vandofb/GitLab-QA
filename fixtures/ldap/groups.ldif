@@ -1,0 +1,19 @@
+dn: ou=Groups,dc=example,dc=org
+objectClass: organizationalUnit
+ou: Groups
+
+dn: ou=Human Resources,ou=Groups,dc=example,dc=org
+objectClass: organizationalUnit
+ou: Human Resources
+
+dn: ou=Engineering,ou=Groups,dc=example,dc=org
+objectClass: organizationalUnit
+ou: Engineering
+
+dn: ou=Security,ou=Groups,dc=example,dc=org
+objectClass: organizationalUnit
+ou: Security
+
+dn: ou=Admin,ou=Groups,dc=example,dc=org
+objectClass: organizationalUnit
+ou: Admin
