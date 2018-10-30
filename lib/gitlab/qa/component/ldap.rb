@@ -26,6 +26,7 @@ module Gitlab
         LDAP_USER = 'tanuki'.freeze
         LDAP_PASSWORD = 'password'.freeze
         LDAP_PORT = 389
+        LDAP_TLS_PORT = 636
         BASE_DN = 'dc=example,dc=org'.freeze
         BIND_DN = 'cn=admin,dc=example,dc=org'.freeze
         BOOTSTRAP_LDIF = '/container/service/slapd/assets/config/bootstrap/ldif/custom'.freeze
@@ -46,8 +47,20 @@ module Gitlab
           @volumes[FIXTURE_PATH] = BOOTSTRAP_LDIF
         end
 
-        def enable_tls(status)
-          @environment['LDAP_TLS'] = 'false' unless status
+        # LDAP_TLS is true by default
+        def tls=(status)
+          if status
+            @environment['LDAP_TLS_CRT_FILENAME'] = "#{hostname}.crt"
+            @environment['LDAP_TLS_KEY_FILENAME'] = "#{hostname}.key"
+            @environment['LDAP_TLS_ENFORCE'] = 'true'
+            @environment['LDAP_TLS_VERIFY_CLIENT'] = 'never'
+          else
+            @environment['LDAP_TLS'] = 'false'
+          end
+        end
+
+        def tls?
+          @environment['LDAP_TLS'] != 'false'
         end
 
         def username
@@ -132,11 +145,12 @@ module Gitlab
             main:
               label: LDAP
               host: #{hostname}
-              port: #{LDAP_PORT}
+              port: #{tls? ? LDAP_TLS_PORT : LDAP_PORT}
               uid: 'uid'
               bind_dn: #{BIND_DN}
               password: #{ADMIN_PASSWORD}
-              method: 'plain'
+              method: #{tls? ? 'simple_tls' : 'plain'}
+              verify_certificates: false
               base: #{BASE_DN}
               user_filter: ''
               group_base: #{GROUP_BASE}
@@ -152,6 +166,10 @@ module Gitlab
         def set_gitlab_credentials
           ::Gitlab::QA::Runtime::Env.ldap_username = username
           ::Gitlab::QA::Runtime::Env.ldap_password = password
+        end
+
+        def set_accept_insecure_certs
+          ::Gitlab::QA::Runtime::Env.accept_insecure_certs = 'true'
         end
       end
     end

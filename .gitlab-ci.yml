@@ -186,6 +186,20 @@ ee:ldap_no_tls:
   <<: *high-capacity
   <<: *ee-qa
 
+ce:ldap_tls:
+  script:
+    - bin/qa Test::Integration::LDAPTLS ${RELEASE:=CE}
+  <<: *test
+  <<: *high-capacity
+  <<: *ce-qa
+
+ee:ldap_tls:
+  script:
+    - bin/qa Test::Integration::LDAPTLS ${RELEASE:=EE}
+  <<: *test
+  <<: *high-capacity
+  <<: *ee-qa
+
 ce:instance_saml:
   script:
   - bin/qa Test::Integration::InstanceSAML ${RELEASE:=CE}
