@@ -1,19 +1,28 @@
-dn: ou=Groups,dc=example,dc=org
+dn: ou=Global Groups,dc=example,dc=org
 objectClass: organizationalUnit
-ou: Groups
+ou: Global Groups
 
-dn: ou=Human Resources,ou=Groups,dc=example,dc=org
+dn: ou=People,ou=Global Groups,dc=example,dc=org
 objectClass: organizationalUnit
-ou: Human Resources
+ou: People
 
-dn: ou=Engineering,ou=Groups,dc=example,dc=org
-objectClass: organizationalUnit
-ou: Engineering
+dn: cn=Human Resources,ou=Global Groups,dc=example,dc=org
+objectClass: top
+objectClass: posixGroup
+gidNumber: 678
 
-dn: ou=Security,ou=Groups,dc=example,dc=org
-objectClass: organizationalUnit
-ou: Security
+dn: cn=Engineering,ou=Global Groups,dc=example,dc=org
+objectClass: top
+objectClass: posixGroup
+gidNumber: 679
 
-dn: ou=Admin,ou=Groups,dc=example,dc=org
-objectClass: organizationalUnit
-ou: Admin
+dn: cn=Security,ou=Global Groups,dc=example,dc=org
+objectClass: top
+objectClass: posixGroup
+gidNumber: 680
+
+dn: cn=AdminGroup,ou=Global Groups,dc=example,dc=org
+objectClass: top
+objectClass: posixGroup
+gidNumber: 681
+

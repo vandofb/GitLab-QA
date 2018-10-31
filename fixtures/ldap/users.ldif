@@ -1,6 +1,8 @@
+# Create Users in People OU
+
 # Human Resources
 
-dn: uid=hr_user1,ou=Human Resources,ou=Groups,dc=example,dc=org
+dn: uid=hr_user1,ou=People,ou=Global Groups,dc=example,dc=org
 changetype: add
 uid: hr_user1
 cn: hr_user1
@@ -17,7 +19,7 @@ userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
 mail: hr_user1@example.org
 gecos: HR User 1
 
-dn: uid=hr_user2,ou=Human Resources,ou=Groups,dc=example,dc=org
+dn: uid=hr_user2,ou=People,ou=Global Groups,dc=example,dc=org
 changetype: add
 uid: hr_user2
 cn: hr_user2
@@ -36,7 +38,7 @@ gecos: HR User 2
 
 # Engineering
 
-dn: uid=eng_user1,ou=Engineering,ou=Groups,dc=example,dc=org
+dn: uid=eng_user1,ou=People,ou=Global Groups,dc=example,dc=org
 changetype: add
 uid: eng_user1
 cn: eng_user1
@@ -53,7 +55,7 @@ userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
 mail: eng_user1@example.org
 gecos: Eng User 1
 
-dn: uid=eng_user2,ou=Engineering,ou=Groups,dc=example,dc=org
+dn: uid=eng_user2,ou=People,ou=Global Groups,dc=example,dc=org
 changetype: add
 uid: eng_user2
 cn: eng_user2
@@ -72,7 +74,7 @@ gecos: Eng User 2
 
 # Security
 
-dn: uid=security_user1,ou=Security,ou=Groups,dc=example,dc=org
+dn: uid=security_user1,ou=People,ou=Global Groups,dc=example,dc=org
 changetype: add
 uid: security_user1
 cn: security_user1
@@ -89,7 +91,7 @@ userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
 mail: security_user1@example.org
 gecos: Security User 1
 
-dn: uid=security_user2,ou=Security,ou=Groups,dc=example,dc=org
+dn: uid=security_user2,ou=People,ou=Global Groups,dc=example,dc=org
 changetype: add
 uid: security_user2
 cn: security_user2
@@ -108,7 +110,7 @@ gecos: Security User 2
 
 # Admin
 
-dn: uid=admin_user1,ou=Admin,ou=Groups,dc=example,dc=org
+dn: uid=admin_user1,ou=People,ou=Global Groups,dc=example,dc=org
 changetype: add
 uid: admin_user1
 cn: admin_user1
@@ -125,7 +127,7 @@ userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
 mail: admin_user1@example.org
 gecos: Admin User 1
 
-dn: uid=admin_user2,ou=Admin,ou=Groups,dc=example,dc=org
+dn: uid=admin_user2,ou=People,ou=Global Groups,dc=example,dc=org
 changetype: add
 uid: admin_user2
 cn: admin_user2
@@ -141,3 +143,52 @@ gidNumber: 14564108
 userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
 mail: admin_user2@example.org
 gecos: Admin User 2
+
+# Add users as members of groups
+
+# Human Resources
+
+dn: cn=Human Resources,ou=Global Groups,dc=example,dc=org
+changetype: modify
+add: memberUid
+memberUid: hr_user1
+
+dn: cn=Human Resources,ou=Global Groups,dc=example,dc=org
+changetype: modify
+add: memberUid
+memberUid: hr_user2
+
+# Engineering
+
+dn: cn=Engineering,ou=Global Groups,dc=example,dc=org
+changetype: modify
+add: memberUid
+memberUid: eng_user1
+
+dn: cn=Engineering,ou=Global Groups,dc=example,dc=org
+changetype: modify
+add: memberUid
+memberUid: eng_user2
+
+# Security
+
+dn: cn=Security,ou=Global Groups,dc=example,dc=org
+changetype: modify
+add: memberUid
+memberUid: security_user1
+
+dn: cn=Security,ou=Global Groups,dc=example,dc=org
+changetype: modify
+add: memberUid
+memberUid: security_user2
+
+# Admin
+dn: cn=AdminGroup,ou=Global Groups,dc=example,dc=org
+changetype: modify
+add: memberUid
+memberUid: admin_user1
+
+dn: cn=AdminGroup,ou=Global Groups,dc=example,dc=org
+changetype: modify
+add: memberUid
+memberUid: admin_user2
