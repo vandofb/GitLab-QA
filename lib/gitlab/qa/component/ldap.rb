@@ -30,8 +30,8 @@ module Gitlab
         BASE_DN = 'dc=example,dc=org'.freeze
         BIND_DN = 'cn=admin,dc=example,dc=org'.freeze
         BOOTSTRAP_LDIF = '/container/service/slapd/assets/config/bootstrap/ldif/custom'.freeze
-        GROUP_BASE = 'ou=groups,dc=example,dc=org'.freeze
-        ADMIN_GROUP = 'admin'.freeze
+        GROUP_BASE = 'ou=Global Groups,dc=example,dc=org'.freeze
+        ADMIN_GROUP = 'AdminGroup'.freeze
         FIXTURE_PATH = File.expand_path('../../../../fixtures/ldap'.freeze, __dir__)
 
         attr_reader :docker
@@ -149,7 +149,7 @@ module Gitlab
               uid: 'uid'
               bind_dn: #{BIND_DN}
               password: #{ADMIN_PASSWORD}
-              method: #{tls? ? 'simple_tls' : 'plain'}
+              encryption: #{tls? ? 'simple_tls' : 'plain'}
               verify_certificates: false
               base: #{BASE_DN}
               user_filter: ''
