@@ -16,6 +16,8 @@ module Gitlab
               gitlab.omnibus_config = <<~OMNIBUS
                     gitlab_rails['ldap_enabled'] = true;
                     gitlab_rails['ldap_servers'] = #{ldap.to_config};
+                    gitlab_rails['ldap_sync_worker_cron'] = '* * * * *';
+                    gitlab_rails['ldap_group_sync_worker_cron'] = '* * * * *';
               OMNIBUS
             end
           end
