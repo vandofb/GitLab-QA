@@ -72,6 +72,23 @@ userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
 mail: eng_user2@example.org
 gecos: Eng User 2
 
+dn: uid=eng_user3,ou=People,ou=Global Groups,dc=example,dc=org
+changetype: add
+uid: eng_user3
+cn: eng_user3
+sn: 12
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+loginShell: /bin/bash
+homeDirectory: /home/eng_user3
+uidNumber: 14583111
+gidNumber: 14564109
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+mail: eng_user3@example.org
+gecos: Eng User 3
+
 # Security
 
 dn: uid=security_user1,ou=People,ou=Global Groups,dc=example,dc=org
@@ -169,6 +186,11 @@ dn: cn=Engineering,ou=Global Groups,dc=example,dc=org
 changetype: modify
 add: memberUid
 memberUid: eng_user2
+
+dn: cn=Engineering,ou=Global Groups,dc=example,dc=org
+changetype: modify
+add: memberUid
+memberUid: eng_user3
 
 # Security
 
