@@ -19,8 +19,6 @@ module Gitlab
                     gitlab_rails['ldap_servers'] = #{ldap.to_config};
                     letsencrypt['enable'] = false;
                     external_url '#{gitlab.address}';
-                    gitlab_rails['ldap_sync_worker_cron'] = '* * * * *';
-                    gitlab_rails['ldap_group_sync_worker_cron'] = '* * * * *';
               OMNIBUS
             end
           end
