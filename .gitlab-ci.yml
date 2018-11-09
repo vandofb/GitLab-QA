@@ -4,6 +4,7 @@ services:
 stages:
   - check
   - test
+  - notify
 
 variables:
   TEST_IMAGE: registry.gitlab.com/gitlab-org/gitlab-build-images:gitlab-qa
@@ -249,3 +250,25 @@ ee:object_storage:
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
+
+.notify_upstream_commit: &notify_upstream_commit
+  stage: notify
+  image: $TEST_IMAGE
+  before_script:
+    - gem install gitlab --no-document
+  only:
+    variables:
+      - $TOP_UPSTREAM_SOURCE_PROJECT
+      - $TOP_UPSTREAM_SOURCE_SHA
+
+notify_upstream_commit:success:
+  <<: *notify_upstream_commit
+  script:
+    - bin/notify_upstream_commit success
+  when: on_success
+
+notify_upstream_commit:failure:
+  <<: *notify_upstream_commit
+  script:
+    - bin/notify_upstream_commit failure
+  when: on_failure
