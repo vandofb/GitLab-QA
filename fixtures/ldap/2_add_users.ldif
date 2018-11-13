@@ -1,0 +1,237 @@
+
+# 1. Human Resources
+
+dn: uid=hruser1,ou=People,ou=Global Groups,dc=example,dc=org
+cn: HR User 1
+givenName: HR
+sn: User1
+uid: hruser1
+uidNumber: 5000
+gidNumber: 10000
+homeDirectory: /home/hruser1
+mail: hruser1@example.org
+objectClass: top
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+loginShell: /bin/bash
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+
+dn: uid=hruser2,ou=People,ou=Global Groups,dc=example,dc=org
+cn: HR User 2
+givenName: HR
+sn: User2
+uid: hruser2
+uidNumber: 5001
+gidNumber: 10001
+homeDirectory: /home/hruser2
+mail: hruser2@example.org
+objectClass: top
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+loginShell: /bin/bash
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+
+dn: uid=hruser3,ou=People,ou=Global Groups,dc=example,dc=org
+cn: HR User 3
+givenName: HR
+sn: User3
+uid: hruser3
+uidNumber: 5002
+gidNumber: 10002
+homeDirectory: /home/hruser3
+mail: hruser3@example.org
+objectClass: top
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+loginShell: /bin/bash
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+
+# 2. Engineering
+
+dn: uid=enguser1,ou=People,ou=Global Groups,dc=example,dc=org
+cn: ENG User 1
+givenName: ENG
+sn: User1
+uid: enguser1
+uidNumber: 5003
+gidNumber: 10003
+homeDirectory: /home/enguser1
+mail: enguser1@example.org
+objectClass: top
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+loginShell: /bin/bash
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+
+dn: uid=enguser2,ou=People,ou=Global Groups,dc=example,dc=org
+cn: ENG User 2
+givenName: ENG
+sn: User2
+uid: enguser2
+uidNumber: 5004
+gidNumber: 10004
+homeDirectory: /home/enguser2
+mail: enguser2@example.org
+objectClass: top
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+loginShell: /bin/bash
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+
+dn: uid=enguser3,ou=People,ou=Global Groups,dc=example,dc=org
+cn: ENG User 3
+givenName: ENG
+sn: User3
+uid: enguser3
+uidNumber: 5005
+gidNumber: 10005
+homeDirectory: /home/enguser3
+mail: enguser3@example.org
+objectClass: top
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+loginShell: /bin/bash
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+
+
+# 3. Security
+
+dn: uid=securityuser1,ou=People,ou=Global Groups,dc=example,dc=org
+cn: Security User 1
+givenName: Security
+sn: User1
+uid: securityuser1
+uidNumber: 5006
+gidNumber: 10006
+homeDirectory: /home/securityuser1
+mail: securityuser1@example.org
+objectClass: top
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+loginShell: /bin/bash
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+
+dn: uid=securityuser2,ou=People,ou=Global Groups,dc=example,dc=org
+cn: Security User 2
+givenName: Security
+sn: User2
+uid: securityuser2
+uidNumber: 5007
+gidNumber: 10007
+homeDirectory: /home/securityuser2
+mail: securityuser1@example.org
+objectClass: top
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+loginShell: /bin/bash
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+
+dn: uid=securityuser3,ou=People,ou=Global Groups,dc=example,dc=org
+cn: Security User 3
+givenName: Security
+sn: User3
+uid: securityuser3
+uidNumber: 5008
+gidNumber: 10008
+homeDirectory: /home/securityuser3
+mail: securityuser3@example.org
+objectClass: top
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+loginShell: /bin/bash
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+
+# 3. Admin
+
+dn: uid=adminuser1,ou=People,ou=Global Groups,dc=example,dc=org
+cn: Admin User 1
+givenName: Admin
+sn: User1
+uid: adminuser1
+uidNumber: 5009
+gidNumber: 10009
+homeDirectory: /home/adminuser1
+mail: adminuser1@example.org
+objectClass: top
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+loginShell: /bin/bash
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+
+dn: uid=adminuser2,ou=People,ou=Global Groups,dc=example,dc=org
+cn: Admin User 2
+givenName: Admin
+sn: User1
+uid: adminuser2
+uidNumber: 5010
+gidNumber: 10010
+homeDirectory: /home/adminuser2
+mail: adminuser2@example.org
+objectClass: top
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+loginShell: /bin/bash
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+
+dn: uid=adminuser3,ou=People,ou=Global Groups,dc=example,dc=org
+cn: Admin User 3
+givenName: Admin
+sn: User1
+uid: adminuser3
+uidNumber: 5011
+gidNumber: 10011
+homeDirectory: /home/adminuser3
+mail: adminuser3@example.org
+objectClass: top
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+loginShell: /bin/bash
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
