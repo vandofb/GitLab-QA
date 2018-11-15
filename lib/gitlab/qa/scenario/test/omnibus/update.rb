@@ -12,9 +12,11 @@ module Gitlab
               current_release = Release.new(to_release || from_release)
 
               Docker::Volumes.new.with_temporary_volumes do |volumes|
-                Scenario::Test::Instance::Image
-                  .perform(previous_release) do |scenario|
-                  scenario.volumes = volumes
+                Component::Gitlab.perform do |gitlab|
+                  gitlab.release = previous_release
+                  gitlab.volumes = volumes
+                  gitlab.network = 'test'
+                  gitlab.launch_and_teardown_instance
                 end
 
                 Scenario::Test::Instance::Image
