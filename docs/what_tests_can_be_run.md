@@ -32,6 +32,10 @@ For more details on the internals, please read the
 * `GITLAB_PASSWORD` - password to use when signing into GitLab
 * `GITLAB_FORKER_USERNAME` - username to use for forking a project
 * `GITLAB_FORKER_PASSWORD` - password to use for forking a project
+* `GITLAB_QA_USERNAME_1` - username available in environments where signup is disabled
+* `GITLAB_QA_PASSWORD_1` - password for `GITLAB_QA_USERNAME_1` available in environments where signup is disabled (e.g. staging.gitlab.com)
+* `GITLAB_QA_USERNAME_2` - another username available in environments where signup is disabled
+* `GITLAB_QA_PASSWORD_2` - password for `GITLAB_QA_USERNAME_2` available in environments where signup is disabled (e.g. staging.gitlab.com)
 * `GITLAB_LDAP_USERNAME` - LDAP username to use when signing into GitLab
 * `GITLAB_LDAP_PASSWORD` - LDAP password to use when signing into GitLab
 * `GITLAB_ADMIN_USERNAME` - Admin username to use when adding a license
