@@ -2,6 +2,7 @@ require 'securerandom'
 require 'net/http'
 require 'uri'
 require 'forwardable'
+require 'openssl'
 
 module Gitlab
   module QA
