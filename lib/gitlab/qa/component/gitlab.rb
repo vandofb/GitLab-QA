@@ -68,18 +68,18 @@ module Gitlab
         end
 
         def instance
-          raise 'Please provide a block!' unless block_given?
-
           prepare
           start
           reconfigure
           wait
           process_exec_commands
 
-          yield self
+          yield self if block_given?
         ensure
           teardown
         end
+
+        alias_method :launch_and_teardown_instance, :instance
 
         def prepare
           @docker.pull(image, tag)
