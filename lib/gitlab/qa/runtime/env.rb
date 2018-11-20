@@ -30,7 +30,11 @@ module Gitlab
           'SIGNUP_DISABLED' => :signup_disabled,
           'QA_DEBUG' => :qa_debug,
           'QA_LOG_PATH' => :qa_log_path,
-          'QA_CAN_TEST_GIT_PROTOCOL_V2' => :qa_can_test_git_protocol_v2
+          'QA_CAN_TEST_GIT_PROTOCOL_V2' => :qa_can_test_git_protocol_v2,
+          'GITLAB_QA_USERNAME_1' => :gitlab_qa_username_1,
+          'GITLAB_QA_PASSWORD_1' => :gitlab_qa_password_1,
+          'GITLAB_QA_USERNAME_2' => :gitlab_qa_username_2,
+          'GITLAB_QA_PASSWORD_2' => :gitlab_qa_password_2
         }.freeze
 
         ENV_VARIABLES.each_value do |accessor|
