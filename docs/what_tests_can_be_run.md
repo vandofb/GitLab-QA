@@ -46,6 +46,7 @@ For more details on the internals, please read the
   for failing tests will be saved (default: `/tmp/gitlab-qa`)
 * `DOCKER_HOST` - Docker host to run tests against (default: `http://localhost`)
 * `CHROME_HEADLESS` - when running locally, set to `false` to allow Chrome tests to be visible - watch your tests being run
+* `QA_COOKIES` - optionally set to "cookie1=value;cookie2=value" in order to add a cookie to every request. This can be used to set the canary cookie by setting it to "gitlab_canary=true"
 * `QA_DEBUG` - set to `true` to verbosely log page object actions. Note: if enabled be aware that sensitive data might be logged. If an input element has a QA selector with `password` in the name, data entered into the input element will be masked. If the element doesn't have `password` in its name it won't be masked.
 * `QA_LOG_PATH` - path to output debug logging to. If not set logging will be output to STDOUT
 * `QA_CAN_TEST_GIT_PROTOCOL_V2` - set to `false` to skip tests that require Git protocol v2 if your environment doesn't support it.
@@ -375,6 +376,16 @@ $ export GITLAB_PASSWORD="$GITLAB_QA_PASSWORD"
 
 $ gitlab-qa Test::Instance::Staging
 ```
+
+### `Test::Instance::Production`
+
+This scenario functions the same as `Test::Instance::Staging`
+but will run tests against [`gitlab.com`](https://gitlab.com).
+
+In release 11.6 it is possible to test against the canary stage of production
+by setting `QA_COOKIES=gitlab_canary=true`. This adds a cookie
+to all web requests which will result in them being routed
+to the canary fleet.
 
 ### `Test::Instance::Smoke`
 
