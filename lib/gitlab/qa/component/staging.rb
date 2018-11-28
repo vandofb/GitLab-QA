@@ -7,9 +7,8 @@ module Gitlab
     module Component
       class Staging
         ADDRESS = 'https://staging.gitlab.com'.freeze
-
         def self.release
-          version = Version.new(ADDRESS).fetch!
+          version = Version.new(address).fetch!
           image =
             if Runtime::Env.dev_access_token_variable
               "dev.gitlab.org:5005/gitlab/omnibus-gitlab/gitlab-ee:#{version}"
@@ -22,6 +21,10 @@ module Gitlab
           warn ex.message
           warn "#{ex.response.code} #{ex.response.message}: #{ex.response.body}"
           exit 1
+        end
+
+        def self.address
+          self::ADDRESS
         end
 
         class InvalidResponseError < StandardError

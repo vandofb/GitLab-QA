@@ -18,6 +18,7 @@ module Gitlab
           autoload :Image, 'qa/scenario/test/instance/image'
           autoload :RelativeUrl, 'qa/scenario/test/instance/relative_url'
           autoload :Staging, 'qa/scenario/test/instance/staging'
+          autoload :Production, 'qa/scenario/test/instance/production'
           autoload :Smoke, 'qa/scenario/test/instance/smoke'
         end
 
@@ -53,6 +54,7 @@ module Gitlab
       autoload :SAML, 'qa/component/saml'
       autoload :Specs, 'qa/component/specs'
       autoload :Staging, 'qa/component/staging'
+      autoload :Production, 'qa/component/production'
       autoload :Minio, 'qa/component/minio'
     end
 

@@ -28,6 +28,7 @@ module Gitlab
           'CLOUDSDK_CORE_PROJECT' => :cloudsdk_core_project,
           'GCLOUD_ZONE' => :gcloud_zone,
           'SIGNUP_DISABLED' => :signup_disabled,
+          'QA_COOKIES' => :qa_cookie,
           'QA_DEBUG' => :qa_debug,
           'QA_LOG_PATH' => :qa_log_path,
           'QA_CAN_TEST_GIT_PROTOCOL_V2' => :qa_can_test_git_protocol_v2,
