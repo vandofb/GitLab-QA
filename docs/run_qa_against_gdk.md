@@ -11,7 +11,7 @@ make a few changes to your `gdk/gitlab/config/gitlab.yml` file.
 1. Enable the `sshd` service by uncommenting the relevant line in your
    `Procfile`.
 1. Edit `openssh/sshd_config` and
-   - set `ListenAddress` to `192.168.0.12`
+   - set `ListenAddress` to `192.168.0.12:3000`
    - add `AcceptEnv GIT_PROTOCOL` to allow use of [Git protocol v2][Git protocol]
 1. Restart your GDK
 1. Run the QA scenario as follows:
