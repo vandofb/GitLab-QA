@@ -94,7 +94,7 @@ module Gitlab
 
       # Tag scheme for gitlab-{ce,ee}-qa images is like 11.1.0-rc12-ee
       def qa_tag
-        tag.sub(/\.([ce]e)/, '-\1').sub(/\.(\d+)\z/, '')
+        tag.sub(/[-\.]([ce]e)(\.(\d+))?\z/, '-\1')
       end
 
       def dev_gitlab_org?
