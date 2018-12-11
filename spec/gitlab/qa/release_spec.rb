@@ -635,6 +635,12 @@ describe Gitlab::QA::Release do
 
         it { expect(subject.qa_tag).to eq '11.0.8-rc8-ee' }
       end
+
+      context 'with a QA image and a numeric tag' do
+        subject { described_class.new('gitlab/gitlab-ce-qa:11.1.8') }
+
+        it { expect(subject.qa_tag).to eq '11.1.8' }
+      end
     end
 
     context 'when release is a QA image without a tag' do
