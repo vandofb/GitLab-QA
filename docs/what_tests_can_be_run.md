@@ -50,6 +50,7 @@ For more details on the internals, please read the
 * `QA_DEBUG` - set to `true` to verbosely log page object actions. Note: if enabled be aware that sensitive data might be logged. If an input element has a QA selector with `password` in the name, data entered into the input element will be masked. If the element doesn't have `password` in its name it won't be masked.
 * `QA_LOG_PATH` - path to output debug logging to. If not set logging will be output to STDOUT
 * `QA_CAN_TEST_GIT_PROTOCOL_V2` - set to `false` to skip tests that require Git protocol v2 if your environment doesn't support it.
+* `PERSONAL_ACCESS_TOKEN` - a [personal access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html) with `api` scope to allow API access and avoid the tests having to create a new one.
 
 ### `Test::Instance::Image CE|EE|<full image address>`
 
@@ -192,7 +193,7 @@ $ gitlab-qa Test::Integration::LDAPNoTLS EE
 
 ### `Test::Integration::LDAPTLS CE|EE|<full image address>`
 
-This tests that a TLS enabled GitLab instance works as expected with an external TLS enabled LDAP server. 
+This tests that a TLS enabled GitLab instance works as expected with an external TLS enabled LDAP server.
 The self signed TLS certificate used for the Gitlab instance and the private key is located at: [`gitlab-org/gitlab-qa@tls_certificates/gitlab`][test-integration-ldap-tls-certs]
 
 The certificate was generated with openssl using this command:

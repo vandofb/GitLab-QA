@@ -35,7 +35,8 @@ module Gitlab
           'GITLAB_QA_USERNAME_1' => :gitlab_qa_username_1,
           'GITLAB_QA_PASSWORD_1' => :gitlab_qa_password_1,
           'GITLAB_QA_USERNAME_2' => :gitlab_qa_username_2,
-          'GITLAB_QA_PASSWORD_2' => :gitlab_qa_password_2
+          'GITLAB_QA_PASSWORD_2' => :gitlab_qa_password_2,
+          'PERSONAL_ACCESS_TOKEN' => :personal_access_token
         }.freeze
 
         ENV_VARIABLES.each_value do |accessor|
