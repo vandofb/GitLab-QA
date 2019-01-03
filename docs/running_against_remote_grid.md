@@ -1,6 +1,6 @@
 # Run QA tests against a remote Selenium grid
 
-The QA tests have the ability to be ran against a local or remote grid.
+The QA tests have the ability to be run against a local or remote grid.
 
 I.e, if you have a Selenium server set up at http://localhost:4444 or if you have a SauceLabs / BrowserStack account.
 

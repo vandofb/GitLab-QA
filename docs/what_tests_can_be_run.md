@@ -26,7 +26,7 @@ our Omnibus package works, can be updated / upgraded to EE etc.).
 For more details on the internals, please read the
 [How it works](./how_it_works.md) documentation.
 
-## Supported environment variables
+## Supported GitLab environment variables
 
 * `GITLAB_USERNAME` - username to use when signing into GitLab
 * `GITLAB_PASSWORD` - password to use when signing into GitLab
@@ -50,6 +50,10 @@ For more details on the internals, please read the
 * `QA_DEBUG` - set to `true` to verbosely log page object actions. Note: if enabled be aware that sensitive data might be logged. If an input element has a QA selector with `password` in the name, data entered into the input element will be masked. If the element doesn't have `password` in its name it won't be masked.
 * `QA_LOG_PATH` - path to output debug logging to. If not set logging will be output to STDOUT
 * `QA_CAN_TEST_GIT_PROTOCOL_V2` - set to `false` to skip tests that require Git protocol v2 if your environment doesn't support it.
+
+## [Supported Remote Grid environment variables](./running_against_remote_grid.md)
+
+## Examples
 
 ### `Test::Instance::Image CE|EE|<full image address>`
 
