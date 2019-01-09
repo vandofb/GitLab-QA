@@ -7,6 +7,11 @@ module Gitlab
         extend self
 
         ENV_VARIABLES = {
+          'QA_REMOTE_GRID' => :remote_grid,
+          'QA_REMOTE_GRID_USERNAME' => :remote_grid_username,
+          'QA_REMOTE_GRID_ACCESS_KEY' => :remote_grid_access_key,
+          'QA_REMOTE_GRID_PROTOCOL' => :remote_grid_protocol,
+          'QA_BROWSER' => :browser,
           'GITLAB_ADMIN_USERNAME' => :admin_username,
           'GITLAB_ADMIN_PASSWORD' => :admin_password,
           'GITLAB_USERNAME' => :user_username,
