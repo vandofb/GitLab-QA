@@ -92,9 +92,25 @@ ce:instance:
   <<: *high-capacity
   <<: *ce-qa
 
+ce:instance-quarantine:
+  allow_failure: true
+  script:
+    - bin/qa Test::Instance::Image ${RELEASE:=CE} --tag quarantine --tag ~orchestrated
+  <<: *test
+  <<: *high-capacity
+  <<: *ce-qa
+
 ee:instance:
   script:
     - bin/qa Test::Instance::Image ${RELEASE:=EE}
+  <<: *test
+  <<: *high-capacity
+  <<: *ee-qa
+
+ee:instance-quarantine:
+  allow_failure: true
+  script:
+    - bin/qa Test::Instance::Image ${RELEASE:=EE} --tag quarantine --tag ~orchestrated
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
@@ -181,9 +197,25 @@ ce:ldap_no_tls:
   <<: *high-capacity
   <<: *ce-qa
 
+ce:ldap_no_tls-quarantine:
+  allow_failure: true
+  script:
+    - bin/qa Test::Integration::LDAPNoTLS ${RELEASE:=CE} --tag quarantine
+  <<: *test
+  <<: *high-capacity
+  <<: *ce-qa
+
 ee:ldap_no_tls:
   script:
     - bin/qa Test::Integration::LDAPNoTLS ${RELEASE:=EE}
+  <<: *test
+  <<: *high-capacity
+  <<: *ee-qa
+
+ee:ldap_no_tls-quarantine:
+  allow_failure: true
+  script:
+    - bin/qa Test::Integration::LDAPNoTLS ${RELEASE:=EE} --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
@@ -195,9 +227,25 @@ ce:ldap_tls:
   <<: *high-capacity
   <<: *ce-qa
 
+ce:ldap_tls-quarantine:
+  allow_failure: true
+  script:
+    - bin/qa Test::Integration::LDAPTLS ${RELEASE:=CE} --tag quarantine
+  <<: *test
+  <<: *high-capacity
+  <<: *ce-qa
+
 ee:ldap_tls:
   script:
     - bin/qa Test::Integration::LDAPTLS ${RELEASE:=EE}
+  <<: *test
+  <<: *high-capacity
+  <<: *ee-qa
+
+ee:ldap_tls-quarantine:
+  allow_failure: true
+  script:
+    - bin/qa Test::Integration::LDAPTLS ${RELEASE:=EE} --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
@@ -230,9 +278,25 @@ ce:kubernetes:
   <<: *high-capacity
   <<: *ce-qa
 
+ce:kubernetes-quarantine:
+  allow_failure: true
+  script:
+    - bin/qa Test::Integration::Kubernetes ${RELEASE:=CE} --tag quarantine
+  <<: *test
+  <<: *high-capacity
+  <<: *ce-qa
+
 ee:kubernetes:
   script:
     - bin/qa Test::Integration::Kubernetes ${RELEASE:=EE}
+  <<: *test
+  <<: *high-capacity
+  <<: *ee-qa
+
+ee:kubernetes-quarantine:
+  allow_failure: true
+  script:
+    - bin/qa Test::Integration::Kubernetes ${RELEASE:=EE} --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ee-qa

@@ -7,7 +7,7 @@ module Gitlab
         module Integration
           class Kubernetes < Scenario::Template
             # rubocop:disable Metrics/AbcSize
-            def perform(release)
+            def perform(release, *rspec_args)
               Runtime::Env.require_kubernetes_environment!
 
               Component::Gitlab.perform do |gitlab|
@@ -38,7 +38,7 @@ module Gitlab
                             specs.suite = 'Test::Integration::Kubernetes'
                             specs.release = gitlab.release
                             specs.network = gitlab.network
-                            specs.args = [tunnel_gitlab.url]
+                            specs.args = [tunnel_gitlab.url, *rspec_args]
                           end
                         end
                       end
