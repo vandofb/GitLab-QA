@@ -50,6 +50,10 @@ For more details on the internals, please read the
 * `QA_DEBUG` - set to `true` to verbosely log page object actions. Note: if enabled be aware that sensitive data might be logged. If an input element has a QA selector with `password` in the name, data entered into the input element will be masked. If the element doesn't have `password` in its name it won't be masked.
 * `QA_LOG_PATH` - path to output debug logging to. If not set logging will be output to STDOUT
 * `QA_CAN_TEST_GIT_PROTOCOL_V2` - set to `false` to skip tests that require Git protocol v2 if your environment doesn't support it.
+* `GITHUB_OAUTH_APP_ID` - Client ID for GitHub OAuth app. See https://docs.gitlab.com/ce/integration/github.html for steps to generate this token.
+* `GITHUB_OAUTH_APP_SECRET` - Client Secret for GitHub OAuth app. See https://docs.gitlab.com/ce/integration/github.html for steps to generate this token.
+* `GITHUB_USERNAME` - Username for authenticating with GitHub.
+* `GITHUB_PASSWORD` - Password for authenticating with GitHub.
 
 ## [Supported Remote Grid environment variables](./running_against_remote_grid.md)
 
@@ -288,6 +292,41 @@ $ gitlab-qa Test::Integration::InstanceSAML CE
 $ export EE_LICENSE=$(cat /path/to/Geo.gitlab_license)
 
 $ gitlab-qa Test::Integration::InstanceSAML EE
+```
+
+### `Test::Integration::OAuth CE|EE|<full image address>`
+
+This tests that users can sign in to GitLab instance using external OAuth services.
+
+The tests currently integrate with the following OAuth service providers:
+* GitHub
+
+To run tests against the GitLab containers, a GitLab QA (`gitlab/gitlab-qa`)
+container is spun up and tests are run from it by running the
+`Test::Integration::OAuth` scenario (located under [`gitlab-org/gitlab-ce@qa/qa/scenario/test/integration/oauth.rb`](https://gitlab.com/gitlab-org/gitlab-ce/blob/master/qa/qa/scenario/test/integration/oauth.rb) in the GitLab CE project).
+
+**Required environment variables:**
+
+- [For EE only] `EE_LICENSE`: A valid EE license.
+- `GITHUB_OAUTH_APP_ID`: Client ID for GitHub OAuth app. This can be found in the shared 1Password vault.
+- `GITHUB_OAUTH_APP_SECRET`: Client Secret for GitHub OAuth app. This can be found in the shared 1Password vault.
+- `GITHUB_USERNAME`: Username for authenticating with GitHub. This can be found in the shared 1Password vault.
+- `GITHUB_PASSWORD`: Password for authenticating with GitHub. This can be found in the shared 1Password vault.
+
+Example:
+
+```
+$ export GITHUB_OAUTH_APP_ID=your_github_oauth_client_id
+$ export GITHUB_OAUTH_APP_SECRET=your_github_oauth_client_secret
+$ export GITHUB_USERNAME=your_github_username
+$ export GITHUB_PASSWORD=your_github_password
+
+$ gitlab-qa Test::Integration::OAuth CE
+
+# For EE
+$ export EE_LICENSE=$(cat /path/to/gitlab_license)
+
+$ gitlab-qa Test::Integration::OAuth EE
 ```
 
 ### `Test::Integration::Mattermost CE|EE|<full image address>`

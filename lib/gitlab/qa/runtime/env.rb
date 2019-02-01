@@ -40,7 +40,11 @@ module Gitlab
           'GITLAB_QA_USERNAME_1' => :gitlab_qa_username_1,
           'GITLAB_QA_PASSWORD_1' => :gitlab_qa_password_1,
           'GITLAB_QA_USERNAME_2' => :gitlab_qa_username_2,
-          'GITLAB_QA_PASSWORD_2' => :gitlab_qa_password_2
+          'GITLAB_QA_PASSWORD_2' => :gitlab_qa_password_2,
+          'GITHUB_OAUTH_APP_ID' => :github_oauth_app_id,
+          'GITHUB_OAUTH_APP_SECRET' => :github_oauth_app_secret,
+          'GITHUB_USERNAME' => :github_username,
+          'GITHUB_PASSWORD' => :github_password
         }.freeze
 
         ENV_VARIABLES.each_value do |accessor|
@@ -92,6 +96,12 @@ module Gitlab
           return unless ENV['GITLAB_QA_ACCESS_TOKEN'].to_s.strip.empty?
 
           raise ArgumentError, "Please provide GITLAB_QA_ACCESS_TOKEN"
+        end
+
+        def require_oauth_environment!
+          %w[GITHUB_OAUTH_APP_ID GITHUB_OAUTH_APP_SECRET GITHUB_USERNAME GITHUB_PASSWORD].each do |env_key|
+            raise ArgumentError, "Environment variable #{env_key} must be set to run OAuth specs" unless ENV.key?(env_key)
+          end
         end
 
         def require_kubernetes_environment!

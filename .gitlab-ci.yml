@@ -315,6 +315,20 @@ ee:object_storage:
   <<: *high-capacity
   <<: *ee-qa
 
+ce:oauth:
+  script:
+    - bin/qa Test::Integration::OAuth ${RELEASE:=CE}
+  <<: *test
+  <<: *high-capacity
+  <<: *ce-qa
+
+ee:oauth:
+  script:
+    - bin/qa Test::Integration::OAuth ${RELEASE:=EE}
+  <<: *test
+  <<: *high-capacity
+  <<: *ee-qa
+
 .notify_upstream_commit: &notify_upstream_commit
   stage: notify
   image: $TEST_IMAGE
