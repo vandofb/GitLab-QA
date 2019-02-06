@@ -39,6 +39,7 @@ module Gitlab
           autoload :Mattermost, 'qa/scenario/test/integration/mattermost'
           autoload :Kubernetes, 'qa/scenario/test/integration/kubernetes'
           autoload :ObjectStorage, 'qa/scenario/test/integration/object_storage'
+          autoload :OAuth, 'qa/scenario/test/integration/oauth'
         end
 
         module Sanity
