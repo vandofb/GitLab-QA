@@ -4,6 +4,8 @@ To run the `Test::Instance::Any` scenario against your local GDK, you'll need to
 make a few changes to your `gdk/gitlab/config/gitlab.yml` file.
 
 1. Retrieve your current local IP with `ifconfig`, e.g. `192.168.0.12`.
+1. Create a file named `host` in your GDK directory containing your IP. E.g.:
+   `echo 192.168.0.12 > host`
 1. Edit `gdk/gitlab/config/gitlab.yml` and replace `host: localhost` with
    `host: 192.168.0.12`.
 1. Also replace `ssh_host: localhost` (found under `gitlab_shell`) with
