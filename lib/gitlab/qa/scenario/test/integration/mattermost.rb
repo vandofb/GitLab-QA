@@ -4,7 +4,7 @@ module Gitlab
       module Test
         module Integration
           class Mattermost < Scenario::Template
-            def perform(release)
+            def perform(release, *rspec_args)
               Component::Gitlab.perform do |gitlab|
                 gitlab.release = release
                 gitlab.network = 'test'
@@ -22,7 +22,7 @@ module Gitlab
                     specs.suite = 'Test::Integration::Mattermost'
                     specs.release = gitlab.release
                     specs.network = gitlab.network
-                    specs.args = [gitlab.address, mattermost_external_url]
+                    specs.args = [gitlab.address, mattermost_external_url, *rspec_args]
                   end
                 end
               end

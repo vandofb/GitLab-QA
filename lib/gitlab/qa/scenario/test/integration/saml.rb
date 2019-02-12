@@ -16,7 +16,7 @@ module Gitlab
               # no-op
             end
 
-            def perform(release)
+            def perform(release, *rspec_args)
               release = Release.new(release)
               before_perform(release)
 
@@ -37,7 +37,7 @@ module Gitlab
                         specs.suite = spec_suite
                         specs.release = release
                         specs.network = gitlab.network
-                        specs.args = [gitlab.address]
+                        specs.args = [gitlab.address, *rspec_args]
                       end
                     end
                   end

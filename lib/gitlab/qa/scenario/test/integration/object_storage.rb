@@ -7,7 +7,7 @@ module Gitlab
         module Integration
           class ObjectStorage < Scenario::Template
             # rubocop:disable Metrics/AbcSize
-            def perform(release)
+            def perform(release, *rspec_args)
               Component::Gitlab.perform do |gitlab|
                 gitlab.release = release
                 gitlab.name = 'gitlab-object-storage'
@@ -34,7 +34,7 @@ module Gitlab
                         specs.suite = 'Test::Integration::ObjectStorage'
                         specs.release = gitlab.release
                         specs.network = gitlab.network
-                        specs.args = [gitlab.address]
+                        specs.args = [gitlab.address, *rspec_args]
                       end
                     end
                   end
