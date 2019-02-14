@@ -71,6 +71,9 @@ check:rspec:
     - 7gb
     - triggered-packages
 
+.quarantine: &quarantine
+  allow_failure: true
+
 ce:sanity-framework:
   script:
     - ./bin/expect_exit_code_and_text "bin/qa Test::Instance::Image ${RELEASE:=CE} --tag framework" 1 "2 examples, 1 failure"
@@ -93,12 +96,12 @@ ce:instance:
   <<: *ce-qa
 
 ce:instance-quarantine:
-  allow_failure: true
   script:
     - bin/qa Test::Instance::Image ${RELEASE:=CE} --tag quarantine --tag ~orchestrated
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
+  <<: *quarantine
 
 ee:instance:
   script:
@@ -108,12 +111,12 @@ ee:instance:
   <<: *ee-qa
 
 ee:instance-quarantine:
-  allow_failure: true
   script:
     - bin/qa Test::Instance::Image ${RELEASE:=EE} --tag quarantine --tag ~orchestrated
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
+  <<: *quarantine
 
 ce:relative_url:
   script:
@@ -128,6 +131,7 @@ ce:relative_url-quarantine:
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
+  <<: *quarantine
 
 ee:relative_url:
   script:
@@ -142,6 +146,7 @@ ee:relative_url-quarantine:
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
+  <<: *quarantine
 
 ce:image:
   script:
@@ -168,6 +173,7 @@ ce:update-quarantine:
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
+  <<: *quarantine
 
 ee:update:
   script:
@@ -182,6 +188,7 @@ ee:update-quarantine:
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
+  <<: *quarantine
 
 ce:upgrade:
   script:
@@ -196,6 +203,7 @@ ce:upgrade-quarantine:
   <<: *test
   <<: *high-capacity
   <<: *only-qa
+  <<: *quarantine
 
 ee-previous-to-ce:update:
   script:
@@ -210,6 +218,7 @@ ee-previous-to-ce:update-quarantine:
   <<: *test
   <<: *high-capacity
   <<: *only-qa
+  <<: *quarantine
 
 ce:mattermost:
   script:
@@ -224,6 +233,7 @@ ce:mattermost-quarantine:
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
+  <<: *quarantine
 
 ee:mattermost:
   script:
@@ -238,6 +248,7 @@ ee:mattermost-quarantine:
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
+  <<: *quarantine
 
 ee:geo:
   script:
@@ -248,10 +259,11 @@ ee:geo:
 
 ee:geo-quarantine:
   script:
-    - bin/qa Test::Integration::Geo ${RELEASE:=EE} --tag quarantine
+    - bin/qa Test::Integration::Geo ${RELEASE:=EE} -- --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
+  <<: *quarantine
 
 ce:ldap_no_tls:
   script:
@@ -261,12 +273,12 @@ ce:ldap_no_tls:
   <<: *ce-qa
 
 ce:ldap_no_tls-quarantine:
-  allow_failure: true
   script:
     - bin/qa Test::Integration::LDAPNoTLS ${RELEASE:=CE} --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
+  <<: *quarantine
 
 ee:ldap_no_tls:
   script:
@@ -276,12 +288,12 @@ ee:ldap_no_tls:
   <<: *ee-qa
 
 ee:ldap_no_tls-quarantine:
-  allow_failure: true
   script:
     - bin/qa Test::Integration::LDAPNoTLS ${RELEASE:=EE} --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
+  <<: *quarantine
 
 ce:ldap_tls:
   script:
@@ -291,12 +303,12 @@ ce:ldap_tls:
   <<: *ce-qa
 
 ce:ldap_tls-quarantine:
-  allow_failure: true
   script:
     - bin/qa Test::Integration::LDAPTLS ${RELEASE:=CE} --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
+  <<: *quarantine
 
 ee:ldap_tls:
   script:
@@ -306,12 +318,12 @@ ee:ldap_tls:
   <<: *ee-qa
 
 ee:ldap_tls-quarantine:
-  allow_failure: true
   script:
     - bin/qa Test::Integration::LDAPTLS ${RELEASE:=EE} --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
+  <<: *quarantine
 
 ce:instance_saml:
   script:
@@ -326,6 +338,7 @@ ce:instance_saml-quarantine:
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
+  <<: *quarantine
 
 ee:instance_saml:
   script:
@@ -340,6 +353,7 @@ ee:instance_saml-quarantine:
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
+  <<: *quarantine
 
 ee:group_saml:
   script:
@@ -354,6 +368,7 @@ ee:group_saml-quarantine:
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
+  <<: *quarantine
 
 ce:kubernetes:
   script:
@@ -363,12 +378,12 @@ ce:kubernetes:
   <<: *ce-qa
 
 ce:kubernetes-quarantine:
-  allow_failure: true
   script:
     - bin/qa Test::Integration::Kubernetes ${RELEASE:=CE} --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
+  <<: *quarantine
 
 ee:kubernetes:
   script:
@@ -378,12 +393,12 @@ ee:kubernetes:
   <<: *ee-qa
 
 ee:kubernetes-quarantine:
-  allow_failure: true
   script:
     - bin/qa Test::Integration::Kubernetes ${RELEASE:=EE} --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
+  <<: *quarantine
 
 ce:object_storage:
   script:
@@ -398,6 +413,7 @@ ce:object_storage-quarantine:
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
+  <<: *quarantine
 
 ee:object_storage:
   script:
@@ -412,6 +428,7 @@ ee:object_storage-quarantine:
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
+  <<: *quarantine
 
 ce:oauth:
   script:
@@ -426,6 +443,7 @@ ce:oauth-quarantine:
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
+  <<: *quarantine
 
 ee:oauth:
   script:
@@ -440,6 +458,7 @@ ee:oauth-quarantine:
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
+  <<: *quarantine
 
 .notify_upstream_commit: &notify_upstream_commit
   stage: notify
