@@ -7,7 +7,7 @@ module Gitlab
       module Test
         module Omnibus
           class Update < Scenario::Template
-            def perform(from_release, to_release = nil)
+            def perform(from_release, to_release = nil, *rspec_args)
               previous_release = Release.new(from_release).previous_stable
               current_release = Release.new(to_release || from_release)
 
@@ -20,7 +20,7 @@ module Gitlab
                 end
 
                 Scenario::Test::Instance::Image
-                  .perform(current_release) do |scenario|
+                  .perform(current_release, *rspec_args) do |scenario|
                   scenario.volumes = volumes
                 end
               end

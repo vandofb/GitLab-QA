@@ -11,7 +11,7 @@ module Gitlab
             # rubocop:disable Metrics/MethodLength
             # rubocop:disable Metrics/AbcSize
             #
-            def perform(release)
+            def perform(release, *rspec_args)
               release = Release.new(release)
 
               raise ArgumentError, 'Geo is EE only!' unless release.ee?
@@ -67,7 +67,8 @@ module Gitlab
                           '--primary-address', primary.address,
                           '--primary-name', primary.name,
                           '--secondary-address', secondary.address,
-                          '--secondary-name', secondary.name
+                          '--secondary-name', secondary.name,
+                          *rspec_args
                         ]
                       end
 
