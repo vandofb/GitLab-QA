@@ -118,6 +118,20 @@ ee:instance-quarantine:
   <<: *ee-qa
   <<: *quarantine
 
+ce:docker:
+  script:
+    - bin/qa Test::Instance::Image ${RELEASE:=CE} --tag docker
+  <<: *test
+  <<: *high-capacity
+  <<: *ce-qa
+
+ee:docker:
+  script:
+    - bin/qa Test::Instance::Image ${RELEASE:=EE} --tag docker
+  <<: *test
+  <<: *high-capacity
+  <<: *ee-qa
+
 ce:relative_url:
   script:
     - bin/qa Test::Instance::RelativeUrl ${RELEASE:=CE}
