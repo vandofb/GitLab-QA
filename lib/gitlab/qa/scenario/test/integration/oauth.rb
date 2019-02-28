@@ -28,8 +28,8 @@ module Gitlab
                 gitlab_rails['omniauth_providers'] = [
                   {
                     name: 'github',
-                    app_id: '#{ENV['GITHUB_OAUTH_APP_ID']}',
-                    app_secret: '#{ENV['GITHUB_OAUTH_APP_SECRET']}',
+                    app_id: '$GITHUB_OAUTH_APP_ID',
+                    app_secret: '$GITHUB_OAUTH_APP_SECRET',
                     url: 'https://github.com/',
                     verify_ssl: false,
                     args: { scope: 'user:email' }
