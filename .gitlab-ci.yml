@@ -495,20 +495,3 @@ notify_upstream_commit:failure:
   script:
     - bin/notify_upstream_commit failure
   when: on_failure
-
-.notify_slack: &notify_slack
-  image: alpine
-  stage: notify
-  dependencies: []
-  cache: {}
-  before_script:
-    - apk update && apk add git curl bash
-  only:
-    variables:
-      - $TOP_UPSTREAM_SOURCE_JOB
-
-notify_slack:
-  <<: *notify_slack
-  script:
-    - bin/slack quality-alerts "☠️ Pipeline on \`$CI_BUILD_REF_NAME\` failed! ☠️ Commit \`$(git log -1 --oneline | sed 's|\"|\\\\\"|g')\` See $CI_PIPELINE_URL (triggered from $TOP_UPSTREAM_SOURCE_JOB)" ci_failing
-  when: on_failure
