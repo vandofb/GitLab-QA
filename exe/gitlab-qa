@@ -3,6 +3,24 @@
 require 'gitlab/qa'
 require 'optparse'
 
+# We use OptionParser here in gitlab-qa and in the QA framework in CE/EE, so we
+# need to include a separator, --, before rspec options so that OptionParser
+# doesn't reject them.
+#
+# Since we invoke OptionParser twice, the original command would need 2
+# separators otherwise the 2nd invocation of OptionParser would reject the rspec
+# tags that follow the separator.
+#
+# Rather than have to include 2 separators when we run gitlab-qa, the following
+# adds a 2nd separator if there is one in the command. It is then removed by
+# OptionParser, but when the args are passed on to the QA framework there is
+# still 1 separator so the rspec options don't cause an error when OptionParser
+# parses the options again.
+
+args = ARGV
+index = args.index('--')
+args.insert(index, '--') if index && args.count('--') == 1
+
 options = OptionParser.new do |opts|
   opts.banner = 'Usage: gitlab-qa [options] Scenario URL [[--] path] [rspec_options]'
 
@@ -17,13 +35,13 @@ options = OptionParser.new do |opts|
     exit
   end
 
-  opts.parse!
+  opts.parse!(args)
 end
 
 if ARGV.size >= 1
   Gitlab::QA::Scenario
-    .const_get(ARGV.shift)
-    .perform(*ARGV)
+    .const_get(args.shift)
+    .perform(*args)
 else
   puts options
   exit 1

@@ -76,14 +76,14 @@ check:rspec:
 
 ce:sanity-framework:
   script:
-    - ./bin/expect_exit_code_and_text "bin/qa Test::Instance::Image ${RELEASE:=CE} --tag framework" 1 "2 examples, 1 failure"
+    - ./bin/expect_exit_code_and_text "bin/qa Test::Instance::Image ${RELEASE:=CE} -- --tag framework" 1 "2 examples, 1 failure"
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
 
 ee:sanity-framework:
   script:
-    - ./bin/expect_exit_code_and_text "bin/qa Test::Instance::Image ${RELEASE:=EE} --tag framework" 1 "2 examples, 1 failure"
+    - ./bin/expect_exit_code_and_text "bin/qa Test::Instance::Image ${RELEASE:=EE} -- --tag framework" 1 "2 examples, 1 failure"
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
@@ -97,7 +97,7 @@ ce:instance:
 
 ce:instance-quarantine:
   script:
-    - bin/qa Test::Instance::Image ${RELEASE:=CE} --tag quarantine --tag ~orchestrated
+    - bin/qa Test::Instance::Image ${RELEASE:=CE} -- --tag quarantine --tag ~orchestrated
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
@@ -112,7 +112,7 @@ ee:instance:
 
 ee:instance-quarantine:
   script:
-    - bin/qa Test::Instance::Image ${RELEASE:=EE} --tag quarantine --tag ~orchestrated
+    - bin/qa Test::Instance::Image ${RELEASE:=EE} -- --tag quarantine --tag ~orchestrated
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
@@ -120,14 +120,14 @@ ee:instance-quarantine:
 
 ce:docker:
   script:
-    - bin/qa Test::Instance::Image ${RELEASE:=CE} --tag docker
+    - bin/qa Test::Instance::Image ${RELEASE:=CE} -- --tag docker
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
 
 ee:docker:
   script:
-    - bin/qa Test::Instance::Image ${RELEASE:=EE} --tag docker
+    - bin/qa Test::Instance::Image ${RELEASE:=EE} -- --tag docker
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
@@ -141,7 +141,7 @@ ce:relative_url:
 
 ce:relative_url-quarantine:
   script:
-    - bin/qa Test::Instance::RelativeUrl ${RELEASE:=CE} --tag quarantine --tag ~orchestrated
+    - bin/qa Test::Instance::RelativeUrl ${RELEASE:=CE} -- --tag quarantine --tag ~orchestrated
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
@@ -156,7 +156,7 @@ ee:relative_url:
 
 ee:relative_url-quarantine:
   script:
-    - bin/qa Test::Instance::RelativeUrl ${RELEASE:=EE} --tag quarantine --tag ~orchestrated
+    - bin/qa Test::Instance::RelativeUrl ${RELEASE:=EE} -- --tag quarantine --tag ~orchestrated
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
@@ -183,7 +183,7 @@ ce:update:
 
 ce:update-quarantine:
   script:
-    - bin/qa Test::Omnibus::Update ${RELEASE:=CE} ${RELEASE:=CE} --tag quarantine --tag ~orchestrated
+    - bin/qa Test::Omnibus::Update ${RELEASE:=CE} ${RELEASE:=CE} -- --tag quarantine --tag ~orchestrated
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
@@ -198,7 +198,7 @@ ee:update:
 
 ee:update-quarantine:
   script:
-    - bin/qa Test::Omnibus::Update ${RELEASE:=EE} ${RELEASE:=EE} --tag quarantine --tag ~orchestrated
+    - bin/qa Test::Omnibus::Update ${RELEASE:=EE} ${RELEASE:=EE} -- --tag quarantine --tag ~orchestrated
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
@@ -213,7 +213,7 @@ ce:upgrade:
 
 ce:upgrade-quarantine:
   script:
-    - bin/qa Test::Omnibus::Upgrade CE --tag quarantine --tag ~orchestrated
+    - bin/qa Test::Omnibus::Upgrade CE -- --tag quarantine --tag ~orchestrated
   <<: *test
   <<: *high-capacity
   <<: *only-qa
@@ -228,7 +228,7 @@ ee-previous-to-ce:update:
 
 ee-previous-to-ce:update-quarantine:
   script:
-     - bin/qa Test::Omnibus::Update EE CE --tag quarantine --tag ~orchestrated
+     - bin/qa Test::Omnibus::Update EE CE -- --tag quarantine --tag ~orchestrated
   <<: *test
   <<: *high-capacity
   <<: *only-qa
@@ -243,7 +243,7 @@ ce:mattermost:
 
 ce:mattermost-quarantine:
   script:
-    - bin/qa Test::Integration::Mattermost ${RELEASE:=CE} --tag quarantine
+    - bin/qa Test::Integration::Mattermost ${RELEASE:=CE} -- --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
@@ -258,7 +258,7 @@ ee:mattermost:
 
 ee:mattermost-quarantine:
   script:
-    - bin/qa Test::Integration::Mattermost ${RELEASE:=EE} --tag quarantine
+    - bin/qa Test::Integration::Mattermost ${RELEASE:=EE} -- --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
@@ -288,7 +288,7 @@ ce:ldap_no_tls:
 
 ce:ldap_no_tls-quarantine:
   script:
-    - bin/qa Test::Integration::LDAPNoTLS ${RELEASE:=CE} --tag quarantine
+    - bin/qa Test::Integration::LDAPNoTLS ${RELEASE:=CE} -- --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
@@ -303,7 +303,7 @@ ee:ldap_no_tls:
 
 ee:ldap_no_tls-quarantine:
   script:
-    - bin/qa Test::Integration::LDAPNoTLS ${RELEASE:=EE} --tag quarantine
+    - bin/qa Test::Integration::LDAPNoTLS ${RELEASE:=EE} -- --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
@@ -318,7 +318,7 @@ ce:ldap_tls:
 
 ce:ldap_tls-quarantine:
   script:
-    - bin/qa Test::Integration::LDAPTLS ${RELEASE:=CE} --tag quarantine
+    - bin/qa Test::Integration::LDAPTLS ${RELEASE:=CE} -- --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
@@ -333,7 +333,7 @@ ee:ldap_tls:
 
 ee:ldap_tls-quarantine:
   script:
-    - bin/qa Test::Integration::LDAPTLS ${RELEASE:=EE} --tag quarantine
+    - bin/qa Test::Integration::LDAPTLS ${RELEASE:=EE} -- --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
@@ -348,7 +348,7 @@ ce:instance_saml:
 
 ce:instance_saml-quarantine:
   script:
-  - bin/qa Test::Integration::InstanceSAML ${RELEASE:=CE} --tag quarantine
+  - bin/qa Test::Integration::InstanceSAML ${RELEASE:=CE} -- --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
@@ -363,7 +363,7 @@ ee:instance_saml:
 
 ee:instance_saml-quarantine:
   script:
-  - bin/qa Test::Integration::InstanceSAML ${RELEASE:=EE} --tag quarantine
+  - bin/qa Test::Integration::InstanceSAML ${RELEASE:=EE} -- --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
@@ -378,7 +378,7 @@ ee:group_saml:
 
 ee:group_saml-quarantine:
   script:
-  - bin/qa Test::Integration::GroupSAML ${RELEASE:=EE} --tag quarantine
+  - bin/qa Test::Integration::GroupSAML ${RELEASE:=EE} -- --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
@@ -393,7 +393,7 @@ ce:kubernetes:
 
 ce:kubernetes-quarantine:
   script:
-    - bin/qa Test::Integration::Kubernetes ${RELEASE:=CE} --tag quarantine
+    - bin/qa Test::Integration::Kubernetes ${RELEASE:=CE} -- --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
@@ -408,7 +408,7 @@ ee:kubernetes:
 
 ee:kubernetes-quarantine:
   script:
-    - bin/qa Test::Integration::Kubernetes ${RELEASE:=EE} --tag quarantine
+    - bin/qa Test::Integration::Kubernetes ${RELEASE:=EE} -- --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
@@ -423,7 +423,7 @@ ce:object_storage:
 
 ce:object_storage-quarantine:
   script:
-    - bin/qa Test::Integration::ObjectStorage ${RELEASE:=CE} --tag quarantine
+    - bin/qa Test::Integration::ObjectStorage ${RELEASE:=CE} -- --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
@@ -438,7 +438,7 @@ ee:object_storage:
 
 ee:object_storage-quarantine:
   script:
-    - bin/qa Test::Integration::ObjectStorage ${RELEASE:=EE} --tag quarantine
+    - bin/qa Test::Integration::ObjectStorage ${RELEASE:=EE} -- --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ee-qa
@@ -453,7 +453,7 @@ ce:oauth:
 
 ce:oauth-quarantine:
   script:
-    - bin/qa Test::Integration::OAuth ${RELEASE:=CE} --tag quarantine
+    - bin/qa Test::Integration::OAuth ${RELEASE:=CE} -- --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ce-qa
@@ -468,7 +468,7 @@ ee:oauth:
 
 ee:oauth-quarantine:
   script:
-    - bin/qa Test::Integration::OAuth ${RELEASE:=EE} --tag quarantine
+    - bin/qa Test::Integration::OAuth ${RELEASE:=EE} -- --tag quarantine
   <<: *test
   <<: *high-capacity
   <<: *ee-qa

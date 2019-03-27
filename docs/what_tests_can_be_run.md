@@ -57,6 +57,11 @@ For more details on the internals, please read the
 
 ## [Supported Remote Grid environment variables](./running_against_remote_grid.md)
 
+## Running tests with a feature flag enabled
+
+It is possible to enable a feature flag before running tests. See the [QA
+framework documentation](https://gitlab.com/gitlab-org/gitlab-ce/blob/master/qa/README.md#running-tests-with-a-feature-flag-enabled) for details.
+
 ## Examples
 
 ### `Test::Instance::Image CE|EE|<full image address>`
@@ -200,7 +205,7 @@ $ gitlab-qa Test::Integration::LDAPNoTLS EE
 
 ### `Test::Integration::LDAPTLS CE|EE|<full image address>`
 
-This tests that a TLS enabled GitLab instance works as expected with an external TLS enabled LDAP server. 
+This tests that a TLS enabled GitLab instance works as expected with an external TLS enabled LDAP server.
 The self signed TLS certificate used for the Gitlab instance and the private key is located at: [`gitlab-org/gitlab-qa@tls_certificates/gitlab`][test-integration-ldap-tls-certs]
 
 The certificate was generated with openssl using this command:
