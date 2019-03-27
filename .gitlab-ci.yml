@@ -88,6 +88,36 @@ ee:sanity-framework:
   <<: *high-capacity
   <<: *ee-qa
 
+ce:smoke:
+  script:
+    - bin/qa Test::Instance::Image ${RELEASE:=CE} --tag smoke
+  <<: *test
+  <<: *high-capacity
+  <<: *ce-qa
+
+ee:smoke:
+  script:
+    - bin/qa Test::Instance::Image ${RELEASE:=EE} --tag smoke
+  <<: *test
+  <<: *high-capacity
+  <<: *ee-qa
+
+ce:smoke-quarantine:
+  script:
+    - bin/qa Test::Instance::Image ${RELEASE:=CE} --tag smoke --tag quarantine
+  <<: *test
+  <<: *high-capacity
+  <<: *ce-qa
+  <<: *quarantine
+
+ee:smoke-quarantine:
+  script:
+    - bin/qa Test::Instance::Image ${RELEASE:=EE} --tag smoke
+  <<: *test
+  <<: *high-capacity
+  <<: *ee-qa
+  <<: *quarantine
+
 ce:instance:
   script:
     - bin/qa Test::Instance::Image ${RELEASE:=CE}
