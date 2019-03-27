@@ -10,7 +10,7 @@ module Gitlab
           class Any < Scenario::Template
             def perform(edition_and_tag, address, *rspec_args)
               Component::Specs.perform do |specs|
-                specs.suite = 'Test::Instance'
+                specs.suite = 'Test::Instance::All'
                 specs.release = Release.new(edition_and_tag)
                 specs.args = [address, *rspec_args]
               end
