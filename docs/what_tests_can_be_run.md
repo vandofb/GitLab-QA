@@ -41,6 +41,11 @@ For more details on the internals, please read the
 * `GITLAB_ADMIN_USERNAME` - Admin username to use when adding a license
 * `GITLAB_ADMIN_PASSWORD` - Admin password to use when adding a license
 * `GITLAB_SANDBOX_NAME` - The sandbox group name the test suite is going to use (default: `gitlab-qa-sandbox`)
+* `GITLAB_QA_ACCESS_TOKEN` -  A valid personal access token with the `api` scope.
+  This is used for API access during tests, and is used in the
+  [`Test::Instance::Staging`](#testinstancestaging) scenario to retrieve the
+  version that staging is currently running. An existing token that is valid on
+  staging can be found in the shared 1Password vault.
 * `EE_LICENSE` - Enterprise Edition license
 * `QA_ARTIFACTS_DIR` - Path to a directory where artifacts (logs and screenshots)
   for failing tests will be saved (default: `/tmp/gitlab-qa`)
