@@ -20,6 +20,7 @@ module Gitlab
           autoload :Staging, 'qa/scenario/test/instance/staging'
           autoload :Production, 'qa/scenario/test/instance/production'
           autoload :Smoke, 'qa/scenario/test/instance/smoke'
+          autoload :Preprod, 'qa/scenario/test/instance/preprod'
         end
 
         module Omnibus
@@ -57,6 +58,7 @@ module Gitlab
       autoload :Staging, 'qa/component/staging'
       autoload :Production, 'qa/component/production'
       autoload :Minio, 'qa/component/minio'
+      autoload :Preprod, 'qa/component/preprod'
     end
 
     module Docker
