@@ -440,6 +440,14 @@ by setting `QA_COOKIES=gitlab_canary=true`. This adds a cookie
 to all web requests which will result in them being routed
 to the canary fleet.
 
+### `Test::Instance::Preprod`
+
+This scenario functions the same as `Test::Instance::Staging`
+but will run tests against [`pre.gitlab.com`](https://pre.gitlab.com).
+
+Note that [`pre.gitlab.com`](https://pre.gitlab.com) is used as an Interim
+Performance Testbed and [will be replaced with the actual testbed in the future](https://gitlab.com/groups/gitlab-com/gl-infra/-/epics/60). 
+
 ### `Test::Instance::Smoke`
 
 This scenario will run a limited amount of tests selected from the test suite tagged by `:smoke`.
