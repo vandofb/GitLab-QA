@@ -3,6 +3,7 @@ $LOAD_PATH << File.expand_path(__dir__)
 module Gitlab
   module QA
     autoload :Release, 'qa/release'
+    autoload :Runner, 'qa/runner'
 
     module Runtime
       autoload :Env, 'qa/runtime/env'

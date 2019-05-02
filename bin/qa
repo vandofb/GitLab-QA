@@ -3,6 +3,4 @@
 require 'bundler/setup'
 require 'gitlab/qa'
 
-Gitlab::QA::Scenario
-  .const_get(ARGV.shift)
-  .perform(*ARGV)
+Gitlab::QA::Runner.run(ARGV)
