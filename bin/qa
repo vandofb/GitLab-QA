@@ -1,6 +1,0 @@
-#!/usr/bin/env ruby
-
-require 'bundler/setup'
-require 'gitlab/qa'
-
-Gitlab::QA::Runner.run(ARGV)
