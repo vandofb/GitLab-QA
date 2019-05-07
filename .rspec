@@ -1,3 +1,5 @@
+--out report.html
+--no-profile
 --color
 --format documentation
 --require spec_helper
