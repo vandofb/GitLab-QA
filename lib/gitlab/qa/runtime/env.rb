@@ -44,7 +44,8 @@ module Gitlab
           'GITHUB_OAUTH_APP_ID' => :github_oauth_app_id,
           'GITHUB_OAUTH_APP_SECRET' => :github_oauth_app_secret,
           'GITHUB_USERNAME' => :github_username,
-          'GITHUB_PASSWORD' => :github_password
+          'GITHUB_PASSWORD' => :github_password,
+          'CI' => :ci
         }.freeze
 
         ENV_VARIABLES.each_value do |accessor|
