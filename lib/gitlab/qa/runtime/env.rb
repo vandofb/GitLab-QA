@@ -45,7 +45,14 @@ module Gitlab
           'GITHUB_OAUTH_APP_SECRET' => :github_oauth_app_secret,
           'GITHUB_USERNAME' => :github_username,
           'GITHUB_PASSWORD' => :github_password,
-          'CI' => :ci
+          'KNAPSACK_GENERATE_REPORT' => :knapsack_generate_report,
+          'KNAPSACK_REPORT_PATH' => :knapsack_report_path,
+          'KNAPSACK_TEST_FILE_PATTERN' => :knapsack_test_file_pattern,
+          'KNAPSACK_TEST_DIR' => :knapsack_test_dir,
+          'CI' => :ci,
+          'CI_NODE_INDEX' => :ci_node_index,
+          'CI_NODE_TOTAL' => :ci_node_total,
+          'GITLAB_CI' => :gitlab_ci
         }.freeze
 
         ENV_VARIABLES.each_value do |accessor|
