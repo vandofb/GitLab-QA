@@ -4,7 +4,7 @@ module Gitlab
       module Test
         module Integration
           class Geo < Scenario::Template
-            GIT_LFS_VERSION = '2.5.2'.freeze
+            GIT_LFS_VERSION = '2.7.2'.freeze
 
             ##
             # rubocop:disable Lint/MissingCopEnableDirective
@@ -24,12 +24,13 @@ module Gitlab
                 primary.network = 'geo'
                 primary.omnibus_config = <<~OMNIBUS
                   geo_primary_role['enable'] = true;
-                  postgresql['listen_address'] = '0.0.0.0';
-                  postgresql['trust_auth_cidr_addresses'] = ['0.0.0.0/0','0.0.0.0/0'];
-                  postgresql['md5_auth_cidr_addresses'] = ['0.0.0.0/0'];
-                  postgresql['max_replication_slots'] = 1;
                   gitlab_rails['db_key_base'] = '4dd58204865eb41bca93bd38131d51cc';
+                  gitlab_rails['geo_node_name'] = '#{primary.name}';
                   gitlab_rails['monitoring_whitelist'] = ['0.0.0.0/0'];
+                  postgresql['listen_address'] = '0.0.0.0';
+                  postgresql['max_replication_slots'] = 1;
+                  postgresql['md5_auth_cidr_addresses'] = ['0.0.0.0/0'];
+                  postgresql['trust_auth_cidr_addresses'] = ['0.0.0.0/0','0.0.0.0/0'];
                   sidekiq['concurrency'] = 2;
                   unicorn['worker_processes'] = 2;
                 OMNIBUS
@@ -43,9 +44,10 @@ module Gitlab
                     secondary.omnibus_config = <<~OMNIBUS
                       geo_secondary_role['enable'] = true;
                       gitlab_rails['db_key_base'] = '4dd58204865eb41bca93bd38131d51cc';
+                      gitlab_rails['geo_node_name'] = '#{secondary.name}';
+                      gitlab_rails['monitoring_whitelist'] = ['0.0.0.0/0'];
                       sidekiq['concurrency'] = 2;
                       unicorn['worker_processes'] = 2;
-                      gitlab_rails['monitoring_whitelist'] = ['0.0.0.0/0'];
                     OMNIBUS
                     secondary.exec_commands = fast_ssh_key_lookup_commands + git_lfs_install_commands
 
