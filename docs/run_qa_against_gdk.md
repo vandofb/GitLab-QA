@@ -19,10 +19,10 @@ make a few changes to your `gdk/gitlab/config/gitlab.yml` file.
 1. Run the QA scenario as follows:
 
   ```
-  $ gitlab-qa Test::Instance::Any CE http://192.168.0.12:3000 -- qa/specs/features/repository/protected_branches_spec.rb:30
+  $ gitlab-qa Test::Instance::Any CE http://192.168.0.12:3000 -- qa/specs/features/browser_ui/1_manage/login/log_in_spec.rb
 
-  # Or if you want to run your local `gitlab-qa/bin/qa`:
-  $ bin/qa Test::Instance::Any CE http://192.168.0.12:3000 -- qa/specs/features/repository/protected_branches_spec.rb:30
+  # Or if you want to run your local `gitlab-qa/exe/gitlab-qa`:
+  $ exe/gitlab-qa Test::Instance::Any CE http://192.168.0.12:3000 -- qa/specs/features/browser_ui/1_manage/login/log_in_spec.rb
 
   # And if you want to test your local `gdk/gitlab/qa` changes, you'll need to
   # build the QA image first
@@ -30,7 +30,7 @@ make a few changes to your `gdk/gitlab/config/gitlab.yml` file.
   $ docker build -t gitlab/gitlab-ce-qa:your-custom-tag .
 
   # Then in gitlab-qa:
-  $ bin/qa Test::Instance::Any gitlab/gitlab-ce:your-custom-tag http://192.168.0.12:3000 -- qa/specs/features/repository/protected_branches_spec.rb:30
+  $ exe/gitlab-qa Test::Instance::Any gitlab/gitlab-ce:your-custom-tag http://192.168.0.12:3000 -- qa/specs/features/browser_ui/1_manage/login/log_in_spec.rb
   ```
 
 ## Run Geo QA tests against your Geo GDK setup
@@ -39,10 +39,10 @@ Run from the `gdk-ee/gitlab/qa` directory with GDK primary and secondary running
 
 ```
 # Run in the background
-bin/qa QA::EE::Scenario::Test::Geo --primary-address http://localhost:3001 --secondary-address http://localhost:3002 --primary-name primary --secondary-name secondary --without-setup
+$ bundle exec bin/qa QA::EE::Scenario::Test::Geo --primary-address http://localhost:3001 --secondary-address http://localhost:3002 --primary-name primary --secondary-name secondary --without-setup
 
 # Run in visible Chrome browser
-CHROME_HEADLESS=false bin/qa QA::EE::Scenario::Test::Geo --primary-address http://localhost:3001 --secondary-address http://localhost:3002 --primary-name primary --secondary-name secondary --without-setup
+$ CHROME_HEADLESS=0 bundle exec bin/qa QA::EE::Scenario::Test::Geo --primary-address http://localhost:3001 --secondary-address http://localhost:3002 --primary-name primary --secondary-name secondary --without-setup
 ```
 
 ### QA Tool support on macOS

@@ -14,7 +14,7 @@ host machine.
 ## Orchestrated tests
 
 Orchestrated tests are run with the `gitlab-qa` binary (from the
-`gitlab-qa` gem), or in the `gitlab-qa` project, with the `bin/qa` binary
+`gitlab-qa` gem), or in the `gitlab-qa` project, with the `exe/gitlab-qa` binary
 (useful if you're working on the `gitlab-qa` project itself and want to test
 your changes).
 
@@ -446,7 +446,7 @@ This scenario functions the same as `Test::Instance::Staging`
 but will run tests against [`pre.gitlab.com`](https://pre.gitlab.com).
 
 Note that [`pre.gitlab.com`](https://pre.gitlab.com) is used as an Interim
-Performance Testbed and [will be replaced with the actual testbed in the future](https://gitlab.com/groups/gitlab-com/gl-infra/-/epics/60). 
+Performance Testbed and [will be replaced with the actual testbed in the future](https://gitlab.com/groups/gitlab-com/gl-infra/-/epics/60).
 
 ### `Test::Instance::Smoke`
 

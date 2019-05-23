@@ -7,7 +7,7 @@ For a visual architecture explanation, please read the
 
 ## What happens when you run `gitlab-qa Test::Instance::Image CE`
 
-1. `bin/qa` calls [`.perform`][instance-image] on the fully qualified constant
+1. `exe/gitlab-qa` calls [`.perform`][instance-image] on the fully qualified constant
   `Gitlab::QA::Scenario::` + the scenario name, e.g. `QA::Scenario::Test::Instance::Image`
 1. A new `gitlab-ce` container is started with `Component::Gitlab.perform`
 1. Then `Component::Specs.perform` is called, which starts a `gitlab/gitlab-qa`
