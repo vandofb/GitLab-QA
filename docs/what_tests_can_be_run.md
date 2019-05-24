@@ -448,8 +448,10 @@ to the canary fleet.
 This scenario functions the same as `Test::Instance::Staging`
 but will run tests against [`pre.gitlab.com`](https://pre.gitlab.com).
 
-Note that [`pre.gitlab.com`](https://pre.gitlab.com) is used as an Interim
-Performance Testbed and [will be replaced with the actual testbed in the future](https://gitlab.com/groups/gitlab-com/gl-infra/-/epics/60).
+### `Test::Instance::Onprem`
+
+This scenario functions the same as `Test::Instance::Staging`
+but will run tests against [`onprem.testbed.gitlab.net`](https://onprem.testbed.gitlab.net), which has replaced preprod as [the performance testbed](https://gitlab.com/groups/gitlab-com/gl-infra/-/epics/60).
 
 ### `Test::Instance::Smoke`
 
