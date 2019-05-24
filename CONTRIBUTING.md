@@ -17,12 +17,12 @@ To release a new version you can follow these steps:
 
 1. Bump the [version](lib/gitlab/qa/version.rb#L3) using [semantic versioning](https://semver.org/).
    * You may find it helpful to fill out the description of the merge request 
-     using the same format as for existing [tags](../tags), as this will help in
+     using the same format as for existing [tags](/tags), as this will help in
      step 3.
 2. Pull the change locally and run `bundle exec rake release` to build, tag,
    and push the new version to [RubyGems](https://rubygems.org/gems/gitlab-qa).
    * Note: you will need an account on [RubyGems.org](https://rubygems.org/)
      and permission to push `gitlab-qa`. Open an issue in this project to
      request access.
-3. Update the release notes for the new [tag](../tags).
+3. Update the release notes for the new [tag](./tags).
 4. If any pipelines are locked to a specific version, update them if required.
