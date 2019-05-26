@@ -4,7 +4,7 @@ module Gitlab
       module Test
         module Instance
           ##
-          # Run test suite against pre.gitlab.com
+          # Run test suite against onprem.testbed.gitlab.net
           #
           class Onprem < Scenario::Template
             def perform(*rspec_args)
