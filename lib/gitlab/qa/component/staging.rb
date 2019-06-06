@@ -8,7 +8,10 @@ module Gitlab
       class Staging
         ADDRESS = 'https://staging.gitlab.com'.freeze
         def self.release
-          version = Version.new(address).fetch!
+          # Temporary fix so that the tests can run
+          # See: https://gitlab.com/gitlab-org/quality/staging/issues/56
+          # version = Version.new(address).fetch!
+          version = 'nightly'
           image =
             if Runtime::Env.dev_access_token_variable
               "dev.gitlab.org:5005/gitlab/omnibus-gitlab/gitlab-ee:#{version}"
