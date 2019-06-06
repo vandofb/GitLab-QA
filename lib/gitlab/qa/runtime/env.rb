@@ -52,7 +52,8 @@ module Gitlab
           'CI' => :ci,
           'CI_NODE_INDEX' => :ci_node_index,
           'CI_NODE_TOTAL' => :ci_node_total,
-          'GITLAB_CI' => :gitlab_ci
+          'GITLAB_CI' => :gitlab_ci,
+          'QA_SKIP_PULL' => :qa_skip_pull
         }.freeze
 
         ENV_VARIABLES.each_value do |accessor|
@@ -116,6 +117,10 @@ module Gitlab
           %w[GCLOUD_ACCOUNT_EMAIL GCLOUD_ACCOUNT_KEY CLOUDSDK_CORE_PROJECT GCLOUD_ZONE].each do |env_key|
             raise ArgumentError, "Environment variable #{env_key} must be set to run kubernetes specs" unless ENV.key?(env_key)
           end
+        end
+
+        def skip_pull?
+          (ENV['QA_SKIP_PULL'] =~ /^(false|no|0)$/i) != 0
         end
 
         private

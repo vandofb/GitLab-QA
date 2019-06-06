@@ -83,7 +83,7 @@ module Gitlab
         alias_method :launch_and_teardown_instance, :instance
 
         def prepare
-          @docker.pull(image, tag)
+          @docker.pull(image, tag) unless Runtime::Env.skip_pull?
 
           return if @docker.network_exists?(network)
 
