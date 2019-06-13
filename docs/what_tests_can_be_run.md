@@ -46,6 +46,8 @@ For more details on the internals, please read the
   [`Test::Instance::Staging`](#testinstancestaging) scenario to retrieve the
   version that staging is currently running. An existing token that is valid on
   staging can be found in the shared 1Password vault.
+* `GITLAB_QA_ADMIN_ACCESS_TOKEN` - A valid personal access token with the `api` scope
+  from a user with admin access. Used for API access as an admin during tests.
 * `EE_LICENSE` - Enterprise Edition license
 * `QA_ARTIFACTS_DIR` - Path to a directory where artifacts (logs and screenshots)
   for failing tests will be saved (default: `/tmp/gitlab-qa`)
