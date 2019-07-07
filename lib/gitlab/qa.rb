@@ -42,6 +42,7 @@ module Gitlab
           autoload :Kubernetes, 'qa/scenario/test/integration/kubernetes'
           autoload :ObjectStorage, 'qa/scenario/test/integration/object_storage'
           autoload :OAuth, 'qa/scenario/test/integration/oauth'
+          autoload :Elasticsearch, 'qa/scenario/test/integration/elasticsearch'
         end
 
         module Sanity
@@ -60,6 +61,7 @@ module Gitlab
       autoload :Production, 'qa/component/production'
       autoload :Minio, 'qa/component/minio'
       autoload :Preprod, 'qa/component/preprod'
+      autoload :Elasticsearch, 'qa/component/elasticsearch'
     end
 
     module Docker
