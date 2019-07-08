@@ -14,6 +14,7 @@ module Gitlab
       module Test
         module Instance
           autoload :Any, 'gitlab/qa/scenario/test/instance/any'
+          autoload :DeploymentBase, 'gitlab/qa/scenario/test/instance/deployment_base'
           autoload :Image, 'gitlab/qa/scenario/test/instance/image'
           autoload :RelativeUrl, 'gitlab/qa/scenario/test/instance/relative_url'
           autoload :Staging, 'gitlab/qa/scenario/test/instance/staging'
