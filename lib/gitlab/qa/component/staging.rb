@@ -8,10 +8,13 @@ module Gitlab
       class Staging
         ADDRESS = 'https://staging.gitlab.com'.freeze
         def self.release
-          # Temporary fix so that the tests can run
+          # Auto-deploy builds have a tag formatted like 12.0.12345+5159f2949cb.59c9fa631
+          # but the version api returns a semver version like 12.0.1
+          # so images are tagged using minor and major semver components plus
+          # the EE commit ref, which is the 'revision' returned by the API
+          # and so the version used for the docker image tag is like 12.0-5159f2949cb
           # See: https://gitlab.com/gitlab-org/quality/staging/issues/56
-          # version = Version.new(address).fetch!
-          version = 'nightly'
+          version = Version.new(address).major_minor_revision
           image =
             if Runtime::Env.dev_access_token_variable
               "dev.gitlab.org:5005/gitlab/omnibus-gitlab/gitlab-ee:#{version}"
@@ -53,10 +56,18 @@ module Gitlab
 
             case response
             when Net::HTTPSuccess
-              JSON.parse(response.body).fetch('version')
+              JSON.parse(response.body)
             else
               raise InvalidResponseError.new(@uri.to_s, response)
             end
+          end
+
+          def major_minor_revision
+            api_response = fetch!
+            version_regexp = /^v?(?<major>\d+)\.(?<minor>\d+)\.\d+/
+            match = version_regexp.match(api_response.fetch('version'))
+
+            "#{match[:major]}.#{match[:minor]}-#{api_response.fetch('revision')}"
           end
 
           private
