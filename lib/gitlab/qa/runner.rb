@@ -7,8 +7,9 @@ module Gitlab
       # They're included here so that gitlab-qa treats them as valid options
       PASS_THROUGH_OPTS = [
         ['--address URL', 'Address of the instance to test'],
+        ['--enable-feature FEATURE_FLAG', 'Enable a feature before running tests'],
         ['--mattermost-address URL', 'Address of the Mattermost server'],
-        ['--enable-feature FEATURE_FLAG', 'Enable a feature before running tests']
+        ['--parallel', 'Execute tests in parallel']
       ].freeze
 
       # rubocop:disable Metrics/AbcSize
