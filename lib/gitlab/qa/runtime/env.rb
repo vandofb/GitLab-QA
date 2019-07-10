@@ -32,7 +32,7 @@ module Gitlab
           'GCLOUD_ACCOUNT_EMAIL' => :gcloud_account_email,
           'GCLOUD_ACCOUNT_KEY' => :gcloud_account_key,
           'CLOUDSDK_CORE_PROJECT' => :cloudsdk_core_project,
-          'GCLOUD_ZONE' => :gcloud_zone,
+          'GCLOUD_REGION' => :gcloud_region,
           'SIGNUP_DISABLED' => :signup_disabled,
           'QA_COOKIES' => :qa_cookie,
           'QA_DEBUG' => :qa_debug,
@@ -115,7 +115,7 @@ module Gitlab
         end
 
         def require_kubernetes_environment!
-          %w[GCLOUD_ACCOUNT_EMAIL GCLOUD_ACCOUNT_KEY CLOUDSDK_CORE_PROJECT GCLOUD_ZONE].each do |env_key|
+          %w[GCLOUD_ACCOUNT_EMAIL GCLOUD_ACCOUNT_KEY CLOUDSDK_CORE_PROJECT GCLOUD_REGION].each do |env_key|
             raise ArgumentError, "Environment variable #{env_key} must be set to run kubernetes specs" unless ENV.key?(env_key)
           end
         end
