@@ -24,11 +24,15 @@ module Gitlab
       DEFAULT_CANONICAL_TAG = 'nightly'.freeze
       DEV_REGISTRY = 'dev.gitlab.org:5005'.freeze
 
+      InvalidImageNameError = Class.new(RuntimeError)
+
       attr_reader :release
       attr_writer :tag
 
       def initialize(release)
         @release = release.to_s.downcase
+
+        raise InvalidImageNameError, "The release image name '#{@release}' does not have the expected format." unless valid?
       end
 
       def to_s
@@ -99,6 +103,10 @@ module Gitlab
 
       def dev_gitlab_org?
         image.start_with?(DEV_REGISTRY)
+      end
+
+      def valid?
+        canonical? || release.match?(CUSTOM_GITLAB_IMAGE_REGEX)
       end
 
       private

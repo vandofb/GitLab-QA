@@ -16,6 +16,24 @@ describe Gitlab::QA::Release do
   let(:full_ce_qa_image) { "#{full_ce_address}-qa" }
   let(:full_ee_qa_image) { "#{full_ee_address}-qa" }
 
+  describe '#initialize' do
+    context 'when release is valid' do
+      subject { described_class.new('ce') }
+
+      it 'does not raise an error' do
+        expect { subject }.not_to raise_error described_class::InvalidImageNameError
+      end
+    end
+
+    context 'when release is invalid' do
+      subject { described_class.new('--') }
+
+      it 'raises an error' do
+        expect { subject }.to raise_error described_class::InvalidImageNameError
+      end
+    end
+  end
+
   describe '#to_s' do
     context 'when release is ce' do
       subject { described_class.new('ce') }
