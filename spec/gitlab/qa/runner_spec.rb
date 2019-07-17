@@ -37,6 +37,14 @@ describe Gitlab::QA::Runner do
         expect(scenario).to have_received(:perform).with(*passed_args)
       end
 
+      it 'supports enabling a feature flag with scenarios with no release specified' do
+        passed_args = %w[--enable-feature gitaly_enforce_requests_limits]
+
+        described_class.run(['Test::Instance::Staging'] + passed_args)
+
+        expect(scenario).to have_received(:perform).with(*passed_args)
+      end
+
       it 'supports specifying an address' do
         passed_args = %w[CE --address http://testurl]
 
