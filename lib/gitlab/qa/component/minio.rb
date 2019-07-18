@@ -93,7 +93,9 @@ module Gitlab
         end
 
         def start
-          docker.run(MINIO_IMAGE, MINIO_IMAGE_TAG, "server", DATA_DIR) do |command|
+          # --compat needed until https://gitlab.com/gitlab-org/gitlab-workhorse/issues/210
+          # is resolved
+          docker.run(MINIO_IMAGE, MINIO_IMAGE_TAG, "server", "--compat", DATA_DIR) do |command|
             command << '-d '
             command << "--name #{name}"
             command << "--net #{network}"
