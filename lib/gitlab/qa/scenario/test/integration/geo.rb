@@ -4,7 +4,7 @@ module Gitlab
       module Test
         module Integration
           class Geo < Scenario::Template
-            GIT_LFS_VERSION = '2.7.2'.freeze
+            GIT_LFS_VERSION = '2.8.0'.freeze
 
             ##
             # rubocop:disable Lint/MissingCopEnableDirective
