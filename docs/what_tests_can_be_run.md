@@ -18,7 +18,11 @@ Orchestrated tests are run with the `gitlab-qa` binary (from the
 (useful if you're working on the `gitlab-qa` project itself and want to test
 your changes).
 
-These tests spin up Docker containers specifically to run tests against them.
+These tests spin up Docker containers specifically to run tests against them.  The following images may be used, depending on the test:
+* `nightly` image, which is released daily and reflects the master branch at the time of release
+* `latest` image, which reflects that latest released stable version
+* custom images
+
 Orchestrated tests are usually used for features that involve external services
 or complex setup (e.g. LDAP, Geo etc.), or for generic Omnibus checks (ensure
 our Omnibus package works, can be updated / upgraded to EE etc.).
