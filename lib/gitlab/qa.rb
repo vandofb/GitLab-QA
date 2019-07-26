@@ -21,7 +21,7 @@ module Gitlab
           autoload :Production, 'gitlab/qa/scenario/test/instance/production'
           autoload :Smoke, 'gitlab/qa/scenario/test/instance/smoke'
           autoload :Preprod, 'gitlab/qa/scenario/test/instance/preprod'
-          autoload :Onprem, 'qa/scenario/test/instance/onprem'
+          autoload :Onprem, 'gitlab/qa/scenario/test/instance/onprem'
         end
 
         module Omnibus
@@ -62,6 +62,7 @@ module Gitlab
       autoload :Minio, 'gitlab/qa/component/minio'
       autoload :Preprod, 'gitlab/qa/component/preprod'
       autoload :Elasticsearch, 'gitlab/qa/component/elasticsearch'
+      autoload :Onprem, 'gitlab/qa/component/onprem'
     end
 
     module Docker
