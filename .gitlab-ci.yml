@@ -494,6 +494,13 @@ ee:oauth-quarantine:
   <<: *ee-qa
   <<: *quarantine
 
+ee:elasticsearch:
+  script:
+    - exe/gitlab-qa Test::Integration::Elasticsearch ${RELEASE:=EE}
+  <<: *test
+  <<: *high-capacity
+  <<: *ee-qa
+
 .notify_upstream_commit: &notify_upstream_commit
   stage: notify
   image: $TEST_IMAGE

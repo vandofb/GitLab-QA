@@ -36,6 +36,10 @@ module Gitlab
           @environment['GITLAB_OMNIBUS_CONFIG'] = config.tr("\n", ' ')
         end
 
+        def elastic_url=(url)
+          @environment['ELASTIC_URL'] = url
+        end
+
         def add_network_alias(name)
           @network_aliases.push(name)
         end
