@@ -54,7 +54,8 @@ module Gitlab
           'CI_NODE_INDEX' => :ci_node_index,
           'CI_NODE_TOTAL' => :ci_node_total,
           'GITLAB_CI' => :gitlab_ci,
-          'QA_SKIP_PULL' => :qa_skip_pull
+          'QA_SKIP_PULL' => :qa_skip_pull,
+          'ELASTIC_URL' => :elastic_url
         }.freeze
 
         ENV_VARIABLES.each_value do |accessor|
