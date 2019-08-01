@@ -5,6 +5,7 @@ stages:
   - check
   - test
   - notify
+  - cleanup
 
 variables:
   TEST_IMAGE: registry.gitlab.com/gitlab-org/gitlab-build-images:gitlab-qa
@@ -47,6 +48,9 @@ check:rspec:
     expire_in: 30d
     paths:
       - ./gitlab-qa-run-*
+  except:
+    variables:
+      - $CLEANUP
 
 .ce-qa: &ce-qa
   only:
@@ -64,6 +68,7 @@ check:rspec:
   except:
     variables:
       - $RELEASE
+      - $CLEANUP
 
 .high-capacity: &high-capacity
   tags:
@@ -522,3 +527,20 @@ notify_upstream_commit:failure:
   script:
     - bin/notify_upstream_commit failure
   when: on_failure
+
+cleanup:
+  stage: cleanup
+  image: google/cloud-sdk:slim
+  before_script:
+    - echo $GCLOUD_ACCOUNT_KEY > gcloud-account-key
+    - gcloud auth activate-service-account $GCLOUD_ACCOUNT_EMAIL --key-file gcloud-account-key
+  script:
+    - |
+      gcloud compute disks list --filter="-users:* name:gke-qa-cluster-*" | \
+        tail -n +2 | \
+        tr -s [:blank:] | \
+        cut -d' ' -f -2 | \
+        xargs -l bash -c 'gcloud compute disks delete --zone $1 $0'
+  only:
+    variables:
+      - $CLEANUP
