@@ -112,6 +112,8 @@ as there are caveats and things that may work differently.
 All the scenarios you can run are described in the
 [What tests can be run?](/docs/what_tests_can_be_run.md) documentation.
 
+Note: The GitLab QA tool requires that [Docker](https://docs.docker.com/install/) is installed.
+
 ### How to add new scenarios
 
 Scenarios (test cases) and scripts to run them are located in the
