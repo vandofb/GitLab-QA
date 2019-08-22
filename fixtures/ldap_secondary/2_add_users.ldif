@@ -1,0 +1,42 @@
+
+# 1. Human Resources
+
+dn: uid=hruser4,ou=People Secondary,ou=Global Groups Secondary,dc=example,dc=org
+cn: HR User 4
+givenName: HR
+sn: User4
+uid: hruser4
+uidNumber: 5020
+gidNumber: 10020
+homeDirectory: /home/hruser4
+mail: hruser4@example.org
+objectClass: top
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+loginShell: /bin/bash
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI
+
+# 2. Admin
+
+dn: uid=adminuser4,ou=People Secondary,ou=Global Groups Secondary,dc=example,dc=org
+cn: Admin User 4
+givenName: Admin4
+sn: User4
+uid: adminuser4
+uidNumber: 5021
+gidNumber: 10021
+homeDirectory: /home/adminuser4
+mail: adminuser4@example.org
+objectClass: top
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+loginShell: /bin/bash
+# hashed value for 'password'
+userPassword: {SSHA}ICMhr6Jxt5bk2awD7HL7GxRTM3BZ1pFI

@@ -1,0 +1,7 @@
+dn: ou=Global Groups Secondary,dc=example,dc=org
+objectClass: organizationalUnit
+ou: Global Groups Secondary
+
+dn: ou=People Secondary,ou=Global Groups Secondary,dc=example,dc=org
+objectClass: organizationalUnit
+ou: People Secondary
