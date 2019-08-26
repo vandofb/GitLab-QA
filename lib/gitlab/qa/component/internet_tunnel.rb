@@ -60,7 +60,7 @@ module Gitlab
         end
 
         def subdomain
-          @subdomain ||= rand(20_000..30_000)
+          @subdomain ||= rand(30_000..49_000)
         end
 
         def start
