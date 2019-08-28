@@ -522,3 +522,12 @@ notify_upstream_commit:failure:
   script:
     - bin/notify_upstream_commit failure
   when: on_failure
+
+staging:
+  script:
+    - unset EE_LICENSE
+    - exe/gitlab-qa Test::Instance::Staging
+  <<: *test
+  <<: *high-capacity
+  <<: *only-qa
+  when: manual
