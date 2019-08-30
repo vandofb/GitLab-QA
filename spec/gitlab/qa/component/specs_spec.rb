@@ -31,7 +31,7 @@ describe Gitlab::QA::Component::Specs do
       expect(docker_command).to have_received(:volume)
         .with('/var/run/docker.sock', '/var/run/docker.sock')
       expect(docker_command).to have_received(:volume)
-        .with('/tmp/gitlab-qa/gitlab-qa-run-2018-07-11-10-00-00-abc123/gitlab-ce-qa-def456', '/home/qa/tmp')
+        .with('/tmp/gitlab-qa/gitlab-qa-run-2018-07-11-10-00-00-abc123/gitlab-ce-qa-def456', '/home/gitlab/qa/tmp')
     end
 
     describe 'Docker::Engine#run arguments' do

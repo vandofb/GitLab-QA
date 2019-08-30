@@ -29,7 +29,7 @@ module Gitlab
             end
 
             command.volume('/var/run/docker.sock', '/var/run/docker.sock')
-            command.volume(File.join(Runtime::Env.host_artifacts_dir, name), '/home/qa/tmp')
+            command.volume(File.join(Runtime::Env.host_artifacts_dir, name), '/home/gitlab/qa/tmp')
 
             command.name(name)
           end
